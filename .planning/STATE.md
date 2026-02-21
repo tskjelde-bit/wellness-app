@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 5 complete - Session State Machine & Orchestration (3/3 plans done)
+**Current focus:** Phase 6 in progress - Client UI & Theme (1/2 plans done)
 
 ## Current Position
 
-Phase: 5 of 9
-Plan: 3 of 3 in current phase
-Status: Phase Complete
-Last activity: 2026-02-21 -- Completed 05-03-PLAN.md (WebSocket handler orchestrator integration)
+Phase: 6 of 9
+Plan: 1 of 2 in current phase
+Status: In Progress
+Last activity: 2026-02-21 -- Completed 06-01-PLAN.md (Theme tokens, viewport & dashboard)
 
-Progress: [######....] 65%
+Progress: [#######...] 70%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
+- Total plans completed: 14
 - Average duration: 3 min
-- Total execution time: 0.59 hours
+- Total execution time: 0.61 hours
 
 **By Phase:**
 
@@ -32,9 +32,10 @@ Progress: [######....] 65%
 | 3 | 2 | 6 min | 3 min |
 | 4 | 3 | 8 min | 2.7 min |
 | 5 | 3 | 6 min | 2 min |
+| 6 | 1 | 1 min | 1 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-02 (3 min), 04-03 (2 min), 05-01 (3 min), 05-02 (2 min), 05-03 (1 min)
+- Last 5 plans: 04-03 (2 min), 05-01 (3 min), 05-02 (2 min), 05-03 (1 min), 06-01 (1 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -44,6 +45,7 @@ Progress: [######....] 65%
 | Phase 05 P01 | 3min | 2 tasks | 4 files |
 | Phase 05 P02 | 2min | 2 tasks | 4 files |
 | Phase 05 P03 | 1min | 2 tasks | 2 files |
+| Phase 06 P01 | 1min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -104,6 +106,9 @@ Recent decisions affecting current work:
 - [05-03]: previousText prosody context continues across phases (not reset) for voice continuity
 - [05-03]: Session length hardcoded to 15 minutes; Phase 7 adds client-selected length
 - [05-03]: Dynamic imports for @/lib/session and @/lib/tts/tts-service to avoid circular dependencies
+- [06-01]: Kept Geist fonts per research recommendation to defer font changes
+- [06-01]: Used min-h-dvh instead of min-h-screen for mobile viewport stability
+- [06-01]: Applied themeColor as array with light/dark media queries for adaptive status bar
 
 ### Pending Todos
 
@@ -120,5 +125,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 05-03-PLAN.md (WebSocket handler orchestrator integration) -- Phase 5 complete (3/3 plans)
+Stopped at: Completed 06-01-PLAN.md (Theme tokens, viewport & dashboard) -- Phase 6 in progress (1/2 plans)
 Resume file: None

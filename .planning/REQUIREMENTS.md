@@ -44,12 +44,12 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **SESS-04**: Phase transitions occur naturally based on timing and content completion
 - [x] **SESS-05**: Resolution phase provides grounding and gentle return to awareness
 - [x] **SESS-06**: Session state machine manages phase progression server-side
-- [ ] **SESS-07**: User can start a new session from the main screen
+- [x] **SESS-07**: User can start a new session from the main screen
 
 ### Client UI
 
-- [ ] **UI-01**: Pink wellness theme applied consistently (blush #F8C8DC, rose #D63384, charcoal #2B2B2B)
-- [ ] **UI-02**: Responsive layout optimized for mobile browsers
+- [x] **UI-01**: Pink wellness theme applied consistently (blush #F8C8DC, rose #D63384, charcoal #2B2B2B)
+- [x] **UI-02**: Responsive layout optimized for mobile browsers
 - [ ] **UI-03**: Basic playback controls (pause, resume, end session)
 - [ ] **UI-04**: Phase progress indicator showing current session phase
 - [ ] **UI-05**: Minimal visual chrome during active sessions — voice-first, screen-secondary
@@ -130,9 +130,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SESS-04 | Phase 5 | Complete |
 | SESS-05 | Phase 5 | Complete |
 | SESS-06 | Phase 5 | Complete |
-| SESS-07 | Phase 6 | Pending |
-| UI-01 | Phase 6 | Pending |
-| UI-02 | Phase 6 | Pending |
+| SESS-07 | Phase 6 | Complete |
+| UI-01 | Phase 6 | Complete |
+| UI-02 | Phase 6 | Complete |
 | UI-03 | Phase 7 | Pending |
 | UI-04 | Phase 7 | Pending |
 | UI-05 | Phase 6 | Pending |
