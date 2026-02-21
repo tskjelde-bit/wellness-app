@@ -52,7 +52,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **UI-02**: Responsive layout optimized for mobile browsers
 - [ ] **UI-03**: Basic playback controls (pause, resume, end session)
 - [ ] **UI-04**: Phase progress indicator showing current session phase
-- [ ] **UI-05**: Minimal visual chrome during active sessions — voice-first, screen-secondary
+- [x] **UI-05**: Minimal visual chrome during active sessions — voice-first, screen-secondary
 - [ ] **UI-06**: Consent flow woven conversationally into session start (not clinical modal)
 - [ ] **UI-07**: Session length selection before starting
 
@@ -135,7 +135,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UI-02 | Phase 6 | Complete |
 | UI-03 | Phase 7 | Pending |
 | UI-04 | Phase 7 | Pending |
-| UI-05 | Phase 6 | Pending |
+| UI-05 | Phase 6 | Complete |
 | UI-06 | Phase 7 | Pending |
 | UI-07 | Phase 7 | Pending |
 | DIFF-01 | Phase 9 | Pending |

@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 6 in progress - Client UI & Theme (1/2 plans done)
+**Current focus:** Phase 6 complete - Client UI & Theme (2/2 plans done)
 
 ## Current Position
 
-Phase: 6 of 9
-Plan: 1 of 2 in current phase
-Status: In Progress
-Last activity: 2026-02-21 -- Completed 06-01-PLAN.md (Theme tokens, viewport & dashboard)
+Phase: 7 of 9
+Plan: 0 of 0 in current phase
+Status: Phase 6 Complete
+Last activity: 2026-02-21 -- Completed 06-02-PLAN.md (Session screen & breathing orb)
 
-Progress: [#######...] 70%
+Progress: [########..] 75%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 14
+- Total plans completed: 15
 - Average duration: 3 min
-- Total execution time: 0.61 hours
+- Total execution time: 0.63 hours
 
 **By Phase:**
 
@@ -32,10 +32,10 @@ Progress: [#######...] 70%
 | 3 | 2 | 6 min | 3 min |
 | 4 | 3 | 8 min | 2.7 min |
 | 5 | 3 | 6 min | 2 min |
-| 6 | 1 | 1 min | 1 min |
+| 6 | 2 | 2 min | 1 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-03 (2 min), 05-01 (3 min), 05-02 (2 min), 05-03 (1 min), 06-01 (1 min)
+- Last 5 plans: 05-01 (3 min), 05-02 (2 min), 05-03 (1 min), 06-01 (1 min), 06-02 (1 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -46,6 +46,7 @@ Progress: [#######...] 70%
 | Phase 05 P02 | 2min | 2 tasks | 4 files |
 | Phase 05 P03 | 1min | 2 tasks | 2 files |
 | Phase 06 P01 | 1min | 2 tasks | 3 files |
+| Phase 06 P02 | 1min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -109,6 +110,10 @@ Recent decisions affecting current work:
 - [06-01]: Kept Geist fonts per research recommendation to defer font changes
 - [06-01]: Used min-h-dvh instead of min-h-screen for mobile viewport stability
 - [06-01]: Applied themeColor as array with light/dark media queries for adaptive status bar
+- [06-02]: connect() in click handler for AudioContext user gesture compliance (browser autoplay policy)
+- [06-02]: useEffect-based startSession after isConnected to avoid WebSocket race condition
+- [06-02]: End Session button intentionally tiny/subtle for voice-first minimal chrome
+- [06-02]: currentPhase tracking added proactively for Phase 7 progress indicator
 
 ### Pending Todos
 
@@ -125,5 +130,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 06-01-PLAN.md (Theme tokens, viewport & dashboard) -- Phase 6 in progress (1/2 plans)
+Stopped at: Completed 06-02-PLAN.md (Session screen & breathing orb) -- Phase 6 complete (2/2 plans)
 Resume file: None
