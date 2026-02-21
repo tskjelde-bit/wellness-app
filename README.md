@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wellness App - Premium Character System
 
-## Getting Started
+Dette er en eksklusiv e-helse plattform med et premium karakter-basert LLM-system, designet for en intens og engasjerende brukeropplevelse.
 
-First, run the development server:
+## 🌟 Funksjoner
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Karakter-basert LLM**: Velg mellom unike personas som **Thea**, **Mari**, og **Milfen**.
+- **Norwegian Native**: Hele systemet, inkludert prompts, guardrails og UI, er utviklet for det norske markedet.
+- **Premium Estetikk**: Et mørkt, luksuriøst design ("Premium Fetish") med dype farger, gull-detaljer og responsive animasjoner.
+- **Sanntidskommunikasjon**: Bruker WebSockets for sømløs integrasjon mellom LLM og TTS (Text-to-Speech).
+- **Egendefinert sesjonsflyt**: Brukeren kan selv velge stemning, varighet og bakgrunnslyder som **Regn**, **Hav** eller **Atmosfære**.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Teknisk Stakk
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: Next.js 15+ (App Router, Turbopack)
+- **Styling**: Tailwind CSS med custom design tokens
+- **Database**: PostgreSQL med Drizzle ORM
+- **Sanntid**: WebSockets (`next-ws`)
+- **AI/LLM**: OpenAI GPT-4 basert pipeline med custom jailbreak-logikk og guardrails
+- **TTS**: ElevenLabs API for high-fidelity tale
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠 Oppsett
 
-## Learn More
+1.  **Installer avhengigheter**:
+    ```bash
+    npm install
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Miljøvariabler**:
+    Opprett en `.env` fil med følgende:
+    ```env
+    LLM_API_KEY=your_key
+    DATABASE_URL=your_db_url
+    LLM_API_URL=https://api.openai.com/v1
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3.  **Kjør utviklingsserver**:
+    ```bash
+    npm run dev
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎨 Designfilosofi
 
-## Deploy on Vercel
+Applikasjonen følger en "Premium Fetish"-estetikk med fokus på:
+- **Kontrast**: Elektrisk lilla og blodrødt mot dyp sort.
+- **Interaksjon**: Mikropulsing og smidige overganger på alle interaktive elementer.
+- **Konsistens**: Alle valgknapper (mood, length, soundscape) følger det samme grid-baserte designet for en balansert layout.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+© 2026 Wellness App Team - Utviklet for moderne nytelse og velvære.
