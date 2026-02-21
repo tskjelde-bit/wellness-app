@@ -58,10 +58,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Differentiators
 
-- [ ] **DIFF-01**: Mood-based session selection — user indicates emotional state, AI adapts session emphasis
+- [x] **DIFF-01**: Mood-based session selection — user indicates emotional state, AI adapts session emphasis
 - [x] **DIFF-02**: Background ambient soundscapes layered under voice (rain, ocean, forest, ambient, silence)
 - [x] **DIFF-03**: Voice/ambient volume mixer for user control
-- [ ] **DIFF-04**: 2-3 curated AI voice options with distinct warmth/tone profiles
+- [x] **DIFF-04**: 2-3 curated AI voice options with distinct warmth/tone profiles
 - [ ] **DIFF-05**: Post-session aftercare with reflection prompts and grounding exercises
 
 ## v2 Requirements
@@ -138,10 +138,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UI-05 | Phase 6 | Complete |
 | UI-06 | Phase 7 | Complete |
 | UI-07 | Phase 7 | Complete |
-| DIFF-01 | Phase 9 | Pending |
+| DIFF-01 | Phase 9 | Complete |
 | DIFF-02 | Phase 9 | Complete |
 | DIFF-03 | Phase 9 | Complete |
-| DIFF-04 | Phase 9 | Pending |
+| DIFF-04 | Phase 9 | Complete |
 | DIFF-05 | Phase 9 | Pending |
 
 **Coverage:**

@@ -5,14 +5,14 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 9 in progress - Differentiators & Polish (2/3 plans done)
+**Current focus:** Phase 9 in progress - Differentiators & Polish (2/3 plans done, 09-01 + 09-02 complete)
 
 ## Current Position
 
 Phase: 9 of 9
 Plan: 2 of 3 in current phase
 Status: In Progress
-Last activity: 2026-02-21 -- Completed 09-02-PLAN.md (Audio mixing & ambient soundscapes)
+Last activity: 2026-02-21 -- Completed 09-01-PLAN.md (Mood adaptation & voice selection)
 
 Progress: [##########] 97%
 
@@ -55,6 +55,7 @@ Progress: [##########] 97%
 | Phase 07 P02 | 1min | 2 tasks | 3 files |
 | Phase 08 P01 | 2min | 2 tasks | 7 files |
 | Phase 08 P02 | 2min | 3 tasks | 6 files |
+| Phase 09 P01 | 2min | 2 tasks | 7 files |
 | Phase 09 P02 | 2min | 2 tasks | 3 files |
 
 ## Accumulated Context
@@ -136,6 +137,9 @@ Recent decisions affecting current work:
 - [08-02]: subscription-active cookie httpOnly:false with 24h maxAge for proxy.ts middleware readability
 - [08-02]: Success page polls checkSubscriptionStatus every 2s for up to 16s to handle webhook race condition
 - [08-02]: Only /session/* routes gated behind subscription; /dashboard always accessible
+- [09-01]: Emily (LcfcDJNUP1GQjkzn1xUU) as DEFAULT_VOICE_ID replacing George for softer wellness default
+- [09-01]: Mood context inserted BEFORE CURRENT PHASE line for correct LLM attention recency (Research Pitfall 5)
+- [09-01]: moodContext resolved once in run() and passed to both main and wind-down buildPhaseInstructions calls
 - [09-02]: voiceGain default 1.0, ambientGain default 0.3 -- ambient starts quieter as background layer
 - [09-02]: GainNodes created alongside AudioContext in initQueue to maintain autoplay compliance
 - [09-02]: 50ms linear ramp for volume changes prevents audible click artifacts on slider interaction
@@ -156,5 +160,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 09-02-PLAN.md (Audio mixing & ambient soundscapes)
+Stopped at: Completed 09-01-PLAN.md (Mood adaptation & voice selection)
 Resume file: None
