@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 5 in progress - Session State Machine & Orchestration (2/3 plans done)
+**Current focus:** Phase 5 complete - Session State Machine & Orchestration (3/3 plans done)
 
 ## Current Position
 
 Phase: 5 of 9
-Plan: 2 of 3 in current phase
-Status: In Progress
-Last activity: 2026-02-21 -- Completed 05-02-PLAN.md (Session orchestrator with multi-phase LLM chaining)
+Plan: 3 of 3 in current phase
+Status: Phase Complete
+Last activity: 2026-02-21 -- Completed 05-03-PLAN.md (WebSocket handler orchestrator integration)
 
-Progress: [######....] 60%
+Progress: [######....] 65%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
+- Total plans completed: 13
 - Average duration: 3 min
-- Total execution time: 0.57 hours
+- Total execution time: 0.59 hours
 
 **By Phase:**
 
@@ -31,10 +31,10 @@ Progress: [######....] 60%
 | 2 | 3 | 9 min | 3 min |
 | 3 | 2 | 6 min | 3 min |
 | 4 | 3 | 8 min | 2.7 min |
-| 5 | 2 | 5 min | 2.5 min |
+| 5 | 3 | 6 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-01 (3 min), 04-02 (3 min), 04-03 (2 min), 05-01 (3 min), 05-02 (2 min)
+- Last 5 plans: 04-02 (3 min), 04-03 (2 min), 05-01 (3 min), 05-02 (2 min), 05-03 (1 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -43,6 +43,7 @@ Progress: [######....] 60%
 | Phase 04 P01 | 4min | 2 tasks | 5 files |
 | Phase 05 P01 | 3min | 2 tasks | 4 files |
 | Phase 05 P02 | 2min | 2 tasks | 4 files |
+| Phase 05 P03 | 1min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -99,6 +100,10 @@ Recent decisions affecting current work:
 - [05-02]: Orchestrator yields text events, not audio -- WebSocket handler feeds text into TTS pipeline
 - [05-02]: Sentence counting is primary transition signal; no wall-clock timer in v1
 - [05-02]: Persist state via merge-read pattern: read existing SessionState, merge orchestrator fields, write back
+- [05-03]: Orchestrator yields text, handler drives TTS -- synthesizeSentence called per sentence in ws handler
+- [05-03]: previousText prosody context continues across phases (not reset) for voice continuity
+- [05-03]: Session length hardcoded to 15 minutes; Phase 7 adds client-selected length
+- [05-03]: Dynamic imports for @/lib/session and @/lib/tts/tts-service to avoid circular dependencies
 
 ### Pending Todos
 
@@ -115,5 +120,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 05-02-PLAN.md (Session orchestrator with multi-phase LLM chaining) -- Phase 5 in progress (2/3 plans)
+Stopped at: Completed 05-03-PLAN.md (WebSocket handler orchestrator integration) -- Phase 5 complete (3/3 plans)
 Resume file: None

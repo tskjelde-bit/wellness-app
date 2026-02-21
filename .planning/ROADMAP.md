@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Safety & Consent Framework** - Age verification, AI disclosure, consent gates, content safety guardrails, crisis detection, privacy enforcement
 - [x] **Phase 3: LLM Text Generation Pipeline** - Streaming LLM output, sentence-boundary chunking, per-sentence safety filtering
 - [ ] **Phase 4: TTS & Audio Streaming** - ElevenLabs TTS integration, WebSocket gateway, cascading pipeline delivering audio to client
-- [ ] **Phase 5: Session State Machine & Orchestration** - 5-phase session flow, phase transitions, session orchestrator coordinating pipeline and state
+- [x] **Phase 5: Session State Machine & Orchestration** - 5-phase session flow, phase transitions, session orchestrator coordinating pipeline and state
 - [ ] **Phase 6: Client UI & Theme** - Pink wellness theme, responsive layout, voice-first session screen, session start flow
 - [ ] **Phase 7: Session UX & Controls** - Playback controls, phase progress indicator, conversational consent UX, session length selection
 - [ ] **Phase 8: Payment Integration** - High-risk payment processor integration for adult wellness content
@@ -105,9 +105,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Phase state machine, phase prompt templates, timing config
-- [ ] 05-02-PLAN.md — SessionOrchestrator, LLM pipeline extension, Redis state
-- [ ] 05-03-PLAN.md — WebSocket message types and handler integration
+- [x] 05-01-PLAN.md — Phase state machine, phase prompt templates, timing config
+- [x] 05-02-PLAN.md — SessionOrchestrator, LLM pipeline extension, Redis state
+- [x] 05-03-PLAN.md — WebSocket message types and handler integration
 
 ### Phase 6: Client UI & Theme
 **Goal**: Users see a polished pink wellness-themed interface optimized for mobile, with a voice-first session screen and the ability to start a new session
