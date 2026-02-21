@@ -12,8 +12,8 @@ This roadmap delivers a voice-guided wellness AI from foundation to launch. The 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Project Scaffolding & Data Layer** - Next.js project, PostgreSQL schema, Redis session store, user auth
-- [ ] **Phase 2: Safety & Consent Framework** - Age verification, AI disclosure, consent gates, content safety guardrails, crisis detection, privacy enforcement
+- [x] **Phase 1: Project Scaffolding & Data Layer** - Next.js project, PostgreSQL schema, Redis session store, user auth
+- [x] **Phase 2: Safety & Consent Framework** - Age verification, AI disclosure, consent gates, content safety guardrails, crisis detection, privacy enforcement
 - [ ] **Phase 3: LLM Text Generation Pipeline** - Streaming LLM output, sentence-boundary chunking, per-sentence safety filtering
 - [ ] **Phase 4: TTS & Audio Streaming** - ElevenLabs TTS integration, WebSocket gateway, cascading pipeline delivering audio to client
 - [ ] **Phase 5: Session State Machine & Orchestration** - 5-phase session flow, phase transitions, session orchestrator coordinating pipeline and state
@@ -37,8 +37,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Scaffold Next.js 16 project, Drizzle schema, Redis client, env validation
-- [ ] 01-02-PLAN.md — Auth.js v5 authentication, login/register pages, route protection
+- [x] 01-01-PLAN.md — Scaffold Next.js 16 project, Drizzle schema, Redis client, env validation
+- [x] 01-02-PLAN.md — Auth.js v5 authentication, login/register pages, route protection
 
 ### Phase 2: Safety & Consent Framework
 **Goal**: Users encounter age verification, AI disclosure, consent gates, and content safety at every interaction boundary before any session content is accessible
@@ -56,9 +56,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Schema extensions, consent server actions, consent checks, proxy enforcement
-- [ ] 02-02-PLAN.md — Three-layer content safety pipeline (moderation API + keyword blocklist + crisis detector)
-- [ ] 02-03-PLAN.md — Consent UI pages (age gate, ToS acceptance, legal pages, AI disclosure, sensory consent, crisis banner)
+- [x] 02-01-PLAN.md — Schema extensions, consent server actions, consent checks, proxy enforcement
+- [x] 02-02-PLAN.md — Three-layer content safety pipeline (moderation API + keyword blocklist + crisis detector)
+- [x] 02-03-PLAN.md — Consent UI pages (age gate, ToS acceptance, legal pages, AI disclosure, sensory consent, crisis banner)
 
 ### Phase 3: LLM Text Generation Pipeline
 **Goal**: The system generates wellness session text in real-time via streaming LLM, chunked at natural sentence boundaries and safety-filtered before downstream consumption
@@ -175,8 +175,8 @@ Note: Phase 6 depends on Phase 4 (not Phase 5), so Phases 5 and 6 can run in par
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Scaffolding & Data Layer | 0/2 | Planning complete | - |
-| 2. Safety & Consent Framework | 0/TBD | Not started | - |
+| 1. Project Scaffolding & Data Layer | 2/2 | Complete | 2026-02-21 |
+| 2. Safety & Consent Framework | 3/3 | Complete | 2026-02-21 |
 | 3. LLM Text Generation Pipeline | 0/TBD | Not started | - |
 | 4. TTS & Audio Streaming | 0/TBD | Not started | - |
 | 5. Session State Machine & Orchestration | 0/TBD | Not started | - |

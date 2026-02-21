@@ -5,33 +5,33 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 2 - Safety & Consent Framework
+**Current focus:** Phase 3 (next phase - after completing Phase 2 Safety & Consent Framework)
 
 ## Current Position
 
-Phase: 2 of 9 (Safety & Consent Framework)
-Plan: 2 of 3 in current phase
-Status: In Progress
-Last activity: 2026-02-21 -- Completed 02-02-PLAN.md (Three-layer content safety pipeline)
+Phase: 3 of 9
+Plan: 0 of ? in current phase
+Status: Phase 2 Complete
+Last activity: 2026-02-21 -- Completed 02-03-PLAN.md (Consent & safety UI components)
 
-Progress: [##........] 22%
+Progress: [###.......] 28%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 3.3 min
-- Total execution time: 0.22 hours
+- Total plans completed: 5
+- Average duration: 3.2 min
+- Total execution time: 0.27 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 2 | 7 min | 3.5 min |
-| 2 | 2 | 6 min | 3 min |
+| 2 | 3 | 9 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4 min), 01-02 (3 min), 02-01 (3 min), 02-02 (3 min)
+- Last 5 plans: 01-02 (3 min), 02-01 (3 min), 02-02 (3 min), 02-03 (3 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -60,6 +60,9 @@ Recent decisions affecting current work:
 - [02-02]: HELPLINE_RESOURCES duplicated in safety/constants.ts as fallback; TODO to unify with consent/constants.ts
 - [02-02]: Sexual category moderation threshold set at 0.8 to avoid false positives on body-awareness wellness language
 - [02-02]: OpenAI SDK Categories/CategoryScores require 'as unknown as Record' type assertion (SDK typing limitation)
+- [02-03]: Legal pages use (legal) route group, accessible without authentication
+- [02-03]: Consent flow uses server-side redirect chain: dashboard -> verify-age -> accept-terms -> dashboard
+- [02-03]: SensoryConsent uses callback props (onConsent/onSkip) for flexible session integration
 
 ### Pending Todos
 
@@ -76,5 +79,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 02-02-PLAN.md (Content safety pipeline)
+Stopped at: Completed 02-03-PLAN.md (Consent & safety UI components) -- Phase 2 complete
 Resume file: None
