@@ -69,11 +69,11 @@ Plans:
   2. Generated text is chunked at sentence boundaries (min ~40 chars) for natural prosody
   3. Every sentence passes through safety filter between LLM output and downstream processing
   4. Unsafe sentences are replaced with pre-written fallbacks without breaking session flow
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
+- [ ] 03-01-PLAN.md — TDD: Sentence boundary chunker with abbreviation handling and min-length threshold
+- [ ] 03-02-PLAN.md — Streaming LLM pipeline (OpenAI Responses API -> sentence chunker -> safety filter)
 
 ### Phase 4: TTS & Audio Streaming
 **Goal**: Users hear the AI guide's voice within 2 seconds of session start, delivered as gap-free streaming audio through the cascading pipeline
@@ -177,7 +177,7 @@ Note: Phase 6 depends on Phase 4 (not Phase 5), so Phases 5 and 6 can run in par
 |-------|----------------|--------|-----------|
 | 1. Project Scaffolding & Data Layer | 2/2 | Complete | 2026-02-21 |
 | 2. Safety & Consent Framework | 3/3 | Complete | 2026-02-21 |
-| 3. LLM Text Generation Pipeline | 0/TBD | Not started | - |
+| 3. LLM Text Generation Pipeline | 0/2 | Not started | - |
 | 4. TTS & Audio Streaming | 0/TBD | Not started | - |
 | 5. Session State Machine & Orchestration | 0/TBD | Not started | - |
 | 6. Client UI & Theme | 0/TBD | Not started | - |
