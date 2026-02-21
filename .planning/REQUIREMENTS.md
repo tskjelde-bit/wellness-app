@@ -31,8 +31,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **VOIC-01**: LLM generates session content in real-time via streaming API (OpenAI Responses API)
 - [x] **VOIC-02**: Generated text is chunked at sentence boundaries for natural TTS prosody
-- [ ] **VOIC-03**: ElevenLabs TTS converts text chunks to audio with warm, natural voice quality
-- [ ] **VOIC-04**: Cascading pipeline delivers first audio to user within 2 seconds of session start
+- [x] **VOIC-03**: ElevenLabs TTS converts text chunks to audio with warm, natural voice quality
+- [x] **VOIC-04**: Cascading pipeline delivers first audio to user within 2 seconds of session start
 - [ ] **VOIC-05**: Audio streams to client via WebSocket with double-buffer playback queue for gap-free listening
 - [x] **VOIC-06**: Safety filter inspects every sentence between LLM output and TTS input
 
@@ -120,8 +120,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFR-06 | Phase 4 | Complete |
 | VOIC-01 | Phase 3 | Complete |
 | VOIC-02 | Phase 3 | Complete |
-| VOIC-03 | Phase 4 | Pending |
-| VOIC-04 | Phase 4 | Pending |
+| VOIC-03 | Phase 4 | Complete |
+| VOIC-04 | Phase 4 | Complete |
 | VOIC-05 | Phase 4 | Pending |
 | VOIC-06 | Phase 3 | Complete |
 | SESS-01 | Phase 5 | Pending |

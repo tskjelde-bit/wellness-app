@@ -5,14 +5,14 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 4 in progress - TTS & Audio Streaming (WebSocket gateway complete)
+**Current focus:** Phase 4 in progress - TTS & Audio Streaming (TTS service + WebSocket gateway complete, 2/3 plans)
 
 ## Current Position
 
 Phase: 4 of 9 (IN PROGRESS)
 Plan: 2 of 3 in current phase
 Status: Executing
-Last activity: 2026-02-21 -- Completed 04-02-PLAN.md (WebSocket gateway)
+Last activity: 2026-02-21 -- Completed 04-01-PLAN.md (TTS service & audio pipeline)
 
 Progress: [#####.....] 50%
 
@@ -38,6 +38,7 @@ Progress: [#####.....] 50%
 
 *Updated after each plan completion*
 | Phase 04 P02 | 3min | 2 tasks | 5 files |
+| Phase 04 P01 | 4min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,10 @@ Recent decisions affecting current work:
 - [04-02]: Promise-based pause gate: pause sets flag, resume resolves pending Promise
 - [04-02]: Binary audio frames sent via raw ws.send(Uint8Array) without JSON wrapping for efficiency
 - [04-02]: Ping/pong heartbeat at 30-second intervals for mobile connection keepalive
+- [Phase 04-01]: ReadableStream getReader() pattern instead of for-await-of (ES2017 target lacks Symbol.asyncIterator)
+- [Phase 04-01]: George voice (JBFqnCBsd6RMkjVDRZzb) as placeholder; eleven_flash_v2_5 model with 0.95x speed for wellness pacing
+- [Phase 04-01]: AbortSignal passed via SDK requestOptions (3rd param) matching BaseRequestOptions interface
+- [Phase 04-01]: Graceful TTS error handling: log and return (no throw) matching LLM fallback pattern
 
 ### Pending Todos
 
@@ -92,5 +97,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 04-02-PLAN.md (WebSocket gateway) -- Phase 4 plan 2/3
+Stopped at: Completed 04-01-PLAN.md (TTS service & audio pipeline) -- Phase 4 plan 2/3 done
 Resume file: None
