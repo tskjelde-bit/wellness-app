@@ -17,20 +17,14 @@ export default function RegisterForm() {
   }, [state?.success, router]);
 
   return (
-    <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
-      <h2 className="mb-6 text-center text-2xl font-semibold text-charcoal">
-        Create Account
+    <div className="w-full max-w-md rounded-2xl bg-charcoal p-8 shadow-fetish ring-1 ring-gold/20">
+      <h2 className="mb-6 text-center text-2xl font-semibold text-cream">
+        Opprett konto
       </h2>
 
-      {state?.error && (
-        <div className="mb-4 rounded-lg bg-red-50 p-3 text-center text-sm text-red-600">
-          {state.error}
-        </div>
-      )}
-
-      {state?.success && (
-        <div className="mb-4 rounded-lg bg-green-50 p-3 text-center text-sm text-green-600">
-          Account created! Redirecting to login...
+      {(state as { error?: string })?.error && (
+        <div className="mb-4 rounded-lg bg-rose/20 p-3 text-center text-sm text-cream/80 border border-rose/30">
+          {(state as { error?: string }).error}
         </div>
       )}
 
@@ -38,29 +32,27 @@ export default function RegisterForm() {
         <div>
           <label
             htmlFor="name"
-            className="mb-1 block text-sm font-medium text-charcoal"
+            className="mb-1 block text-sm font-medium text-cream/70"
           >
-            Name
+            Navn
           </label>
           <input
             id="name"
             name="name"
             type="text"
             required
-            minLength={2}
-            maxLength={100}
             autoComplete="name"
-            className="w-full rounded-lg border border-blush bg-cream px-4 py-2.5 text-charcoal placeholder-charcoal/40 outline-none focus:border-rose focus:ring-2 focus:ring-rose/20"
-            placeholder="Your name"
+            className="w-full rounded-lg border border-gold/10 bg-black/40 px-4 py-2.5 text-cream placeholder-cream/20 outline-none focus:border-gold/50 focus:ring-2 focus:ring-gold/10"
+            placeholder="Ditt navn"
           />
         </div>
 
         <div>
           <label
             htmlFor="email"
-            className="mb-1 block text-sm font-medium text-charcoal"
+            className="mb-1 block text-sm font-medium text-cream/70"
           >
-            Email
+            E-post
           </label>
           <input
             id="email"
@@ -68,17 +60,17 @@ export default function RegisterForm() {
             type="email"
             required
             autoComplete="email"
-            className="w-full rounded-lg border border-blush bg-cream px-4 py-2.5 text-charcoal placeholder-charcoal/40 outline-none focus:border-rose focus:ring-2 focus:ring-rose/20"
-            placeholder="you@example.com"
+            className="w-full rounded-lg border border-gold/10 bg-black/40 px-4 py-2.5 text-cream placeholder-cream/20 outline-none focus:border-gold/50 focus:ring-2 focus:ring-gold/10"
+            placeholder="din@epost.no"
           />
         </div>
 
         <div>
           <label
             htmlFor="password"
-            className="mb-1 block text-sm font-medium text-charcoal"
+            className="mb-1 block text-sm font-medium text-cream/70"
           >
-            Password
+            Passord
           </label>
           <input
             id="password"
@@ -86,29 +78,28 @@ export default function RegisterForm() {
             type="password"
             required
             minLength={8}
-            maxLength={128}
             autoComplete="new-password"
-            className="w-full rounded-lg border border-blush bg-cream px-4 py-2.5 text-charcoal placeholder-charcoal/40 outline-none focus:border-rose focus:ring-2 focus:ring-rose/20"
-            placeholder="At least 8 characters"
+            className="w-full rounded-lg border border-gold/10 bg-black/40 px-4 py-2.5 text-cream placeholder-cream/20 outline-none focus:border-gold/50 focus:ring-2 focus:ring-gold/10"
+            placeholder="Minst 8 tegn"
           />
         </div>
 
         <button
           type="submit"
           disabled={isPending}
-          className="mt-2 w-full rounded-lg bg-rose px-4 py-2.5 font-medium text-white transition-colors hover:bg-rose/90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="mt-2 w-full rounded-lg bg-rose px-4 py-3 font-medium text-white transition-all hover:bg-rose/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {isPending ? "Creating account..." : "Create Account"}
+          {isPending ? "Oppretter..." : "Bli med på rushet"}
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-charcoal/60">
-        Already have an account?{" "}
+      <p className="mt-6 text-center text-sm text-cream/40">
+        Har du allerede konto?{" "}
         <Link
           href="/login"
-          className="font-medium text-rose hover:text-rose/80"
+          className="font-medium text-gold hover:text-gold/80 transition-colors"
         >
-          Log in
+          Logg inn
         </Link>
       </p>
     </div>
