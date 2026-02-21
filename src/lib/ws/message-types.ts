@@ -14,6 +14,8 @@ export type ServerMessage =
   | { type: "session_start"; sessionId: string }
   | { type: "text"; data: string; index: number }
   | { type: "sentence_end"; index: number }
+  | { type: "phase_start"; phase: string; phaseIndex: number }
+  | { type: "phase_transition"; from: string; to: string }
   | { type: "session_end" }
   | { type: "error"; message: string };
 
