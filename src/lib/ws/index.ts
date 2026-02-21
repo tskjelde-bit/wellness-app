@@ -12,3 +12,6 @@ export {
   parseClientMessage,
   serializeServerMessage,
 } from "./message-types";
+
+// Session handler
+export { handleSession } from "./session-handler";
