@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 3 (next phase - after completing Phase 2 Safety & Consent Framework)
+**Current focus:** Phase 3 - LLM Text Generation Pipeline (sentence chunker complete, streaming pipeline next)
 
 ## Current Position
 
 Phase: 3 of 9
-Plan: 0 of ? in current phase
-Status: Phase 2 Complete
-Last activity: 2026-02-21 -- Completed 02-03-PLAN.md (Consent & safety UI components)
+Plan: 1 of 2 in current phase
+Status: In Progress
+Last activity: 2026-02-21 -- Completed 03-01-PLAN.md (Sentence boundary chunker)
 
-Progress: [###.......] 28%
+Progress: [####......] 33%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
+- Total plans completed: 6
 - Average duration: 3.2 min
-- Total execution time: 0.27 hours
+- Total execution time: 0.32 hours
 
 **By Phase:**
 
@@ -29,9 +29,10 @@ Progress: [###.......] 28%
 |-------|-------|-------|----------|
 | 1 | 2 | 7 min | 3.5 min |
 | 2 | 3 | 9 min | 3 min |
+| 3 | 1 | 3 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (3 min), 02-01 (3 min), 02-02 (3 min), 02-03 (3 min)
+- Last 5 plans: 02-01 (3 min), 02-02 (3 min), 02-03 (3 min), 03-01 (3 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -63,6 +64,8 @@ Recent decisions affecting current work:
 - [02-03]: Legal pages use (legal) route group, accessible without authentication
 - [02-03]: Consent flow uses server-side redirect chain: dashboard -> verify-age -> accept-terms -> dashboard
 - [02-03]: SensoryConsent uses callback props (onConsent/onSkip) for flexible session integration
+- [03-01]: Two-pass boundary algorithm: find all valid boundaries excluding abbreviations, then emit batches once accumulated text exceeds minLength
+- [03-01]: Vitest installed as test framework with path alias support matching Next.js tsconfig
 
 ### Pending Todos
 
@@ -79,5 +82,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 02-03-PLAN.md (Consent & safety UI components) -- Phase 2 complete
+Stopped at: Completed 03-01-PLAN.md (Sentence boundary chunker) -- Phase 3 plan 1/2
 Resume file: None
