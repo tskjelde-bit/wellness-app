@@ -40,7 +40,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **SESS-01**: Session follows 5-phase structured flow (Atmosphere → Breathing → Sensory → Relaxation → Resolution)
 - [x] **SESS-02**: Each phase has distinct tone, pacing, and system prompt guidance
-- [ ] **SESS-03**: User can select session length (10 / 15 / 20 / 30 minutes)
+- [x] **SESS-03**: User can select session length (10 / 15 / 20 / 30 minutes)
 - [x] **SESS-04**: Phase transitions occur naturally based on timing and content completion
 - [x] **SESS-05**: Resolution phase provides grounding and gentle return to awareness
 - [x] **SESS-06**: Session state machine manages phase progression server-side
@@ -53,8 +53,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **UI-03**: Basic playback controls (pause, resume, end session)
 - [ ] **UI-04**: Phase progress indicator showing current session phase
 - [x] **UI-05**: Minimal visual chrome during active sessions — voice-first, screen-secondary
-- [ ] **UI-06**: Consent flow woven conversationally into session start (not clinical modal)
-- [ ] **UI-07**: Session length selection before starting
+- [x] **UI-06**: Consent flow woven conversationally into session start (not clinical modal)
+- [x] **UI-07**: Session length selection before starting
 
 ### Differentiators
 
@@ -126,7 +126,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VOIC-06 | Phase 3 | Complete |
 | SESS-01 | Phase 5 | Complete |
 | SESS-02 | Phase 5 | Complete |
-| SESS-03 | Phase 7 | Pending |
+| SESS-03 | Phase 7 | Complete |
 | SESS-04 | Phase 5 | Complete |
 | SESS-05 | Phase 5 | Complete |
 | SESS-06 | Phase 5 | Complete |
@@ -136,8 +136,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UI-03 | Phase 7 | Pending |
 | UI-04 | Phase 7 | Pending |
 | UI-05 | Phase 6 | Complete |
-| UI-06 | Phase 7 | Pending |
-| UI-07 | Phase 7 | Pending |
+| UI-06 | Phase 7 | Complete |
+| UI-07 | Phase 7 | Complete |
 | DIFF-01 | Phase 9 | Pending |
 | DIFF-02 | Phase 9 | Pending |
 | DIFF-03 | Phase 9 | Pending |

@@ -137,7 +137,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — Session length protocol extension + pre-session flow (length selection, conversational consent)
+- [x] 07-01-PLAN.md — Session length protocol extension + pre-session flow (length selection, conversational consent)
 - [ ] 07-02-PLAN.md — Session controls (pause/resume/end), phase progress indicator, session screen integration
 
 ### Phase 8: Payment Integration
@@ -183,6 +183,6 @@ Note: Phase 6 depends on Phase 4 (not Phase 5), so Phases 5 and 6 can run in par
 | 4. TTS & Audio Streaming | 2/3 | In Progress|  |
 | 5. Session State Machine & Orchestration | 0/TBD | Not started | - |
 | 6. Client UI & Theme | 0/TBD | Not started | - |
-| 7. Session UX & Controls | 0/TBD | Not started | - |
+| 7. Session UX & Controls | 1/2 | In Progress | - |
 | 8. Payment Integration | 0/TBD | Not started | - |
 | 9. Differentiators & Polish | 0/TBD | Not started | - |

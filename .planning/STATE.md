@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 6 complete - Client UI & Theme (2/2 plans done)
+**Current focus:** Phase 7 in progress - Session UX & Controls (1/2 plans done)
 
 ## Current Position
 
 Phase: 7 of 9
-Plan: 0 of 0 in current phase
-Status: Phase 6 Complete
-Last activity: 2026-02-21 -- Completed 06-02-PLAN.md (Session screen & breathing orb)
+Plan: 1 of 2 in current phase
+Status: In Progress
+Last activity: 2026-02-21 -- Completed 07-01-PLAN.md (Session length protocol + pre-session flow)
 
-Progress: [########..] 75%
+Progress: [########..] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 15
+- Total plans completed: 16
 - Average duration: 3 min
-- Total execution time: 0.63 hours
+- Total execution time: 0.65 hours
 
 **By Phase:**
 
@@ -33,9 +33,10 @@ Progress: [########..] 75%
 | 4 | 3 | 8 min | 2.7 min |
 | 5 | 3 | 6 min | 2 min |
 | 6 | 2 | 2 min | 1 min |
+| 7 | 1 | 1 min | 1 min |
 
 **Recent Trend:**
-- Last 5 plans: 05-01 (3 min), 05-02 (2 min), 05-03 (1 min), 06-01 (1 min), 06-02 (1 min)
+- Last 5 plans: 05-02 (2 min), 05-03 (1 min), 06-01 (1 min), 06-02 (1 min), 07-01 (1 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -47,6 +48,7 @@ Progress: [########..] 75%
 | Phase 05 P03 | 1min | 2 tasks | 2 files |
 | Phase 06 P01 | 1min | 2 tasks | 3 files |
 | Phase 06 P02 | 1min | 2 tasks | 4 files |
+| Phase 07 P01 | 1min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -114,6 +116,9 @@ Recent decisions affecting current work:
 - [06-02]: useEffect-based startSession after isConnected to avoid WebSocket race condition
 - [06-02]: End Session button intentionally tiny/subtle for voice-first minimal chrome
 - [06-02]: currentPhase tracking added proactively for Phase 7 progress indicator
+- [07-01]: Options object pattern for startSession hook (extensible for future params)
+- [07-01]: Conversational consent tone: warm first-person AI guide language instead of clinical checkbox
+- [07-01]: BreathingOrb as static ambient decoration in consent step (isPlaying=false, opacity-20)
 
 ### Pending Todos
 
@@ -130,5 +135,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 06-02-PLAN.md (Session screen & breathing orb) -- Phase 6 complete (2/2 plans)
+Stopped at: Completed 07-01-PLAN.md (Session length protocol + pre-session flow)
 Resume file: None
