@@ -20,8 +20,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Infrastructure & Auth
 
-- [ ] **INFR-01**: User can create account with email and password
-- [ ] **INFR-02**: User session persists across browser refresh
+- [x] **INFR-01**: User can create account with email and password
+- [x] **INFR-02**: User session persists across browser refresh
 - [ ] **INFR-03**: Payment processor integration uses high-risk-compatible provider (not Stripe/PayPal)
 - [x] **INFR-04**: Redis-backed session state with TTL-based auto-expiry
 - [x] **INFR-05**: PostgreSQL database for user accounts, consent records, and session metadata
@@ -112,8 +112,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SAFE-06 | Phase 2 | Pending |
 | SAFE-07 | Phase 2 | Pending |
 | SAFE-08 | Phase 2 | Pending |
-| INFR-01 | Phase 1 | Pending |
-| INFR-02 | Phase 1 | Pending |
+| INFR-01 | Phase 1 | Complete |
+| INFR-02 | Phase 1 | Complete |
 | INFR-03 | Phase 8 | Pending |
 | INFR-04 | Phase 1 | Complete |
 | INFR-05 | Phase 1 | Complete |
