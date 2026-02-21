@@ -48,3 +48,9 @@ Applikasjonen følger en "Premium Fetish"-estetikk med fokus på:
 
 ---
 © 2026 Wellness App Team - Utviklet for moderne nytelse og velvære.
+
+## ⚠️ Merk om Hosting (GitHub Pages)
+
+Dette prosjektet er for øyeblikket konfigurert for **GitHub Pages**, som kun støtter statiske nettsider. 
+- **AI-Karakterer (LLM)** og **WebSockets** krever en aktiv server (Node.js) for å fungere.
+- For full funksjonalitet anbefales det å hoste applikasjonen på **Vercel** eller en tilsvarende plattform som støtter API-ruter og server-side logikk.
