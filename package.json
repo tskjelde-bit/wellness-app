@@ -6,19 +6,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prepare": "next-ws patch"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.1",
+    "@elevenlabs/elevenlabs-js": "^2.36.0",
     "@neondatabase/serverless": "^1.0.2",
     "@upstash/redis": "^1.36.2",
     "bcryptjs": "^3.0.3",
     "drizzle-orm": "^0.45.1",
     "next": "16.1.6",
     "next-auth": "^5.0.0-beta.30",
+    "next-ws": "^2.1.16",
     "openai": "^6.22.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "ws": "^8.19.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -27,6 +31,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/ws": "^8.18.1",
     "drizzle-kit": "^0.31.9",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
