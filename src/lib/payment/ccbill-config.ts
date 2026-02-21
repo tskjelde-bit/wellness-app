@@ -29,6 +29,14 @@ export function getCcbillConfig(): CcbillConfig {
   if (!salt) missing.push("CCBILL_SALT");
 
   if (missing.length > 0) {
+    if (process.env.NODE_ENV === "development") {
+      return {
+        accountNumber: "000000",
+        subaccount: "0000",
+        flexformId: "dev-placeholder",
+        salt: "dev-placeholder-salt",
+      };
+    }
     throw new Error(
       `Missing required CCBill environment variables: ${missing.join(", ")}. ` +
         `See CCBill Merchant Admin for these values.`
