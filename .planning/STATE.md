@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 3 complete - LLM Text Generation Pipeline (sentence chunker + streaming pipeline done)
+**Current focus:** Phase 4 in progress - TTS & Audio Streaming (WebSocket gateway complete)
 
 ## Current Position
 
-Phase: 3 of 9 (COMPLETE)
-Plan: 2 of 2 in current phase
-Status: Phase Complete
-Last activity: 2026-02-21 -- Completed 03-02-PLAN.md (LLM streaming pipeline)
+Phase: 4 of 9 (IN PROGRESS)
+Plan: 2 of 3 in current phase
+Status: Executing
+Last activity: 2026-02-21 -- Completed 04-02-PLAN.md (WebSocket gateway)
 
-Progress: [####......] 39%
+Progress: [#####.....] 50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 3.1 min
-- Total execution time: 0.36 hours
+- Total plans completed: 9
+- Average duration: 3 min
+- Total execution time: 0.45 hours
 
 **By Phase:**
 
@@ -30,13 +30,14 @@ Progress: [####......] 39%
 | 1 | 2 | 7 min | 3.5 min |
 | 2 | 3 | 9 min | 3 min |
 | 3 | 2 | 6 min | 3 min |
+| 4 | 2 | 6 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (3 min), 02-03 (3 min), 03-01 (3 min), 03-02 (3 min)
+- Last 5 plans: 02-03 (3 min), 03-01 (3 min), 03-02 (3 min), 04-01 (3 min), 04-02 (3 min)
 - Trend: Stable
 
 *Updated after each plan completion*
-| Phase 03 P02 | 3min | 1 tasks | 3 files |
+| Phase 04 P02 | 3min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -71,6 +72,10 @@ Recent decisions affecting current work:
 - [03-02]: Module-level OpenAI singleton matching moderation.ts pattern for consistent SDK usage
 - [03-02]: Stream errors yield getRandomFallback() instead of throwing, maintaining session continuity
 - [03-02]: filterSafety omits try/catch -- checkContentSafety handles its own errors per documented contract
+- [04-02]: Dynamic import for @/lib/tts to decouple WebSocket handler from TTS module build order
+- [04-02]: Promise-based pause gate: pause sets flag, resume resolves pending Promise
+- [04-02]: Binary audio frames sent via raw ws.send(Uint8Array) without JSON wrapping for efficiency
+- [04-02]: Ping/pong heartbeat at 30-second intervals for mobile connection keepalive
 
 ### Pending Todos
 
@@ -87,5 +92,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 03-02-PLAN.md (LLM streaming pipeline) -- Phase 3 complete (2/2)
+Stopped at: Completed 04-02-PLAN.md (WebSocket gateway) -- Phase 4 plan 2/3
 Resume file: None

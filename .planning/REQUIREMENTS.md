@@ -25,7 +25,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **INFR-03**: Payment processor integration uses high-risk-compatible provider (not Stripe/PayPal)
 - [x] **INFR-04**: Redis-backed session state with TTL-based auto-expiry
 - [x] **INFR-05**: PostgreSQL database for user accounts, consent records, and session metadata
-- [ ] **INFR-06**: WebSocket gateway for real-time audio streaming to client
+- [x] **INFR-06**: WebSocket gateway for real-time audio streaming to client
 
 ### Voice Pipeline
 
@@ -117,7 +117,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFR-03 | Phase 8 | Pending |
 | INFR-04 | Phase 1 | Complete |
 | INFR-05 | Phase 1 | Complete |
-| INFR-06 | Phase 4 | Pending |
+| INFR-06 | Phase 4 | Complete |
 | VOIC-01 | Phase 3 | Complete |
 | VOIC-02 | Phase 3 | Complete |
 | VOIC-03 | Phase 4 | Pending |

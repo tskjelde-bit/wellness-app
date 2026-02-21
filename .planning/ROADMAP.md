@@ -179,7 +179,7 @@ Note: Phase 6 depends on Phase 4 (not Phase 5), so Phases 5 and 6 can run in par
 | 1. Project Scaffolding & Data Layer | 2/2 | Complete | 2026-02-21 |
 | 2. Safety & Consent Framework | 3/3 | Complete | 2026-02-21 |
 | 3. LLM Text Generation Pipeline | 0/2 | Not started | - |
-| 4. TTS & Audio Streaming | 0/TBD | Not started | - |
+| 4. TTS & Audio Streaming | 2/3 | In Progress|  |
 | 5. Session State Machine & Orchestration | 0/TBD | Not started | - |
 | 6. Client UI & Theme | 0/TBD | Not started | - |
 | 7. Session UX & Controls | 0/TBD | Not started | - |
