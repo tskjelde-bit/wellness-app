@@ -102,11 +102,12 @@ Plans:
   3. Phase transitions occur naturally based on timing and content completion (not abrupt cuts)
   4. Resolution phase provides grounding and gentle return to awareness
   5. Session state machine manages phase progression server-side via Redis
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: TBD
-- [ ] 05-02: TBD
+- [ ] 05-01-PLAN.md — Phase state machine, phase prompt templates, timing config
+- [ ] 05-02-PLAN.md — SessionOrchestrator, LLM pipeline extension, Redis state
+- [ ] 05-03-PLAN.md — WebSocket message types and handler integration
 
 ### Phase 6: Client UI & Theme
 **Goal**: Users see a polished pink wellness-themed interface optimized for mobile, with a voice-first session screen and the ability to start a new session
