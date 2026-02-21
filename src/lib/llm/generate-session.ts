@@ -31,36 +31,74 @@ const MAX_OUTPUT_TOKENS = 4096;
 // Stage 1: Stream raw token deltas from the LLM
 // ---------------------------------------------------------------------------
 
+export interface StreamLlmOptions {
+  model?: string;
+  temperature?: number;
+  /** Chain to a prior response for multi-phase context continuity */
+  previousResponseId?: string;
+  /** Enable server-side response retention (required for chaining, defaults to false) */
+  store?: boolean;
+  /** Callback to capture the response ID from the response.created event */
+  onResponseId?: (id: string) => void;
+  /** AbortSignal for cancellation propagation from the orchestrator */
+  signal?: AbortSignal;
+  /** Override the default "Begin the session." input message */
+  userMessage?: string;
+  /** Override for complete instructions string (skips buildSessionInstructions) */
+  instructions?: string;
+}
+
 /**
  * Streams raw token deltas from the OpenAI Responses API.
  *
  * Uses the `instructions` parameter with combined safety + session prompts.
  * On error, yields a single fallback message instead of throwing.
  *
+ * Supports multi-phase context chaining via `previousResponseId` and `store`.
+ * When `instructions` is provided, it is used directly (skipping buildSessionInstructions).
+ *
  * @param sessionPrompt - Optional session-specific context for instructions
- * @param options - Model and temperature overrides
+ * @param options - Model, temperature, chaining, and cancellation overrides
  */
 export async function* streamLlmTokens(
   sessionPrompt: string,
-  options?: { model?: string; temperature?: number },
+  options?: StreamLlmOptions,
 ): AsyncGenerator<string> {
   const model = options?.model ?? DEFAULT_MODEL;
   const temperature = options?.temperature ?? DEFAULT_TEMPERATURE;
 
+  // Respect abort signal before starting
+  if (options?.signal?.aborted) return;
+
   try {
     const stream = await openai.responses.create({
       model,
-      instructions: buildSessionInstructions(sessionPrompt),
-      input: [{ role: "user", content: "Begin the session." }],
+      instructions:
+        options?.instructions ?? buildSessionInstructions(sessionPrompt),
+      input: [
+        { role: "user", content: options?.userMessage ?? "Begin the session." },
+      ],
       temperature,
       max_output_tokens: MAX_OUTPUT_TOKENS,
+      store: options?.store ?? false,
+      ...(options?.previousResponseId && {
+        previous_response_id: options.previousResponseId,
+      }),
       stream: true,
     });
 
     for await (const event of stream) {
+      // Capture response ID on creation
+      if (event.type === "response.created") {
+        options?.onResponseId?.(event.response.id);
+      }
+
       if (event.type === "response.output_text.delta") {
         yield event.delta;
       }
+
+      // Check abort between events
+      if (options?.signal?.aborted) return;
     }
   } catch {
     // Stream error: yield a wellness fallback instead of crashing

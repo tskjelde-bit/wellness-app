@@ -1,4 +1,5 @@
 import { redis } from "@/lib/redis";
+import type { SessionPhase } from "@/lib/session/phase-machine";
 
 export const SESSION_TTL = 3600; // 1 hour in seconds
 
@@ -10,6 +11,21 @@ export interface SessionState {
   tosAccepted: boolean;
   sensoryConsentGiven: boolean;
   aiDisclosureShown: boolean;
+  // Phase 5 orchestration state (all optional for backward compatibility)
+  /** Current phase in the session FSM */
+  currentPhase?: SessionPhase;
+  /** Timestamp when current phase began */
+  phaseStartedAt?: number;
+  /** Sentence counter within current phase */
+  sentencesInPhase?: number;
+  /** Cumulative sentence count across all phases */
+  totalSentences?: number;
+  /** OpenAI response ID for context chaining (null when not yet set) */
+  previousResponseId?: string | null;
+  /** Sentence budgets per phase (from getSessionBudgets) */
+  phaseBudgets?: Record<SessionPhase, number>;
+  /** Session length in minutes (10, 15, 20, or 30) */
+  sessionLengthMinutes?: number;
 }
 
 export async function getSessionState(
