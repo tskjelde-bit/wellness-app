@@ -1,14 +1,13 @@
 import type { NextConfig } from "next";
 
+const isProd = process.env.NODE_ENV === "production";
+const isGithubActions = process.env.GITHUB_ACTIONS === "true";
+
 const nextConfig: NextConfig = {
-  output: "export",
-  basePath: "/wellness-app",
+  output: isGithubActions ? "export" : undefined,
+  basePath: isGithubActions ? "/wellness-app" : "",
   images: {
     unoptimized: true,
-  },
-  // Ensure we don't fail on build-time dynamic routes that require a server
-  typescript: {
-    ignoreBuildErrors: true,
   },
 };
 

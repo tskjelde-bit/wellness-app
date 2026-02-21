@@ -38,9 +38,11 @@ export class AudioPlaybackQueue {
    */
   async enqueue(audioData: ArrayBuffer): Promise<void> {
     try {
+      console.log(`[AudioQueue] Decoding chunk of size ${audioData.byteLength} bytes...`);
       const decoded = await this.audioContext.decodeAudioData(
         audioData.slice(0)
       );
+      console.log(`[AudioQueue] Decoded successfully: ${decoded.duration.toFixed(2)}s`);
       this.queue.push(decoded);
       if (!this.isPlaying && !this.isPaused) {
         this.playNext();
@@ -161,6 +163,8 @@ export function useAudioQueue() {
     if (queueRef.current) return;
 
     const ctx = new AudioContext();
+    // Explicitly resume in case it's created suspended (common in some browsers)
+    ctx.resume();
 
     // Voice channel GainNode (full volume by default)
     const vGain = ctx.createGain();
@@ -177,6 +181,8 @@ export function useAudioQueue() {
       setState(queue.state);
     };
     queueRef.current = queue;
+
+    console.log("[AudioQueue] Initialized AudioContext and GainNodes");
 
     // Expose via state so consumers can use them reactively
     setAudioContext(ctx);

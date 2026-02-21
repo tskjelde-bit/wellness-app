@@ -152,13 +152,19 @@ export function handleSession(client: WebSocket): void {
                 });
 
                 // Synthesize sentence to audio and stream to client
+                console.log(`[ws:${sessionId}] Synthesizing sentence ${event.index}: "${event.text.slice(0, 30)}..."`);
+                let chunkCount = 0;
+                let totalBytes = 0;
                 for await (const audioChunk of synthesizeSentence(event.text, {
                   voiceId: selectedVoiceId,
                   previousText: previousText.slice(-1000),
                   signal: controller.signal,
                 })) {
+                  chunkCount++;
+                  totalBytes += audioChunk.byteLength;
                   sendBinary(client, audioChunk);
                 }
+                console.log(`[ws:${sessionId}] Sent ${chunkCount} chunks (${totalBytes} bytes) for sentence ${event.index}`);
 
                 // Emit sentence end marker
                 send(client, {

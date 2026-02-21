@@ -52,11 +52,12 @@ export function useSessionWebSocket() {
     // Initialize AudioContext in user gesture context (browser autoplay policy)
     initQueue();
 
-    // Determine WebSocket URL based on current page protocol
-    const protocol =
-      window.location.protocol === "https:" ? "wss:" : "ws:";
-    const url = `${protocol}//${window.location.host}/api/session/ws`;
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    // Handle basePath for GitHub Pages (/wellness-app) or localhost
+    const basePath = window.location.pathname.split('/')[1] === 'wellness-app' ? '/wellness-app' : '';
+    const url = `${protocol}//${window.location.host}${basePath}/api/session/ws`;
 
+    console.log(`[ws] Connecting to ${url}`);
     const ws = new WebSocket(url);
     ws.binaryType = "arraybuffer";
 
@@ -71,6 +72,9 @@ export function useSessionWebSocket() {
         // decodable — ElevenLabs streams a continuous MP3; only the
         // concatenated sentence audio is a valid file for decodeAudioData)
         audioChunksRef.current.push(event.data);
+        if (audioChunksRef.current.length % 10 === 0) {
+          console.log(`[ws] Received ${audioChunksRef.current.length} binary chunks so far...`);
+        }
       } else {
         // Text frame: JSON control message
         try {
@@ -88,6 +92,7 @@ export function useSessionWebSocket() {
             case "sentence_end": {
               // Concatenate buffered chunks into a single MP3 and enqueue
               const chunks = audioChunksRef.current;
+              console.log(`[ws] Sentence end (index: ${message.index}), total chunks: ${chunks.length}`);
               if (chunks.length > 0) {
                 const totalLength = chunks.reduce((sum, c) => sum + c.byteLength, 0);
                 const combined = new Uint8Array(totalLength);
@@ -96,6 +101,7 @@ export function useSessionWebSocket() {
                   combined.set(new Uint8Array(chunk), offset);
                   offset += chunk.byteLength;
                 }
+                console.log(`[ws] Enqueueing combined audio: ${totalLength} bytes`);
                 enqueue(combined.buffer as ArrayBuffer);
                 audioChunksRef.current = [];
               }
