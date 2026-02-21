@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 4 in progress - TTS & Audio Streaming (TTS service + WebSocket gateway complete, 2/3 plans)
+**Current focus:** Phase 4 complete - TTS & Audio Streaming (all 3/3 plans done, end-to-end pipeline ready)
 
 ## Current Position
 
-Phase: 4 of 9 (IN PROGRESS)
-Plan: 2 of 3 in current phase
-Status: Executing
-Last activity: 2026-02-21 -- Completed 04-01-PLAN.md (TTS service & audio pipeline)
+Phase: 4 of 9 (COMPLETE)
+Plan: 3 of 3 in current phase
+Status: Phase Complete
+Last activity: 2026-02-21 -- Completed 04-03-PLAN.md (Client audio playback & WebSocket hooks)
 
 Progress: [#####.....] 50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
+- Total plans completed: 10
 - Average duration: 3 min
-- Total execution time: 0.45 hours
+- Total execution time: 0.48 hours
 
 **By Phase:**
 
@@ -30,13 +30,14 @@ Progress: [#####.....] 50%
 | 1 | 2 | 7 min | 3.5 min |
 | 2 | 3 | 9 min | 3 min |
 | 3 | 2 | 6 min | 3 min |
-| 4 | 2 | 6 min | 3 min |
+| 4 | 3 | 8 min | 2.7 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-03 (3 min), 03-01 (3 min), 03-02 (3 min), 04-01 (3 min), 04-02 (3 min)
+- Last 5 plans: 03-01 (3 min), 03-02 (3 min), 04-01 (3 min), 04-02 (3 min), 04-03 (2 min)
 - Trend: Stable
 
 *Updated after each plan completion*
+| Phase 04 P03 | 2min | 2 tasks | 2 files |
 | Phase 04 P02 | 3min | 2 tasks | 5 files |
 | Phase 04 P01 | 4min | 2 tasks | 5 files |
 
@@ -81,6 +82,10 @@ Recent decisions affecting current work:
 - [Phase 04-01]: George voice (JBFqnCBsd6RMkjVDRZzb) as placeholder; eleven_flash_v2_5 model with 0.95x speed for wellness pacing
 - [Phase 04-01]: AbortSignal passed via SDK requestOptions (3rd param) matching BaseRequestOptions interface
 - [Phase 04-01]: Graceful TTS error handling: log and return (no throw) matching LLM fallback pattern
+- [04-03]: AudioContext created in user gesture handler (initQueue in connect), not on page load, for browser autoplay policy
+- [04-03]: ArrayBuffer.slice(0) before decodeAudioData to prevent detached buffer issues
+- [04-03]: Gap-free scheduling via AudioBufferSourceNode.start(nextPlayTime) for audio continuity
+- [04-03]: Pause/resume via AudioContext.suspend()/resume() rather than tracking individual source nodes
 
 ### Pending Todos
 
@@ -97,5 +102,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 04-01-PLAN.md (TTS service & audio pipeline) -- Phase 4 plan 2/3 done
+Stopped at: Completed 04-03-PLAN.md (Client audio playback & WebSocket hooks) -- Phase 4 complete (3/3 plans)
 Resume file: None
