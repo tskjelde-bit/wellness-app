@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 7 complete - Session UX & Controls (2/2 plans done). Next: Phase 8
+**Current focus:** Phase 8 in progress - Payment Integration (1/2 plans done)
 
 ## Current Position
 
-Phase: 7 of 9
-Plan: 2 of 2 in current phase
-Status: Phase Complete
-Last activity: 2026-02-21 -- Completed 07-02-PLAN.md (Session controls + screen integration)
+Phase: 8 of 9
+Plan: 1 of 2 in current phase
+Status: In Progress
+Last activity: 2026-02-21 -- Completed 08-01-PLAN.md (Payment backend foundation)
 
-Progress: [#########.] 85%
+Progress: [#########.] 90%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 17
+- Total plans completed: 18
 - Average duration: 3 min
-- Total execution time: 0.67 hours
+- Total execution time: 0.70 hours
 
 **By Phase:**
 
@@ -34,9 +34,10 @@ Progress: [#########.] 85%
 | 5 | 3 | 6 min | 2 min |
 | 6 | 2 | 2 min | 1 min |
 | 7 | 2 | 2 min | 1 min |
+| 8 | 1 | 2 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 05-03 (1 min), 06-01 (1 min), 06-02 (1 min), 07-01 (1 min), 07-02 (1 min)
+- Last 5 plans: 06-01 (1 min), 06-02 (1 min), 07-01 (1 min), 07-02 (1 min), 08-01 (2 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -50,6 +51,7 @@ Progress: [#########.] 85%
 | Phase 06 P02 | 1min | 2 tasks | 4 files |
 | Phase 07 P01 | 1min | 2 tasks | 4 files |
 | Phase 07 P02 | 1min | 2 tasks | 3 files |
+| Phase 08 P01 | 2min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -123,6 +125,10 @@ Recent decisions affecting current work:
 - [07-02]: SVG icons for pause/resume instead of Unicode characters for consistent cross-platform rendering
 - [07-02]: PhaseIndicator uses role=progressbar with aria-valuenow/max for screen reader accessibility
 - [07-02]: Removed standalone Back to Dashboard link from SessionScreen; PreSessionFlow handles its own navigation
+- [Phase 08]: CCBill env vars are optional in envSchema to avoid blocking non-payment development
+- [Phase 08]: getCcbillConfig reads process.env directly (not env.ts) to match db/index.ts pattern and avoid circular deps
+- [Phase 08]: Webhook signature verification is structural-only for v1; full HMAC deferred to merchant onboarding
+- [Phase 08]: Success/failure return URLs derived from request origin at runtime instead of env vars
 
 ### Pending Todos
 
@@ -139,5 +145,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 07-02-PLAN.md (Session controls + screen integration) -- Phase 7 complete
+Stopped at: Completed 08-01-PLAN.md (Payment backend foundation)
 Resume file: None
