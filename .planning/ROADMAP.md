@@ -164,11 +164,12 @@ Plans:
   3. User can adjust voice and ambient volume independently with a mixer control
   4. User can choose from 2-3 curated AI voice options with distinct warmth/tone profiles
   5. After a session ends, user receives reflection prompts and grounding exercises
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 09-01: TBD
-- [ ] 09-02: TBD
+- [ ] 09-01-PLAN.md -- Server-side mood adaptation and voice selection (mood prompts, voice options, WebSocket protocol, orchestrator + handler wiring)
+- [ ] 09-02-PLAN.md -- Audio infrastructure (AudioPlaybackQueue GainNode refactor, useAmbientAudio hook, VolumeMixer component)
+- [ ] 09-03-PLAN.md -- Client integration (MoodSelector, VoicePicker, PostSessionScreen, PreSessionFlow + SessionScreen wiring)
 
 ## Progress
 
