@@ -8,7 +8,7 @@
  * across sentences within a session.
  */
 
-import { elevenlabs, TTS_CONFIG } from "./elevenlabs-client";
+import { getElevenLabsClient, TTS_CONFIG } from "./elevenlabs-client";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -48,7 +48,7 @@ export async function* synthesizeSentence(
   const voiceId = options?.voiceId ?? TTS_CONFIG.voiceId;
 
   try {
-    const audioStream = await elevenlabs.textToSpeech.stream(
+    const audioStream = await getElevenLabsClient().textToSpeech.stream(
       voiceId,
       {
         text,

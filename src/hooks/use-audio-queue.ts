@@ -37,12 +37,16 @@ export class AudioPlaybackQueue {
    * same buffer is referenced elsewhere.
    */
   async enqueue(audioData: ArrayBuffer): Promise<void> {
-    const decoded = await this.audioContext.decodeAudioData(
-      audioData.slice(0)
-    );
-    this.queue.push(decoded);
-    if (!this.isPlaying && !this.isPaused) {
-      this.playNext();
+    try {
+      const decoded = await this.audioContext.decodeAudioData(
+        audioData.slice(0)
+      );
+      this.queue.push(decoded);
+      if (!this.isPlaying && !this.isPaused) {
+        this.playNext();
+      }
+    } catch (err) {
+      console.warn("[AudioQueue] Could not decode audio chunk:", err);
     }
   }
 

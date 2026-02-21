@@ -32,29 +32,35 @@ export default function proxy(request: NextRequest) {
 
   // Logged in but consent not complete -> redirect to consent flow
   // Applies to dashboard, session, and subscribe routes, but NOT consent or legal pages
+  // Skip in development for easier testing
   if (
     (isProtectedRoute || isSessionRoute || isSubscribeRoute) &&
     sessionCookie &&
     !consentComplete &&
     !isConsentRoute &&
-    !isLegalRoute
+    !isLegalRoute &&
+    process.env.NODE_ENV !== "development"
   ) {
     return NextResponse.redirect(new URL("/verify-age", request.url));
   }
 
   // Session routes only: require active subscription
   // Dashboard is NOT gated. Subscribe routes are NOT gated (users need to reach them).
+  // Skip in development when CCBill is not configured
   if (
     isSessionRoute &&
     sessionCookie &&
     consentComplete &&
-    !subscriptionActive
+    !subscriptionActive &&
+    process.env.NODE_ENV !== "development"
   ) {
     return NextResponse.redirect(new URL("/subscribe", request.url));
   }
 
   // Already logged in -> redirect away from auth pages
-  if (isAuthRoute && sessionCookie) {
+  // Only redirect if consent is also complete, otherwise let them access login
+  // (prevents redirect loops when session cookie exists but is invalid)
+  if (isAuthRoute && sessionCookie && consentComplete) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 

@@ -63,20 +63,30 @@ export function useAmbientAudio(
       const url = SOUNDSCAPE_URLS[key];
       if (!url) return;
 
-      const response = await fetch(url);
-      const arrayBuffer = await response.arrayBuffer();
-      // .slice(0) prevents detached buffer issues (same pattern as AudioPlaybackQueue)
-      const audioBuffer = await audioContext.decodeAudioData(
-        arrayBuffer.slice(0),
-      );
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          console.warn(`[Ambient] Audio file not found: ${url}`);
+          setActiveSoundscape(key);
+          return;
+        }
 
-      const source = audioContext.createBufferSource();
-      source.buffer = audioBuffer;
-      source.loop = true;
-      source.connect(ambientGain);
-      source.start();
+        const arrayBuffer = await response.arrayBuffer();
+        // .slice(0) prevents detached buffer issues (same pattern as AudioPlaybackQueue)
+        const audioBuffer = await audioContext.decodeAudioData(
+          arrayBuffer.slice(0),
+        );
 
-      sourceRef.current = source;
+        const source = audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+        source.loop = true;
+        source.connect(ambientGain);
+        source.start();
+
+        sourceRef.current = source;
+      } catch (err) {
+        console.warn("[Ambient] Could not load soundscape:", err);
+      }
       setActiveSoundscape(key);
     },
     [audioContext, ambientGain],

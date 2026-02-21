@@ -10,12 +10,15 @@ export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const consentStatus = await getUserConsentStatus(session.user.id);
-  if (!consentStatus.allRequiredConsentsGiven) {
-    if (!consentStatus.ageVerified) {
-      redirect("/verify-age");
-    } else if (!consentStatus.tosAccepted || !consentStatus.privacyAccepted) {
-      redirect("/accept-terms");
+  // Skip consent checks in development for easier testing
+  if (process.env.NODE_ENV !== "development") {
+    const consentStatus = await getUserConsentStatus(session.user.id);
+    if (!consentStatus.allRequiredConsentsGiven) {
+      if (!consentStatus.ageVerified) {
+        redirect("/verify-age");
+      } else if (!consentStatus.tosAccepted || !consentStatus.privacyAccepted) {
+        redirect("/accept-terms");
+      }
     }
   }
 

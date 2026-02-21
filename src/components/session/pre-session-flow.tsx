@@ -6,7 +6,7 @@ import { BreathingOrb } from "@/components/session/breathing-orb";
 import { MoodSelector } from "@/components/session/mood-selector";
 import { VoicePicker } from "@/components/session/voice-picker";
 import { SOUNDSCAPE_OPTIONS } from "@/hooks/use-ambient-audio";
-import { DEFAULT_VOICE_ID } from "@/lib/tts/elevenlabs-client";
+import { DEFAULT_VOICE_ID } from "@/lib/tts/voice-options";
 
 // ---------------------------------------------------------------------------
 // Types

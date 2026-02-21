@@ -1,51 +1,28 @@
 /**
  * ElevenLabs SDK singleton and TTS configuration constants.
  *
- * Module-level singleton matches the OpenAI pattern in generate-session.ts.
- * The SDK reads ELEVENLABS_API_KEY from process.env automatically.
+ * Server-only -- do NOT import this file from client components.
+ * For voice data (VOICE_OPTIONS, DEFAULT_VOICE_ID), import from ./voice-options.
  */
 
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
+import { DEFAULT_VOICE_ID } from "./voice-options";
 
 // ---------------------------------------------------------------------------
-// ElevenLabs client singleton
+// ElevenLabs client singleton (lazy -- avoids crash if key missing at import)
 // ---------------------------------------------------------------------------
-export const elevenlabs = new ElevenLabsClient();
+let _elevenlabs: ElevenLabsClient | null = null;
 
-// ---------------------------------------------------------------------------
-// Voice options -- curated voices for wellness sessions
-// ---------------------------------------------------------------------------
-
-export interface VoiceOption {
-  id: string;
-  name: string;
-  description: string;
-  preview: string;
+export function getElevenLabsClient(): ElevenLabsClient {
+  if (!_elevenlabs) {
+    _elevenlabs = new ElevenLabsClient();
+  }
+  return _elevenlabs;
 }
 
-export const VOICE_OPTIONS: VoiceOption[] = [
-  {
-    id: "LcfcDJNUP1GQjkzn1xUU",
-    name: "Emily",
-    description: "A gentle, calming voice ideal for meditation and mindfulness.",
-    preview: "Soft & meditative",
-  },
-  {
-    id: "21m00Tcm4TlvDq8ikWAM",
-    name: "Rachel",
-    description: "A warm, reassuring voice with steady pacing for guided relaxation.",
-    preview: "Warm & steady",
-  },
-  {
-    id: "JBFqnCBsd6RMkjVDRZzb",
-    name: "George",
-    description: "A deep, resonant voice that evokes grounding and safety.",
-    preview: "Deep & grounding",
-  },
-];
-
-/** Default voice for wellness sessions (Emily -- soft & meditative) */
-export const DEFAULT_VOICE_ID = VOICE_OPTIONS[0].id;
+// Re-export voice data for backward compatibility
+export { VOICE_OPTIONS, DEFAULT_VOICE_ID } from "./voice-options";
+export type { VoiceOption } from "./voice-options";
 
 // ---------------------------------------------------------------------------
 // TTS configuration constants

@@ -1,6 +1,6 @@
 "use client";
 
-import { VOICE_OPTIONS } from "@/lib/tts/elevenlabs-client";
+import { VOICE_OPTIONS } from "@/lib/tts/voice-options";
 
 // ---------------------------------------------------------------------------
 // VoicePicker -- voice selection cards for pre-session flow

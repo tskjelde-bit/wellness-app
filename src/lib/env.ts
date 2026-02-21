@@ -36,6 +36,15 @@ function validateEnv(): Env {
   return result.data;
 }
 
-export const env = validateEnv();
+let _env: Env | null = null;
+
+export const env: Env = new Proxy({} as Env, {
+  get(_target, prop: string) {
+    if (!_env) {
+      _env = validateEnv();
+    }
+    return _env[prop as keyof Env];
+  },
+});
 
 export { envSchema };

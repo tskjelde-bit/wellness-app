@@ -6,7 +6,7 @@
  */
 
 // ElevenLabs client singleton and configuration
-export { elevenlabs, TTS_CONFIG } from "./elevenlabs-client";
+export { getElevenLabsClient, TTS_CONFIG } from "./elevenlabs-client";
 
 // TTS service (sentence -> audio chunks)
 export { synthesizeSentence, type SynthesizeOptions } from "./tts-service";
