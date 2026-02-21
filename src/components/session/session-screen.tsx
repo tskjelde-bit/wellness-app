@@ -3,15 +3,20 @@
 import { useEffect, useState } from "react";
 import { useSessionWebSocket } from "@/hooks/use-session-ws";
 import { BreathingOrb } from "@/components/session/breathing-orb";
-import Link from "next/link";
+import { PreSessionFlow } from "@/components/session/pre-session-flow";
+import { SessionControls } from "@/components/session/session-controls";
+import { PhaseIndicator } from "@/components/session/phase-indicator";
 
 export function SessionScreen() {
   const {
     connect,
     startSession,
     endSession,
+    pause,
+    resume,
     isConnected,
     isPlaying,
+    isPaused,
     currentText,
     sessionId,
     currentPhase,
@@ -19,9 +24,16 @@ export function SessionScreen() {
   } = useSessionWebSocket();
 
   const [hasInitiated, setHasInitiated] = useState(false);
+  const [selectedLength, setSelectedLength] = useState(15);
+  const [, setSensoryConsent] = useState(false);
 
-  // User taps "Begin Session" -> connect (AudioContext + WS) in gesture handler
-  const handleStart = () => {
+  // PreSessionFlow callback -- connect (AudioContext + WS) in gesture handler
+  const handleBegin = (options: {
+    sessionLength: number;
+    sensoryConsent: boolean;
+  }) => {
+    setSelectedLength(options.sessionLength);
+    setSensoryConsent(options.sensoryConsent);
     connect();
     setHasInitiated(true);
   };
@@ -29,45 +41,27 @@ export function SessionScreen() {
   // Start session once WebSocket connection opens (Research Pitfall 3: race condition)
   useEffect(() => {
     if (hasInitiated && isConnected && !sessionId) {
-      startSession();
+      startSession({ sessionLength: selectedLength });
     }
-  }, [hasInitiated, isConnected, sessionId, startSession]);
+  }, [hasInitiated, isConnected, sessionId, startSession, selectedLength]);
 
   // Handle end session -- navigate back handled by session_end + user action
   const handleEnd = () => {
     endSession();
   };
 
-  // ---- Pre-session: "Begin Session" screen ----
+  // ---- Pre-session: PreSessionFlow (length selection + conversational consent) ----
   if (!hasInitiated) {
-    return (
-      <div className="flex min-h-dvh flex-col items-center justify-center bg-charcoal safe-area-padding">
-        <div className="flex flex-col items-center gap-8">
-          <BreathingOrb isPlaying={false} />
-          <div className="flex flex-col items-center gap-4">
-            <button
-              onClick={handleStart}
-              className="flex min-h-[44px] items-center justify-center rounded-lg bg-rose px-8 py-3 font-medium text-white transition-colors hover:bg-rose-dark active:scale-[0.98]"
-            >
-              Begin Session
-            </button>
-            <Link
-              href="/dashboard"
-              className="text-sm text-cream/50 transition-colors hover:text-cream/70"
-            >
-              Back to Dashboard
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
+    return <PreSessionFlow onBegin={handleBegin} />;
   }
 
   // ---- Connecting state ----
   if (!isConnected && hasInitiated) {
     return (
       <div className="flex min-h-dvh flex-col items-center justify-center bg-charcoal safe-area-padding">
-        <div className="animate-pulse text-cream/60 text-sm">Connecting...</div>
+        <div className="animate-pulse text-cream/60 text-sm">
+          Connecting...
+        </div>
       </div>
     );
   }
@@ -82,8 +76,16 @@ export function SessionScreen() {
         </div>
       )}
 
-      {/* Central breathing orb */}
-      <BreathingOrb isPlaying={isPlaying} />
+      {/* Phase progress indicator at top */}
+      <div
+        className="absolute top-6 left-0 right-0 flex justify-center"
+        style={{ paddingTop: "env(safe-area-inset-top)" }}
+      >
+        <PhaseIndicator currentPhase={currentPhase} />
+      </div>
+
+      {/* Central breathing orb -- stops animating when paused */}
+      <BreathingOrb isPlaying={isPlaying && !isPaused} />
 
       {/* Current sentence text (subtle overlay) */}
       {currentText && (
@@ -92,14 +94,17 @@ export function SessionScreen() {
         </p>
       )}
 
-      {/* Minimal end session control at bottom */}
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
-        <button
-          onClick={handleEnd}
-          className="text-xs text-cream/30 transition-colors hover:text-cream/60"
-        >
-          End Session
-        </button>
+      {/* Session controls at bottom (pause/resume + end session) */}
+      <div
+        className="absolute bottom-8 left-0 right-0 flex justify-center"
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      >
+        <SessionControls
+          isPaused={isPaused}
+          onPause={pause}
+          onResume={resume}
+          onEnd={handleEnd}
+        />
       </div>
     </div>
   );
