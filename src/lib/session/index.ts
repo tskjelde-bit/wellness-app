@@ -1,7 +1,8 @@
 /**
  * Session module -- barrel exports for the 5-phase wellness session flow.
  *
- * Provides phase definitions, prompt templates, timing budgets, and FSM utilities.
+ * Provides phase definitions, prompt templates, timing budgets, FSM utilities,
+ * and the session orchestrator.
  */
 
 // Phase state machine
@@ -27,3 +28,10 @@ export {
   type PhaseConfig,
   PHASE_PROPORTIONS,
 } from "./phase-config";
+
+// Session orchestrator
+export {
+  SessionOrchestrator,
+  type OrchestratorEvent,
+  type OrchestratorOptions,
+} from "./orchestrator";
