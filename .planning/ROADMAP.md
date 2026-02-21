@@ -148,10 +148,11 @@ Plans:
   1. High-risk-compatible payment processor is integrated (not Stripe or PayPal)
   2. User can complete a payment transaction for service access
   3. Payment flow handles success, failure, and edge cases gracefully
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 08-01: TBD
+- [ ] 08-01-PLAN.md -- Schema extension, env config, payment module (checkout, webhook handler, subscription queries)
+- [ ] 08-02-PLAN.md -- Webhook endpoint, server actions, subscribe pages, proxy.ts subscription gating
 
 ### Phase 9: Differentiators & Polish
 **Goal**: Sessions feel elevated and personalized through mood adaptation, ambient soundscapes, voice selection, and post-session aftercare
