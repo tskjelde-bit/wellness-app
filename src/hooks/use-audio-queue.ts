@@ -12,17 +12,23 @@ import { useCallback, useEffect, useRef, useState } from "react";
  *
  * AudioContext MUST be created externally inside a user gesture handler
  * to comply with browser autoplay policy.
+ *
+ * Audio is routed through a voiceGain GainNode (instead of directly to
+ * AudioContext.destination) to enable independent voice volume control
+ * alongside ambient soundscapes.
  */
 export class AudioPlaybackQueue {
   private audioContext: AudioContext;
+  private voiceGain: GainNode;
   private queue: AudioBuffer[] = [];
   private nextPlayTime: number = 0;
   private isPlaying: boolean = false;
   private isPaused: boolean = false;
   onStateChange: (() => void) | null = null;
 
-  constructor(audioContext: AudioContext) {
+  constructor(audioContext: AudioContext, voiceGain: GainNode) {
     this.audioContext = audioContext;
+    this.voiceGain = voiceGain;
   }
 
   /**
@@ -55,7 +61,7 @@ export class AudioPlaybackQueue {
 
     const source = this.audioContext.createBufferSource();
     source.buffer = buffer;
-    source.connect(this.audioContext.destination);
+    source.connect(this.voiceGain);
 
     // Schedule at the later of "now" or the previously scheduled end time
     // to ensure gap-free continuity between chunks.
@@ -122,6 +128,9 @@ interface AudioQueueState {
  *
  * Call `initQueue()` inside a user gesture handler (e.g. button click)
  * to create the AudioContext. This is required by browser autoplay policy.
+ *
+ * Returns audioContext, voiceGain, and ambientGain for use with
+ * useAmbientAudio and VolumeMixer components.
  */
 export function useAudioQueue() {
   const queueRef = useRef<AudioPlaybackQueue | null>(null);
@@ -130,21 +139,45 @@ export function useAudioQueue() {
     isPaused: false,
     queueLength: 0,
   });
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const [voiceGain, setVoiceGain] = useState<GainNode | null>(null);
+  const [ambientGain, setAmbientGain] = useState<GainNode | null>(null);
 
   /**
-   * Initialize the AudioContext and AudioPlaybackQueue.
+   * Initialize the AudioContext, GainNodes, and AudioPlaybackQueue.
    * MUST be called inside a user gesture handler (click/tap).
+   *
+   * Creates two GainNode channels:
+   * - voiceGain: routes TTS voice audio (default volume 1.0)
+   * - ambientGain: routes ambient soundscapes (default volume 0.3)
+   * Both feed into AudioContext.destination via a single shared context.
    */
   const initQueue = useCallback(() => {
     // Avoid double-init
     if (queueRef.current) return;
 
     const ctx = new AudioContext();
-    const queue = new AudioPlaybackQueue(ctx);
+
+    // Voice channel GainNode (full volume by default)
+    const vGain = ctx.createGain();
+    vGain.gain.value = 1.0;
+    vGain.connect(ctx.destination);
+
+    // Ambient channel GainNode (lower volume by default)
+    const aGain = ctx.createGain();
+    aGain.gain.value = 0.3;
+    aGain.connect(ctx.destination);
+
+    const queue = new AudioPlaybackQueue(ctx, vGain);
     queue.onStateChange = () => {
       setState(queue.state);
     };
     queueRef.current = queue;
+
+    // Expose via state so consumers can use them reactively
+    setAudioContext(ctx);
+    setVoiceGain(vGain);
+    setAmbientGain(aGain);
   }, []);
 
   /** Enqueue an audio chunk (ArrayBuffer) for playback. */
@@ -182,6 +215,9 @@ export function useAudioQueue() {
     pause,
     resume,
     stop,
+    audioContext,
+    voiceGain,
+    ambientGain,
     isPlaying: state.isPlaying,
     isPaused: state.isPaused,
     queueLength: state.queueLength,
