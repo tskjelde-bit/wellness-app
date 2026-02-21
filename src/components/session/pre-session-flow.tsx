@@ -185,9 +185,9 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
               <button
                 key={minutes}
                 onClick={() => setSelectedLength(minutes)}
-                className={`min-h-[56px] rounded-xl text-base font-medium transition-colors ${selectedLength === minutes
-                  ? "bg-rose text-white"
-                  : "bg-cream/10 text-cream/70 hover:bg-cream/15"
+                className={`flex items-center justify-center min-h-[56px] rounded-xl text-base font-medium transition-all hover:scale-[1.02] active:scale-[0.98] ${selectedLength === minutes
+                    ? "bg-rose text-white shadow-glow"
+                    : "bg-cream/5 text-cream/70 hover:bg-cream/10 border border-gold/10"
                   }`}
               >
                 {minutes} min
@@ -197,17 +197,17 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
           {/* Soundscape selector */}
           <div className="w-full">
-            <p className="mb-2 text-center text-sm text-cream/50">
+            <p className="mb-3 text-center text-sm text-cream/50">
               Bakgrunnslyd
             </p>
-            <div className="flex gap-2 overflow-x-auto pb-1">
+            <div className="grid w-full grid-cols-3 gap-2">
               {SOUNDSCAPE_OPTIONS.map((option) => (
                 <button
                   key={option.id}
                   onClick={() => setSelectedSoundscape(option.id)}
-                  className={`shrink-0 rounded-full border px-4 py-2 text-sm transition-colors ${selectedSoundscape === option.id
-                    ? "border-blush bg-blush/20 text-cream/80"
-                    : "border-cream/10 bg-cream/5 text-cream/50 hover:bg-cream/10"
+                  className={`flex h-10 items-center justify-center rounded-xl border text-xs transition-all hover:scale-[1.02] active:scale-[0.98] ${selectedSoundscape === option.id
+                    ? "border-rose bg-rose/20 text-cream"
+                    : "border-gold/10 bg-cream/5 text-cream/50 hover:bg-cream/10"
                     }`}
                 >
                   {option.label}

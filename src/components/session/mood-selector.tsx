@@ -18,18 +18,18 @@ interface MoodSelectorProps {
  */
 export function MoodSelector({ selected, onSelect }: MoodSelectorProps) {
   return (
-    <div className="flex flex-wrap justify-center gap-2">
+    <div className="grid w-full grid-cols-2 gap-3">
       {MOOD_OPTIONS.map((mood) => (
         <button
           key={mood.id}
           onClick={() => onSelect(mood.id)}
-          className={`min-h-[48px] rounded-xl px-5 py-3 text-base font-medium transition-colors ${
-            selected === mood.id
-              ? "bg-rose text-white"
-              : "bg-cream/10 text-cream/70 hover:bg-cream/15"
-          }`}
+          className={`flex items-center justify-center gap-2 min-h-[56px] rounded-xl px-4 py-3 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] ${selected === mood.id
+              ? "bg-rose text-white shadow-glow"
+              : "bg-cream/5 text-cream/70 hover:bg-cream/10 border border-gold/10"
+            }`}
         >
-          {mood.emoji} {mood.label}
+          <span className="text-xl">{mood.emoji}</span>
+          <span>{mood.label}</span>
         </button>
       ))}
     </div>

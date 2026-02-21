@@ -7,11 +7,11 @@ import { useCallback, useRef, useState } from "react";
 // ---------------------------------------------------------------------------
 
 export const SOUNDSCAPE_OPTIONS = [
-  { id: "rain", label: "Rain" },
-  { id: "ocean", label: "Ocean" },
-  { id: "forest", label: "Forest" },
-  { id: "ambient", label: "Ambient" },
-  { id: "silence", label: "Silence" },
+  { id: "rain", label: "Regn" },
+  { id: "ocean", label: "Hav" },
+  { id: "forest", label: "Skog" },
+  { id: "ambient", label: "Atmosfære" },
+  { id: "silence", label: "Stillhet" },
 ] as const;
 
 export const SOUNDSCAPE_URLS: Record<string, string> = {
