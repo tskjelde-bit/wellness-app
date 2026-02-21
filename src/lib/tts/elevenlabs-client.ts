@@ -15,7 +15,9 @@ let _elevenlabs: ElevenLabsClient | null = null;
 
 export function getElevenLabsClient(): ElevenLabsClient {
   if (!_elevenlabs) {
-    _elevenlabs = new ElevenLabsClient();
+    _elevenlabs = new ElevenLabsClient({
+      apiKey: process.env.ELEVENLABS_API_KEY,
+    });
   }
   return _elevenlabs;
 }

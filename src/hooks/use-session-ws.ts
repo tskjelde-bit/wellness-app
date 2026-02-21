@@ -28,6 +28,8 @@ export function useSessionWebSocket() {
   const [error, setError] = useState<string | null>(null);
 
   const wsRef = useRef<WebSocket | null>(null);
+  // Buffer binary audio chunks per sentence; decode complete MP3 on sentence_end
+  const audioChunksRef = useRef<ArrayBuffer[]>([]);
 
   const {
     initQueue,
@@ -65,8 +67,10 @@ export function useSessionWebSocket() {
 
     ws.onmessage = (event: MessageEvent) => {
       if (event.data instanceof ArrayBuffer) {
-        // Binary frame: audio chunk -> feed to playback queue
-        enqueue(event.data);
+        // Binary frame: buffer audio chunk (individual chunks are not
+        // decodable — ElevenLabs streams a continuous MP3; only the
+        // concatenated sentence audio is a valid file for decodeAudioData)
+        audioChunksRef.current.push(event.data);
       } else {
         // Text frame: JSON control message
         try {
@@ -78,10 +82,25 @@ export function useSessionWebSocket() {
               break;
             case "text":
               setCurrentText(message.data);
+              // Reset chunk buffer for the new sentence
+              audioChunksRef.current = [];
               break;
-            case "sentence_end":
-              // No-op for now; could clear currentText or trigger UI transitions
+            case "sentence_end": {
+              // Concatenate buffered chunks into a single MP3 and enqueue
+              const chunks = audioChunksRef.current;
+              if (chunks.length > 0) {
+                const totalLength = chunks.reduce((sum, c) => sum + c.byteLength, 0);
+                const combined = new Uint8Array(totalLength);
+                let offset = 0;
+                for (const chunk of chunks) {
+                  combined.set(new Uint8Array(chunk), offset);
+                  offset += chunk.byteLength;
+                }
+                enqueue(combined.buffer as ArrayBuffer);
+                audioChunksRef.current = [];
+              }
               break;
+            }
             case "phase_start":
               setCurrentPhase(message.phase);
               break;
