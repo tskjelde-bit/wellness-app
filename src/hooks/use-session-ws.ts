@@ -23,6 +23,7 @@ export function useSessionWebSocket() {
   const [isConnected, setIsConnected] = useState(false);
   const [currentText, setCurrentText] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [currentPhase, setCurrentPhase] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const wsRef = useRef<WebSocket | null>(null);
@@ -77,8 +78,15 @@ export function useSessionWebSocket() {
             case "sentence_end":
               // No-op for now; could clear currentText or trigger UI transitions
               break;
+            case "phase_start":
+              setCurrentPhase(message.phase);
+              break;
+            case "phase_transition":
+              setCurrentPhase(message.to);
+              break;
             case "session_end":
               setIsConnected(false);
+              setCurrentPhase(null);
               stopAudio();
               break;
             case "error":
@@ -158,6 +166,7 @@ export function useSessionWebSocket() {
     isPaused,
     currentText,
     sessionId,
+    currentPhase,
     error,
   };
 }
