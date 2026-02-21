@@ -5,6 +5,11 @@ export const SESSION_TTL = 3600; // 1 hour in seconds
 export interface SessionState {
   userId: string;
   createdAt: number;
+  // Phase 2 consent flags (ephemeral Redis cache -- PostgreSQL is source of truth)
+  ageVerified: boolean;
+  tosAccepted: boolean;
+  sensoryConsentGiven: boolean;
+  aiDisclosureShown: boolean;
 }
 
 export async function getSessionState(

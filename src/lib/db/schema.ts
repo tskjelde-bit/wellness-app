@@ -5,6 +5,7 @@ import {
   varchar,
   uuid,
   integer,
+  boolean,
   primaryKey,
 } from "drizzle-orm/pg-core";
 
@@ -18,6 +19,10 @@ export const usersTable = pgTable("users", {
   passwordHash: text("password_hash"),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+  // Phase 2: consent timestamp columns
+  ageVerifiedAt: timestamp("age_verified_at", { mode: "date" }),
+  tosAcceptedAt: timestamp("tos_accepted_at", { mode: "date" }),
+  privacyAcceptedAt: timestamp("privacy_accepted_at", { mode: "date" }),
 });
 
 // Auth.js required: accounts table (for OAuth -- included for future flexibility)
@@ -54,4 +59,19 @@ export const sessionMetadataTable = pgTable("session_metadata", {
   startedAt: timestamp("started_at", { mode: "date" }).defaultNow().notNull(),
   endedAt: timestamp("ended_at", { mode: "date" }),
   durationSeconds: integer("duration_seconds"),
+});
+
+// Phase 2: Immutable consent audit log
+export const consentRecordsTable = pgTable("consent_records", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
+  consentType: varchar("consent_type", { length: 50 }).notNull(),
+  // Values: "age_verification", "tos_acceptance", "privacy_acceptance", "sensory_content"
+  consentGiven: boolean("consent_given").notNull(),
+  consentVersion: varchar("consent_version", { length: 20 }).notNull(),
+  recordedAt: timestamp("recorded_at", { mode: "date" }).defaultNow().notNull(),
+  metadata: text("metadata"),
+  // Optional JSON string for audit context (e.g., IP, user-agent)
 });
