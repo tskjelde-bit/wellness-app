@@ -24,7 +24,7 @@ export type ServerMessage =
 // ---------------------------------------------------------------------------
 
 export type ClientMessage =
-  | { type: "start_session"; prompt?: string }
+  | { type: "start_session"; prompt?: string; sessionLength?: number }
   | { type: "pause" }
   | { type: "resume" }
   | { type: "end" };
@@ -66,11 +66,17 @@ export function parseClientMessage(raw: string): ClientMessage | null {
 
     // Type-specific validation
     switch (obj.type) {
-      case "start_session":
+      case "start_session": {
+        const sessionLength =
+          typeof obj.sessionLength === "number"
+            ? obj.sessionLength
+            : undefined;
         return {
           type: "start_session",
           prompt: typeof obj.prompt === "string" ? obj.prompt : undefined,
+          sessionLength,
         };
+      }
       case "pause":
         return { type: "pause" };
       case "resume":

@@ -114,11 +114,20 @@ export function useSessionWebSocket() {
    * Send a start_session command to begin TTS streaming.
    * Connection must already be open via `connect()`.
    */
-  const startSession = useCallback((prompt?: string) => {
-    if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ type: "start_session", prompt }));
-    }
-  }, []);
+  const startSession = useCallback(
+    (options?: { prompt?: string; sessionLength?: number }) => {
+      if (wsRef.current?.readyState === WebSocket.OPEN) {
+        wsRef.current.send(
+          JSON.stringify({
+            type: "start_session",
+            prompt: options?.prompt,
+            sessionLength: options?.sessionLength,
+          })
+        );
+      }
+    },
+    []
+  );
 
   /** Pause both audio playback and server-side streaming. */
   const pause = useCallback(() => {

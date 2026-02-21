@@ -104,9 +104,16 @@ export function handleSession(client: WebSocket): void {
             "@/lib/tts/tts-service"
           );
 
+          const VALID_LENGTHS = [10, 15, 20, 30];
+          const sessionLength =
+            message.sessionLength &&
+            VALID_LENGTHS.includes(message.sessionLength)
+              ? message.sessionLength
+              : 15;
+
           const orchestrator = new SessionOrchestrator({
             sessionId,
-            sessionLengthMinutes: 15, // Default; Phase 7 will add client-selected length
+            sessionLengthMinutes: sessionLength,
           });
 
           let previousText = "";
