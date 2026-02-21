@@ -12,8 +12,12 @@ export default function proxy(request: NextRequest) {
   // Consent status cookie (set by server actions after all required consents are recorded)
   const consentComplete = request.cookies.get("consent-complete");
 
+  // Subscription status cookie (set by checkSubscriptionStatus server action)
+  const subscriptionActive = request.cookies.get("subscription-active");
+
   const isProtectedRoute = pathname.startsWith("/dashboard");
   const isSessionRoute = pathname.startsWith("/session");
+  const isSubscribeRoute = pathname.startsWith("/subscribe");
   const isAuthRoute =
     pathname.startsWith("/login") || pathname.startsWith("/register");
   const isConsentRoute =
@@ -21,21 +25,32 @@ export default function proxy(request: NextRequest) {
   const isLegalRoute =
     pathname.startsWith("/privacy") || pathname.startsWith("/terms");
 
-  // Not logged in -> redirect to login (protected and session routes)
-  if ((isProtectedRoute || isSessionRoute) && !sessionCookie) {
+  // Not logged in -> redirect to login (protected, session, and subscribe routes)
+  if ((isProtectedRoute || isSessionRoute || isSubscribeRoute) && !sessionCookie) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
   // Logged in but consent not complete -> redirect to consent flow
-  // Applies to dashboard and session routes, but NOT consent or legal pages
+  // Applies to dashboard, session, and subscribe routes, but NOT consent or legal pages
   if (
-    (isProtectedRoute || isSessionRoute) &&
+    (isProtectedRoute || isSessionRoute || isSubscribeRoute) &&
     sessionCookie &&
     !consentComplete &&
     !isConsentRoute &&
     !isLegalRoute
   ) {
     return NextResponse.redirect(new URL("/verify-age", request.url));
+  }
+
+  // Session routes only: require active subscription
+  // Dashboard is NOT gated. Subscribe routes are NOT gated (users need to reach them).
+  if (
+    isSessionRoute &&
+    sessionCookie &&
+    consentComplete &&
+    !subscriptionActive
+  ) {
+    return NextResponse.redirect(new URL("/subscribe", request.url));
   }
 
   // Already logged in -> redirect away from auth pages
@@ -50,6 +65,7 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/session/:path*",
+    "/subscribe/:path*",
     "/login",
     "/register",
     "/verify-age",
