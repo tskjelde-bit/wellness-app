@@ -31,7 +31,7 @@ Progress: [##........] 22%
 | 2 | 2 | 6 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4 min), 01-02 (3 min), 02-01 (3 min)
+- Last 5 plans: 01-01 (4 min), 01-02 (3 min), 02-01 (3 min), 02-02 (3 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -57,6 +57,9 @@ Recent decisions affecting current work:
 - [02-01]: consent-complete cookie set only when all three required consents given, enables optimistic proxy check
 - [02-01]: Sensory consent is per-session (audit log only), not permanent (no user column)
 - [02-01]: Batch insert for ToS + privacy consent records in single db.insert() call
+- [02-02]: HELPLINE_RESOURCES duplicated in safety/constants.ts as fallback; TODO to unify with consent/constants.ts
+- [02-02]: Sexual category moderation threshold set at 0.8 to avoid false positives on body-awareness wellness language
+- [02-02]: OpenAI SDK Categories/CategoryScores require 'as unknown as Record' type assertion (SDK typing limitation)
 
 ### Pending Todos
 
@@ -73,5 +76,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 02-01-PLAN.md
+Stopped at: Completed 02-02-PLAN.md (Content safety pipeline)
 Resume file: None
