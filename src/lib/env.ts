@@ -8,6 +8,7 @@ const envSchema = z.object({
   AUTH_SECRET: z.string().min(32),
   AUTH_URL: z.string().url().optional().default("http://localhost:3000"),
   OPENAI_API_KEY: z.string().min(1),
+  ELEVENLABS_API_KEY: z.string().min(1),
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
