@@ -29,6 +29,9 @@ export {
   PHASE_PROPORTIONS,
 } from "./phase-config";
 
+// Mood prompts
+export { MOOD_OPTIONS, MOOD_PROMPTS, type MoodOption } from "./mood-prompts";
+
 // Session orchestrator
 export {
   SessionOrchestrator,

@@ -109,19 +109,28 @@ export const TRANSITION_HINTS: Record<SessionPhase, string> = {
 /**
  * Builds the complete instructions string for a given session phase.
  *
- * Combines: SAFETY_SYSTEM_PROMPT + SESSION_PROMPT + phase label + phase prompt + optional transition hint.
+ * Combines: SAFETY_SYSTEM_PROMPT + SESSION_PROMPT + [moodContext] + phase label + phase prompt + optional transition hint.
+ * Mood context is inserted BEFORE the CURRENT PHASE line so phase-specific instructions
+ * remain the most-recent/salient context (Research Pitfall 5: recency bias in LLM attention).
  * Output is used directly as the `instructions` parameter in OpenAI Responses API calls.
  */
 export function buildPhaseInstructions(
   phase: SessionPhase,
   transitionHint?: string,
+  moodContext?: string,
 ): string {
   const parts: string[] = [
     SAFETY_SYSTEM_PROMPT,
     SESSION_PROMPT,
-    `CURRENT PHASE: ${phase.toUpperCase()}`,
-    PHASE_PROMPTS[phase],
   ];
+
+  // Mood context before phase instructions for correct prompt ordering
+  if (moodContext) {
+    parts.push(moodContext);
+  }
+
+  parts.push(`CURRENT PHASE: ${phase.toUpperCase()}`);
+  parts.push(PHASE_PROMPTS[phase]);
 
   if (transitionHint) {
     parts.push(`TRANSITION: ${transitionHint}`);
