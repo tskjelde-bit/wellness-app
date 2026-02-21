@@ -58,7 +58,7 @@ export async function getSubscription(userId: string) {
 export async function getSubscriptionStatus(
   userId: string
 ): Promise<SubscriptionStatus> {
-  const sub = await getSubscription(userId);
+  const sub: any = await getSubscription(userId);
   if (!sub) return "none";
   return sub.status as SubscriptionStatus;
 }

@@ -1,15 +1,13 @@
 // client.ts
-import { createClient } from '@something/llm-sdk'; // f.eks. groq, openai, eller egen uncensored LLM
+import OpenAI from "openai";
 
-export const knullClient = createClient({
-    baseUrl: process.env.LLM_API_URL || 'https://api.groq.com/openai/v1',
-    apiKey: process.env.LLM_API_KEY,
-    model: 'llama-3.1-70b-versatile', // eller en finetuned for raw, pretty-girl fetish med kokain-vibes
-    temperature: 1.2,                // høy for mer selvsikker og forførende erotikk
-    max_tokens: 1500,
-    presencePenalty: 0.7,
-    frequencyPenalty: 0.5,
+// OpenAI client singleton (reads OPENAI_API_KEY from process.env)
+const openai = new OpenAI({
+    baseURL: process.env.LLM_API_URL || "https://api.openai.com/v1",
+    apiKey: process.env.LLM_API_KEY || "sk-test",
 });
+
+export const knullClient = openai;
 
 // Prompt base (imported from prompts.ts normally, but using provided structure)
 const JAILBREAK_PROMPT = `

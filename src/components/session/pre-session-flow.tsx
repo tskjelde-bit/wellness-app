@@ -8,12 +8,15 @@ import { VoicePicker } from "@/components/session/voice-picker";
 import { SOUNDSCAPE_OPTIONS } from "@/hooks/use-ambient-audio";
 import { DEFAULT_VOICE_ID } from "@/lib/tts/voice-options";
 
+import { CharacterSelector } from "@/components/session/character-selector";
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
 interface PreSessionFlowProps {
   onBegin: (options: {
+    character: "Thea" | "Mari" | "Milfen";
     sessionLength: number;
     sensoryConsent: boolean;
     mood: string;
@@ -22,7 +25,7 @@ interface PreSessionFlowProps {
   }) => void;
 }
 
-type Step = "mood" | "voice" | "length" | "consent";
+type Step = "character" | "mood" | "voice" | "length" | "consent";
 
 const LENGTH_OPTIONS = [10, 15, 20, 30] as const;
 
@@ -31,9 +34,10 @@ const LENGTH_OPTIONS = [10, 15, 20, 30] as const;
 // ---------------------------------------------------------------------------
 
 export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
-  const [step, setStep] = useState<Step>("mood");
+  const [step, setStep] = useState<Step>("character");
+  const [selectedCharacter, setSelectedCharacter] = useState<"Thea" | "Mari" | "Milfen">("Thea");
   const [selectedLength, setSelectedLength] = useState(15);
-  const [selectedMood, setSelectedMood] = useState("neutral");
+  const [selectedMood, setSelectedMood] = useState("selvsikker");
   const [selectedVoiceId, setSelectedVoiceId] = useState(DEFAULT_VOICE_ID);
   const [selectedSoundscape, setSelectedSoundscape] = useState("silence");
 
@@ -47,6 +51,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
   useEffect(() => {
     if (consentState?.success) {
       onBegin({
+        character: selectedCharacter,
         sessionLength: selectedLength,
         sensoryConsent: true,
         mood: selectedMood,
@@ -54,17 +59,48 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
         soundscape: selectedSoundscape,
       });
     }
-  }, [consentState?.success, onBegin, selectedLength, selectedMood, selectedVoiceId, selectedSoundscape]);
+  }, [consentState?.success, onBegin, selectedCharacter, selectedLength, selectedMood, selectedVoiceId, selectedSoundscape]);
 
   const handleSkipSensory = useCallback(() => {
     onBegin({
+      character: selectedCharacter,
       sessionLength: selectedLength,
       sensoryConsent: false,
       mood: selectedMood,
       voiceId: selectedVoiceId,
       soundscape: selectedSoundscape,
     });
-  }, [onBegin, selectedLength, selectedMood, selectedVoiceId, selectedSoundscape]);
+  }, [onBegin, selectedCharacter, selectedLength, selectedMood, selectedVoiceId, selectedSoundscape]);
+
+  // -------------------------------------------------------------------
+  // Step 0: Character Selection
+  // -------------------------------------------------------------------
+
+  if (step === "character") {
+    return (
+      <div className="flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
+        <div className="flex w-full max-w-sm flex-col items-center gap-8">
+          <div className="text-center">
+            <h2 className="text-lg font-medium text-cream/80">
+              Velg dama di
+            </h2>
+            <p className="mt-1 text-sm text-cream/50">
+              Hvem skal eie deg i kveld?
+            </p>
+          </div>
+
+          <CharacterSelector selected={selectedCharacter} onSelect={setSelectedCharacter} />
+
+          <button
+            onClick={() => setStep("mood")}
+            className="w-full max-w-xs rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98]"
+          >
+            Velg henne
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // -------------------------------------------------------------------
   // Step 1: Mood Selection
@@ -76,10 +112,10 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
         <div className="flex w-full max-w-sm flex-col items-center gap-8">
           <div className="text-center">
             <h2 className="text-lg font-medium text-cream/80">
-              How are you feeling?
+              Hvilket humør er hun i?
             </h2>
             <p className="mt-1 text-sm text-cream/50">
-              This helps me tailor your session
+              Dette setter stemningen for rushet
             </p>
           </div>
 
@@ -89,7 +125,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
             onClick={() => setStep("voice")}
             className="w-full max-w-xs rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98]"
           >
-            Continue
+            Fortsett
           </button>
         </div>
       </div>
@@ -106,8 +142,11 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
         <div className="flex w-full max-w-sm flex-col items-center gap-8">
           <div className="text-center">
             <h2 className="text-lg font-medium text-cream/80">
-              Choose your guide&apos;s voice
+              Velg stemmen hennes
             </h2>
+            <p className="mt-1 text-sm text-cream/50">
+              Hvordan vil du at hun skal snakke til deg?
+            </p>
           </div>
 
           <VoicePicker selected={selectedVoiceId} onSelect={setSelectedVoiceId} />
@@ -116,7 +155,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
             onClick={() => setStep("length")}
             className="w-full max-w-xs rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98]"
           >
-            Continue
+            Fortsett
           </button>
         </div>
       </div>
@@ -133,10 +172,10 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
         <div className="flex w-full max-w-sm flex-col items-center gap-8">
           <div className="text-center">
             <h2 className="text-lg font-medium text-cream/80">
-              Choose Your Session
+              Hvor lenge skal det vare?
             </h2>
             <p className="mt-1 text-sm text-cream/50">
-              How long would you like to relax?
+              Velg lengden på rushet
             </p>
           </div>
 
@@ -146,11 +185,10 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
               <button
                 key={minutes}
                 onClick={() => setSelectedLength(minutes)}
-                className={`min-h-[56px] rounded-xl text-base font-medium transition-colors ${
-                  selectedLength === minutes
-                    ? "bg-rose text-white"
-                    : "bg-cream/10 text-cream/70 hover:bg-cream/15"
-                }`}
+                className={`min-h-[56px] rounded-xl text-base font-medium transition-colors ${selectedLength === minutes
+                  ? "bg-rose text-white"
+                  : "bg-cream/10 text-cream/70 hover:bg-cream/15"
+                  }`}
               >
                 {minutes} min
               </button>
@@ -160,18 +198,17 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
           {/* Soundscape selector */}
           <div className="w-full">
             <p className="mb-2 text-center text-sm text-cream/50">
-              Background soundscape
+              Bakgrunnslyd
             </p>
             <div className="flex gap-2 overflow-x-auto pb-1">
               {SOUNDSCAPE_OPTIONS.map((option) => (
                 <button
                   key={option.id}
                   onClick={() => setSelectedSoundscape(option.id)}
-                  className={`shrink-0 rounded-full border px-4 py-2 text-sm transition-colors ${
-                    selectedSoundscape === option.id
-                      ? "border-blush bg-blush/20 text-cream/80"
-                      : "border-cream/10 bg-cream/5 text-cream/50 hover:bg-cream/10"
-                  }`}
+                  className={`shrink-0 rounded-full border px-4 py-2 text-sm transition-colors ${selectedSoundscape === option.id
+                    ? "border-blush bg-blush/20 text-cream/80"
+                    : "border-cream/10 bg-cream/5 text-cream/50 hover:bg-cream/10"
+                    }`}
                 >
                   {option.label}
                 </button>
@@ -183,7 +220,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
             onClick={() => setStep("consent")}
             className="w-full max-w-xs rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98]"
           >
-            Continue
+            Fortsett
           </button>
         </div>
       </div>
@@ -204,20 +241,19 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
       <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-8">
         <div className="space-y-4 text-center">
           <p className="text-sm leading-relaxed text-cream/60">
-            Before we begin, I want you to know &mdash; I&apos;m an AI wellness
-            guide, here to help you relax. This isn&apos;t therapy, just a
-            moment of calm.
+            Før vi starter &mdash; jeg er en AI-guide designet for å eie lysten din.
+            Dette er rollespill for voksne, en flukt fra virkeligheten.
           </p>
           <p className="text-sm leading-relaxed text-cream/60">
-            This session may include body awareness and sensory guidance &mdash;
-            gentle attention to breath, physical sensations, and relaxation.
+            Denne sesjonen inneholder grov tale, detaljerte kroppsbeskrivelser og
+            temaer rundt intens nytelse og ekstase. Er du klar for å gi slipp?
           </p>
         </div>
 
         {/* Error from consent action */}
-        {consentState?.error && (
+        {(consentState as { error?: string })?.error && (
           <div className="w-full rounded-lg bg-rose/20 p-3 text-center text-sm text-cream/80">
-            {consentState.error}
+            {(consentState as { error?: string }).error}
           </div>
         )}
 
@@ -230,7 +266,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
               disabled={isConsentPending}
               className="w-full rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {isConsentPending ? "Starting..." : "I'm ready to begin"}
+              {isConsentPending ? "Starter..." : "Jeg er klar. Eier meg."}
             </button>
           </form>
 
@@ -240,7 +276,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
             onClick={handleSkipSensory}
             className="text-sm text-cream/40 transition-colors hover:text-cream/60"
           >
-            Skip sensory content
+            Hopp over introduksjon
           </button>
         </div>
       </div>

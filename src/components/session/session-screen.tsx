@@ -39,8 +39,9 @@ export function SessionScreen() {
   );
 
   const [hasInitiated, setHasInitiated] = useState(false);
+  const [selectedCharacter, setSelectedCharacter] = useState<"Thea" | "Mari" | "Milfen">("Thea");
   const [selectedLength, setSelectedLength] = useState(15);
-  const [selectedMood, setSelectedMood] = useState("neutral");
+  const [selectedMood, setSelectedMood] = useState("selvsikker");
   const [selectedVoiceId, setSelectedVoiceId] = useState<string | undefined>();
   const [selectedSoundscape, setSelectedSoundscape] = useState("silence");
   const [, setSensoryConsent] = useState(false);
@@ -48,12 +49,14 @@ export function SessionScreen() {
 
   // PreSessionFlow callback -- connect (AudioContext + WS) in gesture handler
   const handleBegin = (options: {
+    character: "Thea" | "Mari" | "Milfen";
     sessionLength: number;
     sensoryConsent: boolean;
     mood: string;
     voiceId: string;
     soundscape: string;
   }) => {
+    setSelectedCharacter(options.character);
     setSelectedLength(options.sessionLength);
     setSensoryConsent(options.sensoryConsent);
     setSelectedMood(options.mood);
@@ -67,12 +70,13 @@ export function SessionScreen() {
   useEffect(() => {
     if (hasInitiated && isConnected && !sessionId) {
       startSession({
+        character: selectedCharacter,
         sessionLength: selectedLength,
         mood: selectedMood,
         voiceId: selectedVoiceId,
       });
     }
-  }, [hasInitiated, isConnected, sessionId, startSession, selectedLength, selectedMood, selectedVoiceId]);
+  }, [hasInitiated, isConnected, sessionId, startSession, selectedCharacter, selectedLength, selectedMood, selectedVoiceId]);
 
   // Start ambient soundscape after connection (Research Pitfall 1: after user gesture)
   useEffect(() => {

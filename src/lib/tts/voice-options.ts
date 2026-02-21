@@ -17,20 +17,20 @@ export const VOICE_OPTIONS: VoiceOption[] = [
   {
     id: "LcfcDJNUP1GQjkzn1xUU",
     name: "Emily",
-    description: "A gentle, calming voice ideal for meditation and mindfulness.",
-    preview: "Soft & meditative",
+    description: "En leken og utfordrende stemme. Perfekt for de som vil eies.",
+    preview: "Leken & kåt",
   },
   {
     id: "21m00Tcm4TlvDq8ikWAM",
     name: "Rachel",
-    description: "A warm, reassuring voice with steady pacing for guided relaxation.",
-    preview: "Warm & steady",
+    description: "En dyp, erfaren stemme. Hun vet nøyaktig hva hun gjør.",
+    preview: "Dyp & dominant",
   },
   {
     id: "JBFqnCBsd6RMkjVDRZzb",
-    name: "George",
-    description: "A deep, resonant voice that evokes grounding and safety.",
-    preview: "Deep & grounding",
+    name: "Bella",
+    description: "En søt stemme med en mørk side. Hun lokker deg inn i dypet.",
+    preview: "Søt & utspekulert",
   },
 ];
 

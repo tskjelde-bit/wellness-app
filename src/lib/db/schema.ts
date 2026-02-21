@@ -321,6 +321,36 @@ export const verificationTokens = pgTable("verification_tokens", {
 });
 
 // ============================================================
+// PAYMENTS & SUBSCRIPTIONS
+// ============================================================
+
+export const subscriptionsTable = pgTable("subscriptions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  ccbillSubscriptionId: text("ccbill_subscription_id").unique(),
+  ccbillTransactionId: text("ccbill_transaction_id"),
+  status: text("status", {
+    enum: ["pending", "active", "cancelled", "expired", "suspended"],
+  }).default("pending"),
+  currentPeriodStart: timestamp("current_period_start"),
+  currentPeriodEnd: timestamp("current_period_end"),
+  cancelledAt: timestamp("cancelled_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const paymentEventsTable = pgTable("payment_events", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: text("user_id").notNull(),
+  eventType: text("event_type").notNull(),
+  ccbillTransactionId: text("ccbill_transaction_id"),
+  payload: text("payload").notNull(), // JSON string of the raw webhook body
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// ============================================================
 // RELATIONS
 // ============================================================
 

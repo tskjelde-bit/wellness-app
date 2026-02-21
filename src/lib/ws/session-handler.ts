@@ -107,7 +107,7 @@ export function handleSession(client: WebSocket): void {
           const VALID_LENGTHS = [10, 15, 20, 30];
           const sessionLength =
             message.sessionLength &&
-            VALID_LENGTHS.includes(message.sessionLength)
+              VALID_LENGTHS.includes(message.sessionLength)
               ? message.sessionLength
               : 15;
 
@@ -117,6 +117,7 @@ export function handleSession(client: WebSocket): void {
             sessionId,
             sessionLengthMinutes: sessionLength,
             mood: message.mood,
+            character: message.character as any,
           });
 
           let previousText = "";

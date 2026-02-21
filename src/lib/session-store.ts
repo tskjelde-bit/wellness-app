@@ -24,6 +24,8 @@ export interface SessionState {
   previousResponseId?: string | null;
   /** Sentence budgets per phase (from getSessionBudgets) */
   phaseBudgets?: Record<SessionPhase, number>;
+  /** Selected character for the session */
+  character?: "Thea" | "Mari" | "Milfen";
   /** Session length in minutes (10, 15, 20, or 30) */
   sessionLengthMinutes?: number;
 }

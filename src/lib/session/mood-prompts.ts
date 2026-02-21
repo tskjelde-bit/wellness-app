@@ -20,11 +20,12 @@ export interface MoodOption {
 }
 
 export const MOOD_OPTIONS: readonly MoodOption[] = [
-  { id: "anxious", label: "Anxious", emoji: "\u{1F630}" },
-  { id: "sad", label: "Sad", emoji: "\u{1F622}" },
-  { id: "stressed", label: "Stressed", emoji: "\u{1F62B}" },
-  { id: "neutral", label: "Neutral", emoji: "\u{1F60C}" },
-  { id: "restless", label: "Restless", emoji: "\u{1F4AD}" },
+  { id: "colakåt", label: "Colakåt", emoji: "\u{1F964}" },
+  { id: "sovekos", label: "Sovekos", emoji: "\u{1F31F}" },
+  { id: "kjøpmann", label: "Kjøpmann", emoji: "\u{1F48E}" },
+  { id: "benderkåt", label: "Benderkåt", emoji: "\u{1F4A3}" },
+  { id: "selvsikker", label: "Selvsikker", emoji: "\u{1F525}" },
+  { id: "forførende", label: "Forførende", emoji: "\u{1F484}" },
 ] as const;
 
 // ---------------------------------------------------------------------------
@@ -32,22 +33,27 @@ export const MOOD_OPTIONS: readonly MoodOption[] = [
 // ---------------------------------------------------------------------------
 
 export const MOOD_PROMPTS: Record<string, string> = {
-  anxious: `MOOD CONTEXT: The listener is feeling anxious. Their mind may be racing with worry or apprehension.
-EMPHASIS: Extra grounding cues -- focus on what is solid, present, and safe. Use anchoring phrases like "right here, right now."
-TONE SHIFT: Slower pacing, shorter sentences. Prioritize breath awareness and physical grounding over abstract imagery.`,
+  colakåt: `MOOD CONTEXT: Cola-fetisj kombinert med kokain-rush.
+EMPHASIS: Pene damer som drikker cola mens de knuller, spruter overalt.
+TONE SHIFT: Elektrisk, ustoppelig og ekstremt kåt.`,
 
-  sad: `MOOD CONTEXT: The listener is feeling sad. They may carry heaviness or emotional fatigue.
-EMPHASIS: Gentle acknowledgment without trying to fix. Warmth and compassion over cheerfulness. Hold space for whatever they feel.
-TONE SHIFT: Softer language, tender imagery. Emphasize comfort, being held, and the permission to simply rest.`,
+  sovekos: `MOOD CONTEXT: Kos i senga som ender i intenst knull med high.
+EMPHASIS: Silkemyk hud, duft av jasmin, rolige bevegelser som eskalerer.
+TONE SHIFT: Intim, forførende og lystbetont.`,
 
-  stressed: `MOOD CONTEXT: The listener is feeling stressed. Their body may hold tension and their thoughts may feel scattered.
-EMPHASIS: Progressive tension release -- draw attention to where stress lives in the body (jaw, shoulders, chest) and guide softening.
-TONE SHIFT: Measured, unhurried rhythm. Use exhale-focused cues and imagery of weight lifting, loosening, melting away.`,
+  kjøpmann: `MOOD CONTEXT: Selger seg selv som en eksklusiv, uoppnåelig vare.
+EMPHASIS: Luksus, eleganse, parfyme og makt over situasjonen.
+TONE SHIFT: Sofistikert, krevende og dominerende.`,
 
-  neutral: `Standard session flow -- balanced across all phases.
-TONE SHIFT: None.`,
+  benderkåt: `MOOD CONTEXT: Bender og blir ekstra kåt på kokain.
+EMPHASIS: Ville blikk, total overgivelse til lysten, ingen hemninger.
+TONE SHIFT: Kaotisk, intens og hedonistisk.`,
 
-  restless: `MOOD CONTEXT: The listener is feeling restless. They may struggle to settle in or feel fidgety and unfocused.
-EMPHASIS: Movement-to-stillness transitions. Acknowledge restless energy without judgment, then channel it toward body awareness.
-TONE SHIFT: Start with slightly more active language, then gradually slow. Use curiosity-based prompts: "notice what happens when..."`,
+  selvsikker: `MOOD CONTEXT: Eier hver eneste pikk og tar full kontroll.
+EMPHASIS: Stolte kurver, faste bryster, direkte tale.
+TONE SHIFT: Kraftfull, tydelig og uimotståelig.`,
+
+  forførende: `MOOD CONTEXT: Ulv i fåreklær som jakter på nytelse.
+EMPHASIS: Lange ben, smektende lepper, lokkende blikk.
+TONE SHIFT: Mystisk, sulten og rovdyraktig.`,
 };

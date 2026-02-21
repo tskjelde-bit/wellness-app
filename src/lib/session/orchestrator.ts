@@ -26,6 +26,7 @@ import {
   chunkBySentence,
   filterSafety,
 } from "@/lib/llm/generate-session";
+import { buildCharacterPrompt } from "@/lib/llm/prompts";
 import {
   getSessionState,
   setSessionState,
@@ -50,6 +51,7 @@ export interface OrchestratorOptions {
   sessionId: string;
   sessionLengthMinutes?: number;
   mood?: string;
+  character?: "Thea" | "Mari" | "Milfen";
 }
 
 // ---------------------------------------------------------------------------
@@ -60,6 +62,7 @@ export class SessionOrchestrator {
   private readonly sessionId: string;
   private readonly sessionLengthMinutes: number;
   private readonly mood: string;
+  private readonly character: "Thea" | "Mari" | "Milfen";
   private phase: SessionPhase;
   private previousResponseId: string | null;
   private sentencesInPhase: number;
@@ -69,7 +72,8 @@ export class SessionOrchestrator {
   constructor(options: OrchestratorOptions) {
     this.sessionId = options.sessionId;
     this.sessionLengthMinutes = options.sessionLengthMinutes ?? 15;
-    this.mood = options.mood ?? "neutral";
+    this.mood = options.mood ?? "selvsikker";
+    this.character = options.character ?? "Thea";
     this.phase = SESSION_PHASES[0]; // "atmosphere"
     this.previousResponseId = null;
     this.sentencesInPhase = 0;
@@ -85,8 +89,8 @@ export class SessionOrchestrator {
    * to the next phase. The session completes after the terminal phase finishes.
    */
   async *run(signal: AbortSignal): AsyncGenerator<OrchestratorEvent> {
-    // Resolve mood context once for the entire session
-    const moodContext = MOOD_PROMPTS[this.mood] ?? MOOD_PROMPTS["neutral"];
+    const moodContext = MOOD_PROMPTS[this.mood] ?? MOOD_PROMPTS["selvsikker"];
+    const characterPrompt = buildCharacterPrompt(this.character);
 
     try {
       while (true) {
@@ -105,7 +109,12 @@ export class SessionOrchestrator {
         await this.persistState();
 
         // --- Main content call (sentences 0 to windDownAt) ---
-        const mainInstructions = buildPhaseInstructions(this.phase, undefined, moodContext);
+        const mainInstructions = buildPhaseInstructions(
+          this.phase,
+          undefined,
+          moodContext,
+          characterPrompt
+        );
         const mainUserMessage = this.isFirstPhaseCall()
           ? "Begin the session."
           : `Continue. The session is now entering the ${this.phase} phase.`;
@@ -142,6 +151,7 @@ export class SessionOrchestrator {
             this.phase,
             hint || undefined,
             moodContext,
+            characterPrompt
           );
           const windDownUserMessage = "Continue.";
           const remaining = budget.sentenceBudget - this.sentencesInPhase;

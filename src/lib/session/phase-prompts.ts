@@ -118,11 +118,16 @@ export function buildPhaseInstructions(
   phase: SessionPhase,
   transitionHint?: string,
   moodContext?: string,
+  characterPrompt?: string,
 ): string {
   const parts: string[] = [
     SAFETY_SYSTEM_PROMPT,
     SYSTEM_BASE,
   ];
+
+  if (characterPrompt) {
+    parts.push(characterPrompt);
+  }
 
   // Mood context before phase instructions for correct prompt ordering
   if (moodContext) {

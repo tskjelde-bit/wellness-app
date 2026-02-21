@@ -24,7 +24,14 @@ export type ServerMessage =
 // ---------------------------------------------------------------------------
 
 export type ClientMessage =
-  | { type: "start_session"; prompt?: string; sessionLength?: number; mood?: string; voiceId?: string }
+  | {
+    type: "start_session";
+    prompt?: string;
+    sessionLength?: number;
+    mood?: string;
+    voiceId?: string;
+    character?: string;
+  }
   | { type: "pause" }
   | { type: "resume" }
   | { type: "end" };
@@ -77,6 +84,7 @@ export function parseClientMessage(raw: string): ClientMessage | null {
           sessionLength,
           mood: typeof obj.mood === "string" ? obj.mood : undefined,
           voiceId: typeof obj.voiceId === "string" ? obj.voiceId : undefined,
+          character: typeof obj.character === "string" ? obj.character : undefined,
         };
       }
       case "pause":

@@ -1,43 +1,51 @@
 @import "tailwindcss";
 
 @theme {
-  /* Base colors */
-  --color-blush: #F8C8DC;
-  --color-rose: #D63384;
-  --color-charcoal: #2B2B2B;
+  /* Base colors - Premium Fetish Theme */
+  --color-electric-purple: #9000ff;
+  --color-blood-red: #8B0000;
+  --color-deep-black: #050505;
+  --color-gold: #D4AF37;
   --color-cream: #FFF5F7;
 
-  /* Extended color palette */
-  --color-blush-light: #FDE8F0;
-  --color-rose-dark: #B02A6E;
-  --color-charcoal-light: #4A4A4A;
+  /* Legacy mapping for compatibility */
+  --color-blush: var(--color-electric-purple);
+  --color-rose: var(--color-blood-red);
+  --color-charcoal: var(--color-deep-black);
 
   /* Shadows */
-  --shadow-soft: 0 4px 20px rgba(214, 51, 132, 0.15);
-  --shadow-glow: 0 0 30px rgba(248, 200, 220, 0.4);
+  --shadow-soft: 0 4px 20px rgba(144, 0, 255, 0.25);
+  --shadow-glow: 0 0 30px rgba(144, 0, 255, 0.5);
+  --shadow-fetish: 0 0 50px rgba(139, 0, 0, 0.4);
 
   /* Border radius */
-  --radius-card: 1rem;
-  --radius-button: 0.5rem;
+  --radius-card: 1.5rem;
+  --radius-button: 0.75rem;
 
   /* Animations */
   --animate-breathe: breathe 4s ease-in-out infinite;
   --animate-fade-in: fadeIn 0.5s ease-out;
   --animate-pulse-soft: pulseSoft 3s ease-in-out infinite;
+  --animate-gold-tint: goldTint 5s ease-in-out infinite;
 
   @keyframes breathe {
-    0%, 100% { transform: scale(1); opacity: 0.7; }
-    50% { transform: scale(1.08); opacity: 1; }
+    0%, 100% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 10px var(--color-electric-purple)); }
+    50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 30px var(--color-blood-red)); }
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
   @keyframes pulseSoft {
-    0%, 100% { box-shadow: 0 0 20px rgba(248, 200, 220, 0.3); }
-    50% { box-shadow: 0 0 40px rgba(248, 200, 220, 0.6); }
+    0%, 100% { box-shadow: 0 0 20px rgba(144, 0, 255, 0.3); }
+    50% { box-shadow: 0 0 60px rgba(139, 0, 0, 0.7); }
+  }
+
+  @keyframes goldTint {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.2) sepia(0.5) hue-rotate(-10deg); }
   }
 }
 

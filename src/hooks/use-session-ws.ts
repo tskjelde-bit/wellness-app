@@ -139,7 +139,13 @@ export function useSessionWebSocket() {
    * Connection must already be open via `connect()`.
    */
   const startSession = useCallback(
-    (options?: { prompt?: string; sessionLength?: number; mood?: string; voiceId?: string }) => {
+    (options?: {
+      prompt?: string;
+      sessionLength?: number;
+      mood?: string;
+      voiceId?: string;
+      character?: string;
+    }) => {
       if (wsRef.current?.readyState === WebSocket.OPEN) {
         wsRef.current.send(
           JSON.stringify({
@@ -148,6 +154,7 @@ export function useSessionWebSocket() {
             sessionLength: options?.sessionLength,
             mood: options?.mood,
             voiceId: options?.voiceId,
+            character: options?.character,
           })
         );
       }
