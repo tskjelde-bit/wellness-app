@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 4 complete - TTS & Audio Streaming (all 3/3 plans done, end-to-end pipeline ready)
+**Current focus:** Phase 5 in progress - Session State Machine & Orchestration (1/3 plans done)
 
 ## Current Position
 
-Phase: 4 of 9 (COMPLETE)
-Plan: 3 of 3 in current phase
-Status: Phase Complete
-Last activity: 2026-02-21 -- Completed 04-03-PLAN.md (Client audio playback & WebSocket hooks)
+Phase: 5 of 9
+Plan: 1 of 3 in current phase
+Status: In Progress
+Last activity: 2026-02-21 -- Completed 05-01-PLAN.md (Session phase machine, prompts, timing)
 
-Progress: [#####.....] 50%
+Progress: [#####.....] 55%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
+- Total plans completed: 11
 - Average duration: 3 min
-- Total execution time: 0.48 hours
+- Total execution time: 0.53 hours
 
 **By Phase:**
 
@@ -31,15 +31,17 @@ Progress: [#####.....] 50%
 | 2 | 3 | 9 min | 3 min |
 | 3 | 2 | 6 min | 3 min |
 | 4 | 3 | 8 min | 2.7 min |
+| 5 | 1 | 3 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (3 min), 03-02 (3 min), 04-01 (3 min), 04-02 (3 min), 04-03 (2 min)
+- Last 5 plans: 03-02 (3 min), 04-01 (3 min), 04-02 (3 min), 04-03 (2 min), 05-01 (3 min)
 - Trend: Stable
 
 *Updated after each plan completion*
 | Phase 04 P03 | 2min | 2 tasks | 2 files |
 | Phase 04 P02 | 3min | 2 tasks | 5 files |
 | Phase 04 P01 | 4min | 2 tasks | 5 files |
+| Phase 05 P01 | 3min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -86,6 +88,11 @@ Recent decisions affecting current work:
 - [04-03]: ArrayBuffer.slice(0) before decodeAudioData to prevent detached buffer issues
 - [04-03]: Gap-free scheduling via AudioBufferSourceNode.start(nextPlayTime) for audio continuity
 - [04-03]: Pause/resume via AudioContext.suspend()/resume() rather than tracking individual source nodes
+- [05-01]: Hand-rolled FSM with typed transitions table (~60 lines) instead of XState library
+- [05-01]: Phase proportions 0.12/0.20/0.28/0.25/0.15 for atmosphere/breathing/sensory/relaxation/resolution
+- [05-01]: SENTENCES_PER_MINUTE = 13 (~4.5s per sentence at natural wellness pacing)
+- [05-01]: Wind-down threshold at ~85% of phase budget (minimum 3 sentences before end)
+- [05-01]: Transition hints avoid end/finish/final to prevent premature session-ending language
 
 ### Pending Todos
 
@@ -102,5 +109,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 04-03-PLAN.md (Client audio playback & WebSocket hooks) -- Phase 4 complete (3/3 plans)
+Stopped at: Completed 05-01-PLAN.md (Session phase machine, prompts, timing config) -- Phase 5 in progress (1/3 plans)
 Resume file: None
