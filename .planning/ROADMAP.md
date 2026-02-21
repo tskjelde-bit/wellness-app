@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Project Scaffolding & Data Layer** - Next.js project, PostgreSQL schema, Redis session store, user auth
 - [x] **Phase 2: Safety & Consent Framework** - Age verification, AI disclosure, consent gates, content safety guardrails, crisis detection, privacy enforcement
-- [ ] **Phase 3: LLM Text Generation Pipeline** - Streaming LLM output, sentence-boundary chunking, per-sentence safety filtering
+- [x] **Phase 3: LLM Text Generation Pipeline** - Streaming LLM output, sentence-boundary chunking, per-sentence safety filtering
 - [ ] **Phase 4: TTS & Audio Streaming** - ElevenLabs TTS integration, WebSocket gateway, cascading pipeline delivering audio to client
 - [ ] **Phase 5: Session State Machine & Orchestration** - 5-phase session flow, phase transitions, session orchestrator coordinating pipeline and state
 - [ ] **Phase 6: Client UI & Theme** - Pink wellness theme, responsive layout, voice-first session screen, session start flow
@@ -73,7 +73,7 @@ Plans:
 
 Plans:
 - [x] 03-01-PLAN.md — TDD: Sentence boundary chunker with abbreviation handling and min-length threshold
-- [ ] 03-02-PLAN.md — Streaming LLM pipeline (OpenAI Responses API -> sentence chunker -> safety filter)
+- [x] 03-02-PLAN.md — Streaming LLM pipeline (OpenAI Responses API -> sentence chunker -> safety filter)
 
 ### Phase 4: TTS & Audio Streaming
 **Goal**: Users hear the AI guide's voice within 2 seconds of session start, delivered as gap-free streaming audio through the cascading pipeline
