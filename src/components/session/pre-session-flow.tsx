@@ -3,6 +3,10 @@
 import { useActionState, useCallback, useEffect, useState } from "react";
 import { recordSensoryConsent } from "@/actions/consent";
 import { BreathingOrb } from "@/components/session/breathing-orb";
+import { MoodSelector } from "@/components/session/mood-selector";
+import { VoicePicker } from "@/components/session/voice-picker";
+import { SOUNDSCAPE_OPTIONS } from "@/hooks/use-ambient-audio";
+import { DEFAULT_VOICE_ID } from "@/lib/tts/elevenlabs-client";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -12,10 +16,13 @@ interface PreSessionFlowProps {
   onBegin: (options: {
     sessionLength: number;
     sensoryConsent: boolean;
+    mood: string;
+    voiceId: string;
+    soundscape: string;
   }) => void;
 }
 
-type Step = "length" | "consent";
+type Step = "mood" | "voice" | "length" | "consent";
 
 const LENGTH_OPTIONS = [10, 15, 20, 30] as const;
 
@@ -24,8 +31,11 @@ const LENGTH_OPTIONS = [10, 15, 20, 30] as const;
 // ---------------------------------------------------------------------------
 
 export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
-  const [step, setStep] = useState<Step>("length");
+  const [step, setStep] = useState<Step>("mood");
   const [selectedLength, setSelectedLength] = useState(15);
+  const [selectedMood, setSelectedMood] = useState("neutral");
+  const [selectedVoiceId, setSelectedVoiceId] = useState(DEFAULT_VOICE_ID);
+  const [selectedSoundscape, setSelectedSoundscape] = useState("silence");
 
   // Server action for sensory consent audit trail
   const [consentState, consentAction, isConsentPending] = useActionState(
@@ -36,16 +46,85 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
   // When consent server action succeeds, fire onBegin with consent=true
   useEffect(() => {
     if (consentState?.success) {
-      onBegin({ sessionLength: selectedLength, sensoryConsent: true });
+      onBegin({
+        sessionLength: selectedLength,
+        sensoryConsent: true,
+        mood: selectedMood,
+        voiceId: selectedVoiceId,
+        soundscape: selectedSoundscape,
+      });
     }
-  }, [consentState?.success, onBegin, selectedLength]);
+  }, [consentState?.success, onBegin, selectedLength, selectedMood, selectedVoiceId, selectedSoundscape]);
 
   const handleSkipSensory = useCallback(() => {
-    onBegin({ sessionLength: selectedLength, sensoryConsent: false });
-  }, [onBegin, selectedLength]);
+    onBegin({
+      sessionLength: selectedLength,
+      sensoryConsent: false,
+      mood: selectedMood,
+      voiceId: selectedVoiceId,
+      soundscape: selectedSoundscape,
+    });
+  }, [onBegin, selectedLength, selectedMood, selectedVoiceId, selectedSoundscape]);
 
   // -------------------------------------------------------------------
-  // Step 1: Length Selection
+  // Step 1: Mood Selection
+  // -------------------------------------------------------------------
+
+  if (step === "mood") {
+    return (
+      <div className="flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
+        <div className="flex w-full max-w-sm flex-col items-center gap-8">
+          <div className="text-center">
+            <h2 className="text-lg font-medium text-cream/80">
+              How are you feeling?
+            </h2>
+            <p className="mt-1 text-sm text-cream/50">
+              This helps me tailor your session
+            </p>
+          </div>
+
+          <MoodSelector selected={selectedMood} onSelect={setSelectedMood} />
+
+          <button
+            onClick={() => setStep("voice")}
+            className="w-full max-w-xs rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98]"
+          >
+            Continue
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // -------------------------------------------------------------------
+  // Step 2: Voice Selection
+  // -------------------------------------------------------------------
+
+  if (step === "voice") {
+    return (
+      <div className="flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
+        <div className="flex w-full max-w-sm flex-col items-center gap-8">
+          <div className="text-center">
+            <h2 className="text-lg font-medium text-cream/80">
+              Choose your guide&apos;s voice
+            </h2>
+          </div>
+
+          <VoicePicker selected={selectedVoiceId} onSelect={setSelectedVoiceId} />
+
+          <button
+            onClick={() => setStep("length")}
+            className="w-full max-w-xs rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98]"
+          >
+            Continue
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // -------------------------------------------------------------------
+  // Step 3: Length + Soundscape Selection
   // -------------------------------------------------------------------
 
   if (step === "length") {
@@ -78,6 +157,28 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
             ))}
           </div>
 
+          {/* Soundscape selector */}
+          <div className="w-full">
+            <p className="mb-2 text-center text-sm text-cream/50">
+              Background soundscape
+            </p>
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {SOUNDSCAPE_OPTIONS.map((option) => (
+                <button
+                  key={option.id}
+                  onClick={() => setSelectedSoundscape(option.id)}
+                  className={`shrink-0 rounded-full border px-4 py-2 text-sm transition-colors ${
+                    selectedSoundscape === option.id
+                      ? "border-blush bg-blush/20 text-cream/80"
+                      : "border-cream/10 bg-cream/5 text-cream/50 hover:bg-cream/10"
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <button
             onClick={() => setStep("consent")}
             className="w-full max-w-xs rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98]"
@@ -90,7 +191,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
   }
 
   // -------------------------------------------------------------------
-  // Step 2: Conversational Consent
+  // Step 4: Conversational Consent
   // -------------------------------------------------------------------
 
   return (

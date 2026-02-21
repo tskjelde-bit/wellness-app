@@ -24,6 +24,7 @@ export function useSessionWebSocket() {
   const [currentText, setCurrentText] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [currentPhase, setCurrentPhase] = useState<string | null>(null);
+  const [sessionEnded, setSessionEnded] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const wsRef = useRef<WebSocket | null>(null);
@@ -34,6 +35,9 @@ export function useSessionWebSocket() {
     pause: pauseAudio,
     resume: resumeAudio,
     stop: stopAudio,
+    audioContext,
+    voiceGain,
+    ambientGain,
     isPlaying,
     isPaused,
   } = useAudioQueue();
@@ -85,6 +89,7 @@ export function useSessionWebSocket() {
               setCurrentPhase(message.to);
               break;
             case "session_end":
+              setSessionEnded(true);
               setIsConnected(false);
               setCurrentPhase(null);
               stopAudio();
@@ -115,13 +120,15 @@ export function useSessionWebSocket() {
    * Connection must already be open via `connect()`.
    */
   const startSession = useCallback(
-    (options?: { prompt?: string; sessionLength?: number }) => {
+    (options?: { prompt?: string; sessionLength?: number; mood?: string; voiceId?: string }) => {
       if (wsRef.current?.readyState === WebSocket.OPEN) {
         wsRef.current.send(
           JSON.stringify({
             type: "start_session",
             prompt: options?.prompt,
             sessionLength: options?.sessionLength,
+            mood: options?.mood,
+            voiceId: options?.voiceId,
           })
         );
       }
@@ -176,6 +183,10 @@ export function useSessionWebSocket() {
     currentText,
     sessionId,
     currentPhase,
+    sessionEnded,
+    audioContext,
+    voiceGain,
+    ambientGain,
     error,
   };
 }
