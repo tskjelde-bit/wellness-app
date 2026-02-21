@@ -7,8 +7,8 @@
  */
 
 import type { SessionPhase } from "./phase-machine";
-import { SAFETY_SYSTEM_PROMPT } from "@/lib/safety";
-import { SESSION_PROMPT } from "@/lib/llm/prompts";
+import { SAFETY_SYSTEM_PROMPT } from "@/lib/safety/system-prompt-safety";
+import { SYSTEM_BASE } from "@/lib/llm/prompts";
 
 // ---------------------------------------------------------------------------
 // Phase-specific prompt templates
@@ -121,7 +121,7 @@ export function buildPhaseInstructions(
 ): string {
   const parts: string[] = [
     SAFETY_SYSTEM_PROMPT,
-    SESSION_PROMPT,
+    SYSTEM_BASE,
   ];
 
   // Mood context before phase instructions for correct prompt ordering

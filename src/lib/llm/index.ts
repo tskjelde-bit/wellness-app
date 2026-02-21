@@ -1,23 +1,26 @@
 /**
  * LLM module barrel exports.
- *
- * Re-exports the streaming pipeline, prompt utilities, and
- * sentence chunker for convenient imports via @/lib/llm.
  */
 
-// Streaming pipeline
-export {
-  generateSession,
-  streamLlmTokens,
-  chunkBySentence,
-  filterSafety,
-} from "./generate-session";
+// Streaming pipeline & Client
+export { generateSession, streamLlmTokens } from "./generate-session";
+export { knullClient, sendKnullMessage } from "./client";
 
 // Prompt templates
-export { buildSessionInstructions, SESSION_PROMPT } from "./prompts";
-
-// Sentence chunker
 export {
-  splitAtSentenceBoundaries,
-  type SplitResult,
-} from "./sentence-chunker";
+  SYSTEM_BASE,
+  JAILBREAK_V1,
+  buildCharacterPrompt,
+  createKnullChatMessages,
+  type Message
+} from "./prompts";
+
+// Schema
+export { KnullResponseSchema, type KnullResponse } from "./schema";
+
+// Guardrails
+export {
+  runInputGuardrails,
+  runOutputGuardrails,
+  applyPrettyGirlFilter
+} from "./guardrails";

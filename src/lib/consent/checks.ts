@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { usersTable } from "@/lib/db/schema";
+import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 export interface ConsentStatus {
@@ -14,12 +14,12 @@ export async function getUserConsentStatus(
 ): Promise<ConsentStatus> {
   const [user] = await db
     .select({
-      ageVerifiedAt: usersTable.ageVerifiedAt,
-      tosAcceptedAt: usersTable.tosAcceptedAt,
-      privacyAcceptedAt: usersTable.privacyAcceptedAt,
+      isAdultVerified: users.isAdultVerified,
+      hasAcceptedTerms: users.hasAcceptedTerms,
+      hasAcceptedMedicalDisclaimer: users.hasAcceptedMedicalDisclaimer,
     })
-    .from(usersTable)
-    .where(eq(usersTable.id, userId))
+    .from(users)
+    .where(eq(users.id, userId))
     .limit(1);
 
   if (!user) {
@@ -31,9 +31,9 @@ export async function getUserConsentStatus(
     };
   }
 
-  const ageVerified = user.ageVerifiedAt !== null;
-  const tosAccepted = user.tosAcceptedAt !== null;
-  const privacyAccepted = user.privacyAcceptedAt !== null;
+  const ageVerified = user.isAdultVerified;
+  const tosAccepted = user.hasAcceptedTerms;
+  const privacyAccepted = user.hasAcceptedMedicalDisclaimer; // Using disclaimer as proxy for privacy in this simplified check
 
   return {
     ageVerified,

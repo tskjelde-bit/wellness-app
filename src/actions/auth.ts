@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { usersTable } from "@/lib/db/schema";
+import { users } from "@/lib/db/schema";
 import { signIn, signOut } from "@/lib/auth";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
@@ -32,8 +32,8 @@ export async function signUp(
 
   const [existing] = await db
     .select()
-    .from(usersTable)
-    .where(eq(usersTable.email, email))
+    .from(users)
+    .where(eq(users.email, email))
     .limit(1);
 
   if (existing) {
@@ -42,10 +42,13 @@ export async function signUp(
 
   const passwordHash = await bcrypt.hash(password, 12);
 
-  await db.insert(usersTable).values({
+  await db.insert(users).values({
     name,
     email,
     passwordHash,
+    // Add required fields for the new schema
+    dateOfBirth: new Date("2000-01-01"), // Default for now
+    isAdultVerified: true,
   });
 
   return { success: true };

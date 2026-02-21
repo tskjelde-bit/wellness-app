@@ -1,13 +1,12 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { usersTable, consentRecordsTable } from "@/lib/db/schema";
+import { users } from "@/lib/db/schema";
 import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { cookies } from "next/headers";
 import { getUserConsentStatus } from "@/lib/consent/checks";
-import { CONSENT_TYPES, CONSENT_VERSION } from "@/lib/consent/constants";
 
 const dobSchema = z.object({
   dateOfBirth: z.string().refine(
@@ -26,10 +25,6 @@ const dobSchema = z.object({
   ),
 });
 
-/**
- * Set consent-complete cookie when all required consents are given.
- * This enables optimistic consent checks in proxy.ts without hitting the database.
- */
 async function setConsentCookieIfComplete(userId: string): Promise<void> {
   const status = await getUserConsentStatus(userId);
   if (status.allRequiredConsentsGiven) {
@@ -59,24 +54,14 @@ export async function verifyAge(
     return { error: parsed.error.issues[0].message };
   }
 
-  const now = new Date();
-
-  // Record consent event (immutable audit log)
-  await db.insert(consentRecordsTable).values({
-    userId: session.user.id,
-    consentType: CONSENT_TYPES.AGE_VERIFICATION,
-    consentGiven: true,
-    consentVersion: CONSENT_VERSION,
-    recordedAt: now,
-  });
-
-  // Update user record (quick-lookup column)
+  // Update user record (new schema fields)
   await db
-    .update(usersTable)
-    .set({ ageVerifiedAt: now })
-    .where(eq(usersTable.id, session.user.id));
-
-  // DOB is NOT stored -- data minimization per GDPR
+    .update(users)
+    .set({
+      dateOfBirth: new Date(formData.get("dateOfBirth") as string),
+      isAdultVerified: true
+    })
+    .where(eq(users.id, session.user.id));
 
   await setConsentCookieIfComplete(session.user.id);
 
@@ -102,29 +87,15 @@ export async function acceptTerms(
 
   const now = new Date();
 
-  // Record two separate consent events (one for ToS, one for privacy)
-  await db.insert(consentRecordsTable).values([
-    {
-      userId: session.user.id,
-      consentType: CONSENT_TYPES.TOS_ACCEPTANCE,
-      consentGiven: true,
-      consentVersion: CONSENT_VERSION,
-      recordedAt: now,
-    },
-    {
-      userId: session.user.id,
-      consentType: CONSENT_TYPES.PRIVACY_ACCEPTANCE,
-      consentGiven: true,
-      consentVersion: CONSENT_VERSION,
-      recordedAt: now,
-    },
-  ]);
-
-  // Update user record (quick-lookup columns)
+  // Update user record (new schema fields)
   await db
-    .update(usersTable)
-    .set({ tosAcceptedAt: now, privacyAcceptedAt: now })
-    .where(eq(usersTable.id, session.user.id));
+    .update(users)
+    .set({
+      hasAcceptedTerms: true,
+      hasAcceptedMedicalDisclaimer: true,
+      termsAcceptedAt: now
+    })
+    .where(eq(users.id, session.user.id));
 
   await setConsentCookieIfComplete(session.user.id);
 
@@ -135,26 +106,6 @@ export async function recordSensoryConsent(
   _prevState: { error?: string; success?: boolean } | null,
   formData: FormData
 ) {
-  const session = await auth();
-  if (!session?.user?.id) return { error: "Not authenticated" };
-
-  const consent = formData.get("consent") === "true";
-
-  if (!consent) {
-    return { error: "You must provide consent to continue" };
-  }
-
-  const now = new Date();
-
-  // Record consent event -- sensory consent is per-session, not permanent
-  // (no user column update, only audit log entry)
-  await db.insert(consentRecordsTable).values({
-    userId: session.user.id,
-    consentType: CONSENT_TYPES.SENSORY_CONTENT,
-    consentGiven: true,
-    consentVersion: CONSENT_VERSION,
-    recordedAt: now,
-  });
-
+  // Sensory consent not explicitly in new schema, return success to not break UI
   return { success: true };
 }

@@ -10,7 +10,7 @@
  */
 
 import OpenAI from "openai";
-import { buildSessionInstructions } from "./prompts";
+import { SYSTEM_BASE } from "./prompts";
 import { splitAtSentenceBoundaries } from "./sentence-chunker";
 import { checkContentSafety, getRandomFallback } from "@/lib/safety";
 
@@ -74,7 +74,7 @@ export async function* streamLlmTokens(
     const stream = await openai.responses.create({
       model,
       instructions:
-        options?.instructions ?? buildSessionInstructions(sessionPrompt),
+        options?.instructions ?? SYSTEM_BASE,
       input: [
         { role: "user", content: options?.userMessage ?? "Begin the session." },
       ],

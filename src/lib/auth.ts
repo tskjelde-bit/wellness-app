@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@/lib/db";
-import { usersTable } from "@/lib/db/schema";
+import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
@@ -28,8 +28,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const { email, password } = parsed.data;
         const [user] = await db
           .select()
-          .from(usersTable)
-          .where(eq(usersTable.email, email))
+          .from(users)
+          .where(eq(users.email, email))
           .limit(1);
 
         if (!user || !user.passwordHash) return null;

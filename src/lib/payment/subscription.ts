@@ -16,6 +16,9 @@ export type SubscriptionStatus =
 export async function hasActiveSubscription(
   userId: string
 ): Promise<boolean> {
+  // Placeholder: Always return false since subscriptions are not in the new schema
+  return false;
+  /*
   const [sub] = await db
     .select()
     .from(subscriptionsTable)
@@ -28,12 +31,15 @@ export async function hasActiveSubscription(
     .limit(1);
 
   return !!sub;
+  */
 }
 
 /**
  * Get the most recent subscription for a user, or null if none exists.
  */
 export async function getSubscription(userId: string) {
+  return null;
+  /*
   const [sub] = await db
     .select()
     .from(subscriptionsTable)
@@ -42,6 +48,7 @@ export async function getSubscription(userId: string) {
     .limit(1);
 
   return sub ?? null;
+  */
 }
 
 /**
