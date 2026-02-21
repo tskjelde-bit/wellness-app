@@ -41,9 +41,9 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **SESS-01**: Session follows 5-phase structured flow (Atmosphere → Breathing → Sensory → Relaxation → Resolution)
 - [x] **SESS-02**: Each phase has distinct tone, pacing, and system prompt guidance
 - [ ] **SESS-03**: User can select session length (10 / 15 / 20 / 30 minutes)
-- [ ] **SESS-04**: Phase transitions occur naturally based on timing and content completion
+- [x] **SESS-04**: Phase transitions occur naturally based on timing and content completion
 - [x] **SESS-05**: Resolution phase provides grounding and gentle return to awareness
-- [ ] **SESS-06**: Session state machine manages phase progression server-side
+- [x] **SESS-06**: Session state machine manages phase progression server-side
 - [ ] **SESS-07**: User can start a new session from the main screen
 
 ### Client UI
@@ -127,9 +127,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SESS-01 | Phase 5 | Complete |
 | SESS-02 | Phase 5 | Complete |
 | SESS-03 | Phase 7 | Pending |
-| SESS-04 | Phase 5 | Pending |
+| SESS-04 | Phase 5 | Complete |
 | SESS-05 | Phase 5 | Complete |
-| SESS-06 | Phase 5 | Pending |
+| SESS-06 | Phase 5 | Complete |
 | SESS-07 | Phase 6 | Pending |
 | UI-01 | Phase 6 | Pending |
 | UI-02 | Phase 6 | Pending |

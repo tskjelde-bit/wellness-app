@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 5 in progress - Session State Machine & Orchestration (1/3 plans done)
+**Current focus:** Phase 5 in progress - Session State Machine & Orchestration (2/3 plans done)
 
 ## Current Position
 
 Phase: 5 of 9
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In Progress
-Last activity: 2026-02-21 -- Completed 05-01-PLAN.md (Session phase machine, prompts, timing)
+Last activity: 2026-02-21 -- Completed 05-02-PLAN.md (Session orchestrator with multi-phase LLM chaining)
 
-Progress: [#####.....] 55%
+Progress: [######....] 60%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
+- Total plans completed: 12
 - Average duration: 3 min
-- Total execution time: 0.53 hours
+- Total execution time: 0.57 hours
 
 **By Phase:**
 
@@ -31,10 +31,10 @@ Progress: [#####.....] 55%
 | 2 | 3 | 9 min | 3 min |
 | 3 | 2 | 6 min | 3 min |
 | 4 | 3 | 8 min | 2.7 min |
-| 5 | 1 | 3 min | 3 min |
+| 5 | 2 | 5 min | 2.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (3 min), 04-01 (3 min), 04-02 (3 min), 04-03 (2 min), 05-01 (3 min)
+- Last 5 plans: 04-01 (3 min), 04-02 (3 min), 04-03 (2 min), 05-01 (3 min), 05-02 (2 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -42,6 +42,7 @@ Progress: [#####.....] 55%
 | Phase 04 P02 | 3min | 2 tasks | 5 files |
 | Phase 04 P01 | 4min | 2 tasks | 5 files |
 | Phase 05 P01 | 3min | 2 tasks | 4 files |
+| Phase 05 P02 | 2min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,11 @@ Recent decisions affecting current work:
 - [05-01]: SENTENCES_PER_MINUTE = 13 (~4.5s per sentence at natural wellness pacing)
 - [05-01]: Wind-down threshold at ~85% of phase budget (minimum 3 sentences before end)
 - [05-01]: Transition hints avoid end/finish/final to prevent premature session-ending language
+- [05-02]: Single LLM call per phase main content, optional second call with transition hint for wind-down
+- [05-02]: store: true on every streamLlmTokens call to enable previous_response_id chaining (Research Pitfall 6)
+- [05-02]: Orchestrator yields text events, not audio -- WebSocket handler feeds text into TTS pipeline
+- [05-02]: Sentence counting is primary transition signal; no wall-clock timer in v1
+- [05-02]: Persist state via merge-read pattern: read existing SessionState, merge orchestrator fields, write back
 
 ### Pending Todos
 
@@ -109,5 +115,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 05-01-PLAN.md (Session phase machine, prompts, timing config) -- Phase 5 in progress (1/3 plans)
+Stopped at: Completed 05-02-PLAN.md (Session orchestrator with multi-phase LLM chaining) -- Phase 5 in progress (2/3 plans)
 Resume file: None
