@@ -1,12 +1,22 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { signOutAction } from "@/actions/auth";
+import { getUserConsentStatus } from "@/lib/consent";
 
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const session = await auth();
-  if (!session) redirect("/login");
+  if (!session?.user?.id) redirect("/login");
+
+  const consentStatus = await getUserConsentStatus(session.user.id);
+  if (!consentStatus.allRequiredConsentsGiven) {
+    if (!consentStatus.ageVerified) {
+      redirect("/verify-age");
+    } else if (!consentStatus.tosAccepted || !consentStatus.privacyAccepted) {
+      redirect("/accept-terms");
+    }
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-cream px-4">
