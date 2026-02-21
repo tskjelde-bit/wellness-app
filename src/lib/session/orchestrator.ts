@@ -19,6 +19,7 @@ import {
   SESSION_PHASES,
 } from "./phase-machine";
 import { buildPhaseInstructions, TRANSITION_HINTS } from "./phase-prompts";
+import { MOOD_PROMPTS } from "./mood-prompts";
 import { getSessionBudgets, type PhaseConfig } from "./phase-config";
 import {
   streamLlmTokens,
@@ -48,6 +49,7 @@ export type OrchestratorEvent =
 export interface OrchestratorOptions {
   sessionId: string;
   sessionLengthMinutes?: number;
+  mood?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -57,6 +59,7 @@ export interface OrchestratorOptions {
 export class SessionOrchestrator {
   private readonly sessionId: string;
   private readonly sessionLengthMinutes: number;
+  private readonly mood: string;
   private phase: SessionPhase;
   private previousResponseId: string | null;
   private sentencesInPhase: number;
@@ -66,6 +69,7 @@ export class SessionOrchestrator {
   constructor(options: OrchestratorOptions) {
     this.sessionId = options.sessionId;
     this.sessionLengthMinutes = options.sessionLengthMinutes ?? 15;
+    this.mood = options.mood ?? "neutral";
     this.phase = SESSION_PHASES[0]; // "atmosphere"
     this.previousResponseId = null;
     this.sentencesInPhase = 0;
@@ -81,6 +85,9 @@ export class SessionOrchestrator {
    * to the next phase. The session completes after the terminal phase finishes.
    */
   async *run(signal: AbortSignal): AsyncGenerator<OrchestratorEvent> {
+    // Resolve mood context once for the entire session
+    const moodContext = MOOD_PROMPTS[this.mood] ?? MOOD_PROMPTS["neutral"];
+
     try {
       while (true) {
         if (signal.aborted) return;
@@ -98,7 +105,7 @@ export class SessionOrchestrator {
         await this.persistState();
 
         // --- Main content call (sentences 0 to windDownAt) ---
-        const mainInstructions = buildPhaseInstructions(this.phase);
+        const mainInstructions = buildPhaseInstructions(this.phase, undefined, moodContext);
         const mainUserMessage = this.isFirstPhaseCall()
           ? "Begin the session."
           : `Continue. The session is now entering the ${this.phase} phase.`;
@@ -134,6 +141,7 @@ export class SessionOrchestrator {
           const windDownInstructions = buildPhaseInstructions(
             this.phase,
             hint || undefined,
+            moodContext,
           );
           const windDownUserMessage = "Continue.";
           const remaining = budget.sentenceBudget - this.sentencesInPhase;

@@ -111,9 +111,12 @@ export function handleSession(client: WebSocket): void {
               ? message.sessionLength
               : 15;
 
+          const selectedVoiceId = message.voiceId || undefined;
+
           const orchestrator = new SessionOrchestrator({
             sessionId,
             sessionLengthMinutes: sessionLength,
+            mood: message.mood,
           });
 
           let previousText = "";
@@ -149,6 +152,7 @@ export function handleSession(client: WebSocket): void {
 
                 // Synthesize sentence to audio and stream to client
                 for await (const audioChunk of synthesizeSentence(event.text, {
+                  voiceId: selectedVoiceId,
                   previousText: previousText.slice(-1000),
                   signal: controller.signal,
                 })) {
