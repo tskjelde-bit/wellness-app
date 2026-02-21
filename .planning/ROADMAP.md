@@ -85,11 +85,12 @@ Plans:
   3. Audio streams to client via WebSocket with double-buffer playback queue for gap-free listening
   4. WebSocket gateway handles real-time bidirectional communication between client and server
   5. End-to-end pipeline works: LLM streams text, chunker splits sentences, safety filters, TTS speaks, client plays
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
+- [ ] 04-01-PLAN.md — ElevenLabs TTS service and cascading audio pipeline (server-side)
+- [ ] 04-02-PLAN.md — WebSocket gateway with next-ws, message protocol, and session handler
+- [ ] 04-03-PLAN.md — Client-side AudioPlaybackQueue and WebSocket integration hooks
 
 ### Phase 5: Session State Machine & Orchestration
 **Goal**: Sessions follow the complete 5-phase structured flow (Atmosphere, Breathing, Sensory, Relaxation, Resolution) with natural transitions and phase-specific guidance
