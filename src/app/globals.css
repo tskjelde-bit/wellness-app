@@ -1,8 +1,49 @@
 @import "tailwindcss";
 
 @theme {
+  /* Base colors */
   --color-blush: #F8C8DC;
   --color-rose: #D63384;
   --color-charcoal: #2B2B2B;
   --color-cream: #FFF5F7;
+
+  /* Extended color palette */
+  --color-blush-light: #FDE8F0;
+  --color-rose-dark: #B02A6E;
+  --color-charcoal-light: #4A4A4A;
+
+  /* Shadows */
+  --shadow-soft: 0 4px 20px rgba(214, 51, 132, 0.15);
+  --shadow-glow: 0 0 30px rgba(248, 200, 220, 0.4);
+
+  /* Border radius */
+  --radius-card: 1rem;
+  --radius-button: 0.5rem;
+
+  /* Animations */
+  --animate-breathe: breathe 4s ease-in-out infinite;
+  --animate-fade-in: fadeIn 0.5s ease-out;
+  --animate-pulse-soft: pulseSoft 3s ease-in-out infinite;
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.08); opacity: 1; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulseSoft {
+    0%, 100% { box-shadow: 0 0 20px rgba(248, 200, 220, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(248, 200, 220, 0.6); }
+  }
+}
+
+@utility safe-area-padding {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
