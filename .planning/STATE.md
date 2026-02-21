@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 8 in progress - Payment Integration (1/2 plans done)
+**Current focus:** Phase 8 complete - Payment Integration (2/2 plans done)
 
 ## Current Position
 
 Phase: 8 of 9
-Plan: 1 of 2 in current phase
-Status: In Progress
-Last activity: 2026-02-21 -- Completed 08-01-PLAN.md (Payment backend foundation)
+Plan: 2 of 2 in current phase
+Status: Phase Complete
+Last activity: 2026-02-21 -- Completed 08-02-PLAN.md (Payment integration wiring)
 
-Progress: [#########.] 90%
+Progress: [#########.] 95%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 18
+- Total plans completed: 19
 - Average duration: 3 min
-- Total execution time: 0.70 hours
+- Total execution time: 0.73 hours
 
 **By Phase:**
 
@@ -34,10 +34,10 @@ Progress: [#########.] 90%
 | 5 | 3 | 6 min | 2 min |
 | 6 | 2 | 2 min | 1 min |
 | 7 | 2 | 2 min | 1 min |
-| 8 | 1 | 2 min | 2 min |
+| 8 | 2 | 4 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 06-01 (1 min), 06-02 (1 min), 07-01 (1 min), 07-02 (1 min), 08-01 (2 min)
+- Last 5 plans: 06-02 (1 min), 07-01 (1 min), 07-02 (1 min), 08-01 (2 min), 08-02 (2 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -52,6 +52,7 @@ Progress: [#########.] 90%
 | Phase 07 P01 | 1min | 2 tasks | 4 files |
 | Phase 07 P02 | 1min | 2 tasks | 3 files |
 | Phase 08 P01 | 2min | 2 tasks | 7 files |
+| Phase 08 P02 | 2min | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -129,6 +130,9 @@ Recent decisions affecting current work:
 - [Phase 08]: getCcbillConfig reads process.env directly (not env.ts) to match db/index.ts pattern and avoid circular deps
 - [Phase 08]: Webhook signature verification is structural-only for v1; full HMAC deferred to merchant onboarding
 - [Phase 08]: Success/failure return URLs derived from request origin at runtime instead of env vars
+- [08-02]: subscription-active cookie httpOnly:false with 24h maxAge for proxy.ts middleware readability
+- [08-02]: Success page polls checkSubscriptionStatus every 2s for up to 16s to handle webhook race condition
+- [08-02]: Only /session/* routes gated behind subscription; /dashboard always accessible
 
 ### Pending Todos
 
@@ -145,5 +149,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 08-01-PLAN.md (Payment backend foundation)
+Stopped at: Completed 08-02-PLAN.md (Payment integration wiring)
 Resume file: None
