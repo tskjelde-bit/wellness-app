@@ -134,11 +134,11 @@ Plans:
   3. Consent flow is woven conversationally into session start (not a clinical modal)
   4. User can select session length (10 / 15 / 20 / 30 minutes) before starting
   5. Selected session length affects actual session duration and phase pacing
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 07-01: TBD
-- [ ] 07-02: TBD
+- [ ] 07-01-PLAN.md — Session length protocol extension + pre-session flow (length selection, conversational consent)
+- [ ] 07-02-PLAN.md — Session controls (pause/resume/end), phase progress indicator, session screen integration
 
 ### Phase 8: Payment Integration
 **Goal**: Users can pay for the service through a payment processor that accepts adult wellness content
