@@ -3,7 +3,8 @@
  *
  * Handles the full lifecycle of a streaming audio session:
  * - Connection setup with session ID assignment
- * - Start session: triggers cascading audio pipeline (LLM -> TTS -> audio)
+ * - Start session: creates SessionOrchestrator for multi-phase LLM flow,
+ *   feeds orchestrator text events through per-sentence TTS synthesis
  * - Pause/resume: controls audio streaming flow
  * - End: clean abort of in-progress pipeline
  * - Heartbeat: ping/pong every 30 seconds
@@ -16,17 +17,6 @@ import {
   serializeServerMessage,
   type ServerMessage,
 } from "./message-types";
-
-/**
- * AudioChunkEvent mirrors the type from @/lib/tts/audio-pipeline.
- * Defined here to avoid compile-time dependency on a module that may
- * not yet exist (04-01 builds the TTS pipeline).
- */
-type AudioChunkEvent =
-  | { type: "sentence_start"; text: string; index: number }
-  | { type: "audio"; data: Uint8Array }
-  | { type: "sentence_end"; index: number }
-  | { type: "session_end" };
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -108,25 +98,21 @@ export function handleSession(client: WebSocket): void {
         isStreaming = true;
 
         try {
-          // Dynamic import to avoid circular dependencies and allow
-          // the TTS module to be built independently (04-01 plan).
-          // Uses unknown intermediate cast because the TTS module may
-          // not yet export streamSessionAudio until 04-01 completes.
-          const tts = (await import("@/lib/tts")) as unknown as {
-            streamSessionAudio: (
-              prompt: string,
-              options?: { signal?: AbortSignal },
-            ) => AsyncGenerator<AudioChunkEvent>;
-          };
-          const { streamSessionAudio } = tts;
-
-          const pipeline = streamSessionAudio(
-            message.prompt ?? "",
-            { signal: controller.signal },
+          // Dynamic imports to avoid circular dependencies
+          const { SessionOrchestrator } = await import("@/lib/session");
+          const { synthesizeSentence } = await import(
+            "@/lib/tts/tts-service"
           );
 
-          for await (const event of pipeline) {
-            // Check abort before processing each event
+          const orchestrator = new SessionOrchestrator({
+            sessionId,
+            sessionLengthMinutes: 15, // Default; Phase 7 will add client-selected length
+          });
+
+          let previousText = "";
+          let sentenceIndex = 0;
+
+          for await (const event of orchestrator.run(controller.signal)) {
             if (controller.signal.aborted) break;
 
             // Pause gate: wait if paused
@@ -135,31 +121,61 @@ export function handleSession(client: WebSocket): void {
                 resumeResolve = resolve;
               });
             }
-
             if (controller.signal.aborted) break;
 
             switch (event.type) {
-              case "sentence_start":
+              case "phase_start":
+                send(client, {
+                  type: "phase_start",
+                  phase: event.phase,
+                  phaseIndex: event.phaseIndex,
+                });
+                break;
+
+              case "sentence":
+                // Forward sentence text to client
                 send(client, {
                   type: "text",
                   data: event.text,
                   index: event.index,
                 });
-                break;
 
-              case "audio":
-                sendBinary(client, event.data);
-                break;
+                // Synthesize sentence to audio and stream to client
+                for await (const audioChunk of synthesizeSentence(event.text, {
+                  previousText: previousText.slice(-1000),
+                  signal: controller.signal,
+                })) {
+                  sendBinary(client, audioChunk);
+                }
 
-              case "sentence_end":
+                // Emit sentence end marker
                 send(client, {
                   type: "sentence_end",
                   index: event.index,
                 });
+
+                // Track text for TTS prosody context
+                previousText += " " + event.text;
+                sentenceIndex++;
                 break;
 
-              case "session_end":
+              case "phase_transition":
+                send(client, {
+                  type: "phase_transition",
+                  from: event.from,
+                  to: event.to,
+                });
+                break;
+
+              case "session_complete":
                 send(client, { type: "session_end" });
+                break;
+
+              case "error":
+                send(client, {
+                  type: "error",
+                  message: event.message,
+                });
                 break;
             }
           }
