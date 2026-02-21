@@ -53,11 +53,12 @@ Plans:
   6. System detects crisis language and provides helpline resources
   7. No session transcripts or recordings are stored anywhere in the system
   8. Privacy policy and terms of service are presented before first session
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md — Schema extensions, consent server actions, consent checks, proxy enforcement
+- [ ] 02-02-PLAN.md — Three-layer content safety pipeline (moderation API + keyword blocklist + crisis detector)
+- [ ] 02-03-PLAN.md — Consent UI pages (age gate, ToS acceptance, legal pages, AI disclosure, sensory consent, crisis banner)
 
 ### Phase 3: LLM Text Generation Pipeline
 **Goal**: The system generates wellness session text in real-time via streaming LLM, chunked at natural sentence boundaries and safety-filtered before downstream consumption
