@@ -5,32 +5,33 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users experience calm, guided relaxation through intimate, voice-driven AI sessions that feel safe and present
-**Current focus:** Phase 1 - Project Scaffolding & Data Layer
+**Current focus:** Phase 2 - Safety & Consent Framework
 
 ## Current Position
 
-Phase: 1 of 9 (Project Scaffolding & Data Layer) -- COMPLETE
-Plan: 2 of 2 in current phase
-Status: Phase Complete
-Last activity: 2026-02-21 -- Completed 01-02-PLAN.md (Auth.js v5, login/register, route protection)
+Phase: 2 of 9 (Safety & Consent Framework)
+Plan: 2 of 3 in current phase
+Status: In Progress
+Last activity: 2026-02-21 -- Completed 02-02-PLAN.md (Three-layer content safety pipeline)
 
-Progress: [##........] 11%
+Progress: [##........] 22%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 3.5 min
-- Total execution time: 0.12 hours
+- Total plans completed: 4
+- Average duration: 3.3 min
+- Total execution time: 0.22 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 2 | 7 min | 3.5 min |
+| 2 | 2 | 6 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4 min), 01-02 (3 min)
+- Last 5 plans: 01-01 (4 min), 01-02 (3 min), 02-01 (3 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -52,6 +53,10 @@ Recent decisions affecting current work:
 - [01-02]: Placeholder DATABASE_URL fallback in db/index.ts for build-time safety when credentials not yet configured
 - [01-02]: Dashboard uses force-dynamic to prevent pre-rendering attempts that require database access
 - [01-02]: Server action signatures use (_prevState, formData) for useActionState compatibility
+- [02-01]: DOB processed for age calculation only, never stored -- ageVerifiedAt timestamp persisted (GDPR data minimization)
+- [02-01]: consent-complete cookie set only when all three required consents given, enables optimistic proxy check
+- [02-01]: Sensory consent is per-session (audit log only), not permanent (no user column)
+- [02-01]: Batch insert for ToS + privacy consent records in single db.insert() call
 
 ### Pending Todos
 
@@ -68,5 +73,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 01-02-PLAN.md (Phase 1 complete)
+Stopped at: Completed 02-01-PLAN.md
 Resume file: None

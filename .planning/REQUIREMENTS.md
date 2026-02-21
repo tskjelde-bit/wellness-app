@@ -9,14 +9,14 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Safety & Compliance
 
-- [ ] **SAFE-01**: User must confirm age (18+) before accessing any session content
-- [ ] **SAFE-02**: User receives clear AI disclosure at session start ("This is an AI guide")
-- [ ] **SAFE-03**: User provides explicit consent before body awareness / sensory content phases
+- [x] **SAFE-01**: User must confirm age (18+) before accessing any session content
+- [x] **SAFE-02**: User receives clear AI disclosure at session start ("This is an AI guide")
+- [x] **SAFE-03**: User provides explicit consent before body awareness / sensory content phases
 - [ ] **SAFE-04**: System enforces content safety guardrails via layered filtering (system prompt + output classifier + keyword blocklist)
 - [ ] **SAFE-05**: AI gracefully redirects boundary-pushing requests without breaking session immersion
 - [ ] **SAFE-06**: System detects crisis language (self-harm, distress) and provides helpline resources
-- [ ] **SAFE-07**: No session transcripts or recordings stored — ephemeral by design
-- [ ] **SAFE-08**: Privacy policy and terms of service presented before first session
+- [x] **SAFE-07**: No session transcripts or recordings stored — ephemeral by design
+- [x] **SAFE-08**: Privacy policy and terms of service presented before first session
 
 ### Infrastructure & Auth
 
@@ -104,14 +104,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SAFE-01 | Phase 2 | Pending |
-| SAFE-02 | Phase 2 | Pending |
-| SAFE-03 | Phase 2 | Pending |
+| SAFE-01 | Phase 2 | Complete |
+| SAFE-02 | Phase 2 | Complete |
+| SAFE-03 | Phase 2 | Complete |
 | SAFE-04 | Phase 2 | Pending |
 | SAFE-05 | Phase 2 | Pending |
 | SAFE-06 | Phase 2 | Pending |
-| SAFE-07 | Phase 2 | Pending |
-| SAFE-08 | Phase 2 | Pending |
+| SAFE-07 | Phase 2 | Complete |
+| SAFE-08 | Phase 2 | Complete |
 | INFR-01 | Phase 1 | Complete |
 | INFR-02 | Phase 1 | Complete |
 | INFR-03 | Phase 8 | Pending |
