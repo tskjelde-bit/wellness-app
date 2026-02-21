@@ -23,8 +23,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **INFR-01**: User can create account with email and password
 - [ ] **INFR-02**: User session persists across browser refresh
 - [ ] **INFR-03**: Payment processor integration uses high-risk-compatible provider (not Stripe/PayPal)
-- [ ] **INFR-04**: Redis-backed session state with TTL-based auto-expiry
-- [ ] **INFR-05**: PostgreSQL database for user accounts, consent records, and session metadata
+- [x] **INFR-04**: Redis-backed session state with TTL-based auto-expiry
+- [x] **INFR-05**: PostgreSQL database for user accounts, consent records, and session metadata
 - [ ] **INFR-06**: WebSocket gateway for real-time audio streaming to client
 
 ### Voice Pipeline
@@ -115,8 +115,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFR-01 | Phase 1 | Pending |
 | INFR-02 | Phase 1 | Pending |
 | INFR-03 | Phase 8 | Pending |
-| INFR-04 | Phase 1 | Pending |
-| INFR-05 | Phase 1 | Pending |
+| INFR-04 | Phase 1 | Complete |
+| INFR-05 | Phase 1 | Complete |
 | INFR-06 | Phase 4 | Pending |
 | VOIC-01 | Phase 3 | Pending |
 | VOIC-02 | Phase 3 | Pending |
