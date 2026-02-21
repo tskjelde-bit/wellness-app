@@ -75,3 +75,37 @@ export const consentRecordsTable = pgTable("consent_records", {
   metadata: text("metadata"),
   // Optional JSON string for audit context (e.g., IP, user-agent)
 });
+
+// Phase 8: Subscription tracking for CCBill payment integration
+export const subscriptionsTable = pgTable("subscriptions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
+  ccbillSubscriptionId: varchar("ccbill_subscription_id", {
+    length: 255,
+  }).unique(),
+  ccbillTransactionId: varchar("ccbill_transaction_id", { length: 255 }),
+  status: varchar("status", { length: 50 }).notNull().default("pending"),
+  // Values: "pending", "active", "cancelled", "expired", "suspended"
+  currentPeriodStart: timestamp("current_period_start", { mode: "date" }),
+  currentPeriodEnd: timestamp("current_period_end", { mode: "date" }),
+  cancelledAt: timestamp("cancelled_at", { mode: "date" }),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+});
+
+// Phase 8: Immutable payment event log (audit trail)
+export const paymentEventsTable = pgTable("payment_events", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
+  eventType: varchar("event_type", { length: 100 }).notNull(),
+  // Values: "NewSaleSuccess", "RenewalSuccess", "Cancellation", etc.
+  ccbillTransactionId: varchar("ccbill_transaction_id", { length: 255 }),
+  payload: text("payload"), // Full webhook JSON for audit
+  processedAt: timestamp("processed_at", { mode: "date" })
+    .defaultNow()
+    .notNull(),
+});

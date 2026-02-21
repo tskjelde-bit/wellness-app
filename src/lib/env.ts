@@ -9,6 +9,11 @@ const envSchema = z.object({
   AUTH_URL: z.string().url().optional().default("http://localhost:3000"),
   OPENAI_API_KEY: z.string().min(1),
   ELEVENLABS_API_KEY: z.string().min(1),
+  // CCBill payment integration (optional -- not needed for non-payment features)
+  CCBILL_ACCOUNT_NUMBER: z.string().min(1).optional(),
+  CCBILL_SUBACCOUNT: z.string().min(1).optional(),
+  CCBILL_FLEXFORM_ID: z.string().min(1).optional(),
+  CCBILL_SALT: z.string().min(1).optional(),
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),

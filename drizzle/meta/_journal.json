@@ -15,6 +15,13 @@
       "when": 1771662493737,
       "tag": "0001_conscious_klaw",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1771672251316,
+      "tag": "0002_fair_quasar",
+      "breakpoints": true
     }
   ]
 }
