@@ -34,11 +34,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. PostgreSQL database stores user accounts and session metadata
   4. Redis session store holds ephemeral session state with TTL-based auto-expiry
   5. Next.js project runs locally and deploys to Vercel
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md — Scaffold Next.js 16 project, Drizzle schema, Redis client, env validation
+- [ ] 01-02-PLAN.md — Auth.js v5 authentication, login/register pages, route protection
 
 ### Phase 2: Safety & Consent Framework
 **Goal**: Users encounter age verification, AI disclosure, consent gates, and content safety at every interaction boundary before any session content is accessible
@@ -174,7 +174,7 @@ Note: Phase 6 depends on Phase 4 (not Phase 5), so Phases 5 and 6 can run in par
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Scaffolding & Data Layer | 0/TBD | Not started | - |
+| 1. Project Scaffolding & Data Layer | 0/2 | Planning complete | - |
 | 2. Safety & Consent Framework | 0/TBD | Not started | - |
 | 3. LLM Text Generation Pipeline | 0/TBD | Not started | - |
 | 4. TTS & Audio Streaming | 0/TBD | Not started | - |
