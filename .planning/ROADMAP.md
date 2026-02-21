@@ -118,11 +118,11 @@ Plans:
   2. Layout is responsive and optimized for mobile browsers
   3. Active sessions show minimal visual chrome -- voice-first, screen-secondary
   4. User can start a new session from the main screen
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 06-01: TBD
-- [ ] 06-02: TBD
+- [ ] 06-01-PLAN.md — Expand theme tokens, configure mobile viewport, theme dashboard with Start Session CTA
+- [ ] 06-02-PLAN.md — Voice-first session screen with breathing orb, connect-then-start flow, phase tracking hook
 
 ### Phase 7: Session UX & Controls
 **Goal**: Users have full control over their session experience with playback controls, phase progress visibility, conversational consent flow, and session length selection
