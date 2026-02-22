@@ -195,6 +195,7 @@
                 const data = await res.json();
 
                 if (res.ok) {
+                    localStorage.setItem('wellness_registered', 'true');
                     msg.textContent = 'Konto opprettet! Sender deg til innlogging...';
                     msg.className = 'message success';
                     setTimeout(() => { window.location.href = 'login.html'; }, 1500);
