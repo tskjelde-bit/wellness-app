@@ -30,6 +30,7 @@ export async function POST(request: Request) {
           for await (const chunk of synthesizeSentence(text, {
             voiceId: voiceId ?? undefined,
             previousText: previousText ?? undefined,
+            signal: request.signal,
           })) {
             controller.enqueue(chunk);
           }

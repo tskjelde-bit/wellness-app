@@ -67,7 +67,7 @@ export function SessionScreen() {
     setHasInitiated(true);
   };
 
-  // Start session once WebSocket connection opens (Research Pitfall 3: race condition)
+  // Start session once AudioContext is ready and connected
   useEffect(() => {
     if (hasInitiated && isConnected && !sessionId) {
       console.log("[SessionScreen] Triggering startSession", {

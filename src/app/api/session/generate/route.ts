@@ -4,8 +4,7 @@
  * Streams LLM-generated sentences as SSE events for a single phase.
  * Uses the 3-stage pipeline: streamLlmTokens -> chunkBySentence -> filterSafety.
  *
- * Replaces the per-phase sentence generation previously driven by
- * SessionOrchestrator over WebSocket.
+ * Called by the client-side useSessionOrchestrator hook per phase.
  *
  * SSE event format:
  *   data: {"sentence": "...", "index": N, "responseId": "..."}\n\n

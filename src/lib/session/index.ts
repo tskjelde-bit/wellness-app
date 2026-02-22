@@ -1,8 +1,8 @@
 /**
  * Session module -- barrel exports for the 5-phase wellness session flow.
  *
- * Provides phase definitions, prompt templates, timing budgets, FSM utilities,
- * and the session orchestrator.
+ * Provides phase definitions, prompt templates, timing budgets, and FSM utilities.
+ * Session orchestration is now client-side (useSessionOrchestrator hook).
  */
 
 // Phase state machine
@@ -31,10 +31,3 @@ export {
 
 // Mood prompts
 export { MOOD_OPTIONS, MOOD_PROMPTS, type MoodOption } from "./mood-prompts";
-
-// Session orchestrator
-export {
-  SessionOrchestrator,
-  type OrchestratorEvent,
-  type OrchestratorOptions,
-} from "./orchestrator";
