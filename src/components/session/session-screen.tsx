@@ -154,9 +154,9 @@ export function SessionScreen() {
         <BreathingOrb isPlaying={isPlaying && !isPaused} />
       </div>
 
-      {/* Current sentence text (subtle overlay) */}
+      {/* Current sentence text (subtle overlay) — key forces re-mount for fade-in */}
       {currentText && (
-        <p className="relative z-10 mt-8 max-w-sm px-4 text-center text-lg font-black text-gray-900 animate-fade-in tracking-tight">
+        <p key={currentText} className="relative z-10 mt-8 max-w-sm px-4 text-center text-lg font-black text-gray-900 animate-fade-in tracking-tight">
           {currentText}
         </p>
       )}

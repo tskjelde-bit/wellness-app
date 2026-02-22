@@ -21,7 +21,7 @@ import { useAudioQueue } from "./use-audio-queue";
  */
 export function useSessionWebSocket() {
   const [isConnected, setIsConnected] = useState(false);
-  const [currentText, setCurrentText] = useState("");
+  const [fallbackText, setFallbackText] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [currentPhase, setCurrentPhase] = useState<string | null>(null);
   const [sessionEnded, setSessionEnded] = useState(false);
@@ -30,6 +30,10 @@ export function useSessionWebSocket() {
   const wsRef = useRef<WebSocket | null>(null);
   // Buffer binary audio chunks per sentence; decode complete MP3 on sentence_end
   const audioChunksRef = useRef<ArrayBuffer[]>([]);
+  // Serialise enqueue calls so decodes happen in sentence order
+  const enqueueChainRef = useRef<Promise<void>>(Promise.resolve());
+  // Buffer text until sentence_end pairs it with audio
+  const pendingCaptionRef = useRef<string>("");
 
   const {
     initQueue,
@@ -42,6 +46,7 @@ export function useSessionWebSocket() {
     ambientGain,
     isPlaying,
     isPaused,
+    currentCaption,
   } = useAudioQueue();
 
   /**
@@ -85,13 +90,13 @@ export function useSessionWebSocket() {
               setSessionId(message.sessionId);
               break;
             case "text":
-              setCurrentText(message.data);
-              // Reset chunk buffer for the new sentence
-              audioChunksRef.current = [];
+              // Buffer text — it will be paired with audio on sentence_end
+              pendingCaptionRef.current = message.data;
               break;
             case "sentence_end": {
               // Concatenate buffered chunks into a single MP3 and enqueue
               const chunks = audioChunksRef.current;
+              const caption = pendingCaptionRef.current;
               console.log(`[ws] Sentence end (index: ${message.index}), total chunks: ${chunks.length}`);
               if (chunks.length > 0) {
                 const totalLength = chunks.reduce((sum, c) => sum + c.byteLength, 0);
@@ -102,9 +107,17 @@ export function useSessionWebSocket() {
                   offset += chunk.byteLength;
                 }
                 console.log(`[ws] Enqueueing combined audio: ${totalLength} bytes`);
-                enqueue(combined.buffer as ArrayBuffer);
-                audioChunksRef.current = [];
+                // Chain enqueue so decodes are serialised in sentence order
+                enqueueChainRef.current = enqueueChainRef.current.then(() =>
+                  enqueue(combined.buffer as ArrayBuffer, caption)
+                );
+              } else {
+                // TTS failed — show text as fallback for 4 seconds
+                console.warn(`[ws] No audio chunks for sentence, showing fallback caption`);
+                setFallbackText(caption);
+                setTimeout(() => setFallbackText(""), 4000);
               }
+              audioChunksRef.current = [];
               break;
             }
             case "phase_start":
@@ -117,6 +130,7 @@ export function useSessionWebSocket() {
               setSessionEnded(true);
               setIsConnected(false);
               setCurrentPhase(null);
+              enqueueChainRef.current = Promise.resolve();
               stopAudio();
               break;
             case "error":
@@ -212,7 +226,7 @@ export function useSessionWebSocket() {
     isConnected,
     isPlaying,
     isPaused,
-    currentText,
+    currentText: currentCaption || fallbackText,
     sessionId,
     currentPhase,
     sessionEnded,

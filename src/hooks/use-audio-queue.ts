@@ -17,14 +17,23 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * AudioContext.destination) to enable independent voice volume control
  * alongside ambient soundscapes.
  */
+interface QueueItem {
+  buffer: AudioBuffer;
+  caption: string;
+}
+
 export class AudioPlaybackQueue {
   private audioContext: AudioContext;
   private voiceGain: GainNode;
-  private queue: AudioBuffer[] = [];
+  private queue: QueueItem[] = [];
   private nextPlayTime: number = 0;
   private isPlaying: boolean = false;
   private isPaused: boolean = false;
+  private isPlayNextScheduled: boolean = false;
+  private activeSource: AudioBufferSourceNode | null = null;
+  private currentCaption: string = "";
   onStateChange: (() => void) | null = null;
+  onCaptionChange: ((caption: string) => void) | null = null;
 
   constructor(audioContext: AudioContext, voiceGain: GainNode) {
     this.audioContext = audioContext;
@@ -36,14 +45,20 @@ export class AudioPlaybackQueue {
    * Uses .slice(0) to prevent detached ArrayBuffer issues when the
    * same buffer is referenced elsewhere.
    */
-  async enqueue(audioData: ArrayBuffer): Promise<void> {
+  async enqueue(audioData: ArrayBuffer, caption: string = ""): Promise<void> {
     try {
+      // Safety-net: resume AudioContext if it's still suspended (e.g. browser
+      // policy blocked it despite the user-gesture init).
+      if (this.audioContext.state === "suspended") {
+        await this.audioContext.resume();
+      }
+
       console.log(`[AudioQueue] Decoding chunk of size ${audioData.byteLength} bytes...`);
       const decoded = await this.audioContext.decodeAudioData(
         audioData.slice(0)
       );
       console.log(`[AudioQueue] Decoded successfully: ${decoded.duration.toFixed(2)}s`);
-      this.queue.push(decoded);
+      this.queue.push({ buffer: decoded, caption });
       if (!this.isPlaying && !this.isPaused) {
         this.playNext();
       }
@@ -56,30 +71,62 @@ export class AudioPlaybackQueue {
    * Schedule the next buffer in the queue for gap-free playback.
    */
   private playNext(): void {
+    // Reentrancy guard: prevent concurrent playNext() from onended + enqueue
+    if (this.isPlayNextScheduled) return;
+    this.isPlayNextScheduled = true;
+
     if (this.queue.length === 0) {
       this.isPlaying = false;
+      this.isPlayNextScheduled = false;
+      this.activeSource = null;
+      this.currentCaption = "";
+      this.onCaptionChange?.("");
       this.onStateChange?.();
       return;
     }
 
     this.isPlaying = true;
-    const buffer = this.queue.shift()!;
+    const item = this.queue.shift()!;
 
-    const source = this.audioContext.createBufferSource();
-    source.buffer = buffer;
-    source.connect(this.voiceGain);
+    try {
+      const source = this.audioContext.createBufferSource();
+      source.buffer = item.buffer;
+      source.playbackRate.value = 1.0; // explicit safeguard
+      source.connect(this.voiceGain);
+      this.activeSource = source;
 
-    // Schedule at the later of "now" or the previously scheduled end time
-    // to ensure gap-free continuity between chunks.
-    const startTime = Math.max(
-      this.audioContext.currentTime,
-      this.nextPlayTime
-    );
-    source.start(startTime);
-    this.nextPlayTime = startTime + buffer.duration;
+      // Update caption when this buffer starts playing
+      this.currentCaption = item.caption;
+      this.onCaptionChange?.(item.caption);
 
-    source.onended = () => this.playNext();
-    this.onStateChange?.();
+      // Schedule at the later of "now" or the previously scheduled end time
+      // to ensure gap-free continuity between chunks.
+      const startTime = Math.max(
+        this.audioContext.currentTime,
+        this.nextPlayTime
+      );
+      source.start(startTime);
+      this.nextPlayTime = startTime + item.buffer.duration;
+
+      source.onended = () => {
+        this.isPlayNextScheduled = false;
+        this.playNext();
+      };
+      this.onStateChange?.();
+    } catch (err) {
+      console.warn("[AudioQueue] Error in playNext:", err);
+      this.isPlayNextScheduled = false;
+      // Try next buffer in queue
+      if (this.queue.length > 0) {
+        this.playNext();
+      } else {
+        this.isPlaying = false;
+        this.activeSource = null;
+        this.currentCaption = "";
+        this.onCaptionChange?.("");
+        this.onStateChange?.();
+      }
+    }
   }
 
   /** Pause playback by suspending the AudioContext. */
@@ -101,10 +148,23 @@ export class AudioPlaybackQueue {
 
   /** Stop playback, clear queue, and close the AudioContext. */
   stop(): void {
+    // Disconnect active source before closing to prevent ghost onended callbacks
+    if (this.activeSource) {
+      this.activeSource.onended = null;
+      try {
+        this.activeSource.stop();
+        this.activeSource.disconnect();
+      } catch {
+        // Source may already be stopped
+      }
+      this.activeSource = null;
+    }
+
     this.audioContext.close();
     this.queue = [];
     this.isPlaying = false;
     this.isPaused = false;
+    this.isPlayNextScheduled = false;
     this.nextPlayTime = 0;
     this.onStateChange?.();
   }
@@ -115,6 +175,7 @@ export class AudioPlaybackQueue {
       isPlaying: this.isPlaying,
       isPaused: this.isPaused,
       queueLength: this.queue.length,
+      currentCaption: this.currentCaption,
     };
   }
 }
@@ -127,6 +188,7 @@ interface AudioQueueState {
   isPlaying: boolean;
   isPaused: boolean;
   queueLength: number;
+  currentCaption: string;
 }
 
 /**
@@ -144,6 +206,7 @@ export function useAudioQueue() {
     isPlaying: false,
     isPaused: false,
     queueLength: 0,
+    currentCaption: "",
   });
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const [voiceGain, setVoiceGain] = useState<GainNode | null>(null);
@@ -180,6 +243,9 @@ export function useAudioQueue() {
     queue.onStateChange = () => {
       setState(queue.state);
     };
+    queue.onCaptionChange = (caption: string) => {
+      setState((prev) => ({ ...prev, currentCaption: caption }));
+    };
     queueRef.current = queue;
 
     console.log("[AudioQueue] Initialized AudioContext and GainNodes");
@@ -190,9 +256,9 @@ export function useAudioQueue() {
     setAmbientGain(aGain);
   }, []);
 
-  /** Enqueue an audio chunk (ArrayBuffer) for playback. */
-  const enqueue = useCallback(async (data: ArrayBuffer) => {
-    await queueRef.current?.enqueue(data);
+  /** Enqueue an audio chunk (ArrayBuffer) with optional caption for playback. */
+  const enqueue = useCallback(async (data: ArrayBuffer, caption?: string) => {
+    await queueRef.current?.enqueue(data, caption);
   }, []);
 
   /** Pause audio playback. */
@@ -231,5 +297,6 @@ export function useAudioQueue() {
     isPlaying: state.isPlaying,
     isPaused: state.isPaused,
     queueLength: state.queueLength,
+    currentCaption: state.currentCaption,
   };
 }
