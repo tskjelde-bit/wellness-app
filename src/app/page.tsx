@@ -21,7 +21,7 @@ export default function Home() {
         style={{ animationDelay: "0.15s" }}
       >
         {/* Ambient halo behind phone */}
-        <div className="absolute -inset-10 rounded-[4rem] bg-white/[0.015] blur-3xl" />
+        <div className="pointer-events-none absolute -inset-10 rounded-[4rem] bg-white/[0.015] blur-3xl" />
 
         <div className="relative w-[300px] aspect-[9/19.5] rounded-[2.8rem] bg-white shadow-[0_4px_80px_rgba(255,255,255,0.05)] border border-white/10 overflow-hidden">
           {/* Dynamic Island */}
@@ -53,7 +53,7 @@ export default function Home() {
             <div className="flex-1" />
 
             {/* CTA Buttons */}
-            <div className="flex flex-col gap-2.5 w-full">
+            <div className="relative z-10 flex flex-col gap-2.5 w-full">
               <Link
                 href="/login"
                 className="rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 px-6 py-3 text-[12px] font-black text-white uppercase tracking-[0.15em] text-center transition-all hover:opacity-90 active:scale-[0.97]"
