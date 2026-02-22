@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrer deg - Wellness App</title>
+    <title>Logg inn - Wellness App</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -128,9 +128,24 @@
             border: 1px solid rgba(16, 185, 129, 0.3);
             color: #6ee7b7;
         }
-        .back-link {
+        .footer-link {
             display: inline-block;
             margin-top: 24px;
+            font-size: 0.85rem;
+            color: rgba(245, 245, 247, 0.5);
+        }
+        .footer-link a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+        .footer-link a:hover {
+            opacity: 0.7;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 16px;
             font-size: 0.85rem;
             color: var(--gold);
             text-decoration: none;
@@ -143,32 +158,31 @@
 </head>
 <body>
     <div class="container">
-        <h1>Opprett konto</h1>
-        <p class="subtitle">Registrer deg for Wellness App</p>
+        <h1>Logg inn</h1>
+        <p class="subtitle">Velkommen tilbake</p>
 
-        <form id="registerForm">
-            <div>
-                <label for="name">Navn</label>
-                <input id="name" name="name" type="text" required placeholder="Ditt navn" minlength="2" maxlength="100">
-            </div>
+        <form id="loginForm">
             <div>
                 <label for="email">E-post</label>
                 <input id="email" name="email" type="email" required placeholder="din@epost.no">
             </div>
             <div>
                 <label for="password">Passord</label>
-                <input id="password" name="password" type="password" required placeholder="Minst 8 tegn" minlength="8" maxlength="128">
+                <input id="password" name="password" type="password" required placeholder="Ditt passord" minlength="8">
             </div>
-            <button type="submit" class="btn" id="submitBtn">Opprett konto</button>
+            <button type="submit" class="btn" id="submitBtn">Logg inn</button>
         </form>
 
         <div id="message" class="message"></div>
 
+        <p class="footer-link">
+            Har du ikke konto? <a href="register.html">Registrer deg</a>
+        </p>
         <a href="index.html" class="back-link">&larr; Tilbake</a>
     </div>
 
     <script>
-        const form = document.getElementById('registerForm');
+        const form = document.getElementById('loginForm');
         const msg = document.getElementById('message');
         const btn = document.getElementById('submitBtn');
 
@@ -177,29 +191,26 @@
             msg.className = 'message';
             msg.style.display = 'none';
             btn.disabled = true;
-            btn.textContent = 'Oppretter...';
-
-            const body = {
-                name: form.name.value.trim(),
-                email: form.email.value.trim(),
-                password: form.password.value,
-            };
+            btn.textContent = 'Logger inn...';
 
             try {
-                const res = await fetch('/api/register', {
+                const res = await fetch('/api/auth/callback/credentials', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body),
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        email: form.email.value.trim(),
+                        password: form.password.value,
+                        redirect: 'false',
+                        csrfToken: '',
+                    }),
                 });
 
-                const data = await res.json();
-
                 if (res.ok) {
-                    msg.textContent = 'Konto opprettet! Sender deg til innlogging...';
+                    msg.textContent = 'Logget inn! Sender deg videre...';
                     msg.className = 'message success';
-                    setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+                    setTimeout(() => { window.location.href = '/dashboard'; }, 1000);
                 } else {
-                    msg.textContent = data.error || 'Noe gikk galt.';
+                    msg.textContent = 'Feil e-post eller passord.';
                     msg.className = 'message error';
                 }
             } catch {
@@ -208,7 +219,7 @@
             }
 
             btn.disabled = false;
-            btn.textContent = 'Opprett konto';
+            btn.textContent = 'Logg inn';
         });
     </script>
 </body>
