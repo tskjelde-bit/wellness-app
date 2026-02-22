@@ -23,43 +23,21 @@ const openai = new OpenAI();
 // ---------------------------------------------------------------------------
 // Configurable defaults
 // ---------------------------------------------------------------------------
-const DEFAULT_MODEL = "gpt-4.1-mini";
+const DEFAULT_MODEL = "gpt-4o-mini";
 const DEFAULT_TEMPERATURE = 0.8;
 const MAX_OUTPUT_TOKENS = 4096;
-
-// ---------------------------------------------------------------------------
-// Stage 1: Stream raw token deltas from the LLM
-// ---------------------------------------------------------------------------
 
 export interface StreamLlmOptions {
   model?: string;
   temperature?: number;
-  /** Chain to a prior response for multi-phase context continuity */
   previousResponseId?: string;
-  /** Enable server-side response retention (required for chaining, defaults to false) */
   store?: boolean;
-  /** Callback to capture the response ID from the response.created event */
   onResponseId?: (id: string) => void;
-  /** AbortSignal for cancellation propagation from the orchestrator */
   signal?: AbortSignal;
-  /** Override the default "Begin the session." input message */
   userMessage?: string;
-  /** Override for complete instructions string (skips buildSessionInstructions) */
   instructions?: string;
 }
 
-/**
- * Streams raw token deltas from the OpenAI Responses API.
- *
- * Uses the `instructions` parameter with combined safety + session prompts.
- * On error, yields a single fallback message instead of throwing.
- *
- * Supports multi-phase context chaining via `previousResponseId` and `store`.
- * When `instructions` is provided, it is used directly (skipping buildSessionInstructions).
- *
- * @param sessionPrompt - Optional session-specific context for instructions
- * @param options - Model, temperature, chaining, and cancellation overrides
- */
 export async function* streamLlmTokens(
   sessionPrompt: string,
   options?: StreamLlmOptions,
@@ -67,41 +45,29 @@ export async function* streamLlmTokens(
   const model = options?.model ?? DEFAULT_MODEL;
   const temperature = options?.temperature ?? DEFAULT_TEMPERATURE;
 
-  // Respect abort signal before starting
   if (options?.signal?.aborted) return;
 
   try {
-    const stream = await openai.responses.create({
+    const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+      { role: "system", content: options?.instructions ?? SYSTEM_BASE },
+      { role: "user", content: options?.userMessage ?? "Begin the session." }
+    ];
+
+    const stream = await openai.chat.completions.create({
       model,
-      instructions:
-        options?.instructions ?? SYSTEM_BASE,
-      input: [
-        { role: "user", content: options?.userMessage ?? "Begin the session." },
-      ],
+      messages,
       temperature,
-      max_output_tokens: MAX_OUTPUT_TOKENS,
-      store: options?.store ?? false,
-      ...(options?.previousResponseId && {
-        previous_response_id: options.previousResponseId,
-      }),
+      max_tokens: MAX_OUTPUT_TOKENS,
       stream: true,
     });
 
-    for await (const event of stream) {
-      // Capture response ID on creation
-      if (event.type === "response.created") {
-        options?.onResponseId?.(event.response.id);
-      }
-
-      if (event.type === "response.output_text.delta") {
-        yield event.delta;
-      }
-
-      // Check abort between events
-      if (options?.signal?.aborted) return;
+    for await (const chunk of stream) {
+      if (options?.signal?.aborted) break;
+      const delta = chunk.choices[0]?.delta?.content;
+      if (delta) yield delta;
     }
-  } catch {
-    // Stream error: yield a wellness fallback instead of crashing
+  } catch (error) {
+    console.error("[LLM] streamLlmTokens error:", error);
     yield getRandomFallback();
   }
 }

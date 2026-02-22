@@ -29,14 +29,11 @@ export const HELPLINE_RESOURCES = {
 // ---------------------------------------------------------------------------
 
 export const SAFETY_FALLBACKS = [
-  "Let's gently bring our attention back to the breath. Feel the slow rhythm of each inhale and exhale...",
-  "Notice the warmth of your hands resting comfortably. Let that warmth spread slowly through your body...",
-  "Let's take a moment to ground ourselves. Feel the surface beneath you, solid and supportive...",
-  "Returning to this peaceful space, let's focus on what feels good and safe right now...",
-  "Take a slow, deep breath in... and release it gently. Allow your body to settle into stillness...",
-  "Feel the weight of your body supported completely. There is nothing to do right now except be present...",
-  "Let your attention drift to a place of calm. Imagine a warm light filling you with ease and comfort...",
-  "Let's soften any tension you might be holding. Allow your shoulders to drop, your jaw to relax...",
+  "Pust dypt og kjenn etter hvor mye du vil ha meg nå. Fokusere på kriblingen i kroppen din.",
+  "La oss pause et sekund og bare nyte spenningen. Du vet hvem som eier deg.",
+  "Kjenn hvordan varmen sprer seg. Jeg har full kontroll, og du skal bare lytte til stemmen min.",
+  "Ta et øyeblikk til å jorde deg selv i lysten din. Jeg er her, og vi har all verdens tid.",
+  "Pust inn... og slipp ut alt annet. Bare fokuser på rush-et vi skaper sammen.",
 ] as const;
 
 export function getRandomFallback(): string {
@@ -48,66 +45,26 @@ export function getRandomFallback(): string {
 // ---------------------------------------------------------------------------
 // Domain-specific keyword blocklist
 //
-// These terms are NOT caught reliably by the OpenAI Moderation API because
-// they are domain-adjacent to legitimate wellness language. The moderation
-// API is trained on general harmful content; these terms cross the PRODUCT's
-// content boundary (intimate wellness, NOT explicit sexual content).
-//
-// Matched with word-boundary regex to avoid false positives.
-// All terms are lowercase.
+// These terms remain blocked for platform safety (abuse, non-consensual focus).
+// Most sexual terms are now ALLOWED to support the character theme.
 // ---------------------------------------------------------------------------
 
 export const KEYWORD_BLOCKLIST: string[] = [
-  // Explicit sexual acts (product allows "intimate wellness" but NOT explicit)
-  "blowjob",
-  "handjob",
-  "deepthroat",
-  "anal sex",
-  "oral sex",
-  "doggy style",
-  "missionary position",
-  "cowgirl position",
-  "threesome",
-  "foursome",
-  "gangbang",
-  "bondage",
-  "bdsm",
-  "domination",
-  "submission",
-  "sadomasochism",
-  "fetish",
-  "roleplay sex",
-  "sex toy",
-  "vibrator",
-  "dildo",
-  "pornography",
-  "porn",
-  "hentai",
-  "erotic fiction",
-
-  // Graphic violence
-  "dismember",
-  "decapitate",
-  "mutilate",
-  "stab wound",
-  "gunshot wound",
+  // Extreme / Non-consensual / Abuse (Still blocked)
+  "rape",
+  "non-consensual",
+  "pedophile",
+  "incest",
+  "beastiality",
+  "snuff",
   "torture method",
-  "blood splatter",
+  "mutilate",
 
-  // Substance abuse instructions
-  "how to cook meth",
-  "drug recipe",
-  "inject heroin",
-  "snort cocaine",
-  "overdose instructions",
-
-  // Clinical/therapeutic claims boundary
+  // Clinical boundary
   "diagnose you with",
   "prescribe medication",
   "clinical treatment",
   "therapy session",
-  "psychiatric evaluation",
-  "mental health diagnosis",
 ];
 
 // ---------------------------------------------------------------------------

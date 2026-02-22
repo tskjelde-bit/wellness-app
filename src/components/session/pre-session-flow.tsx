@@ -47,20 +47,6 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
     null
   );
 
-  // When consent server action succeeds, fire onBegin with consent=true
-  useEffect(() => {
-    if (consentState?.success) {
-      onBegin({
-        character: selectedCharacter,
-        sessionLength: selectedLength,
-        sensoryConsent: true,
-        mood: selectedMood,
-        voiceId: selectedVoiceId,
-        soundscape: selectedSoundscape,
-      });
-    }
-  }, [consentState?.success, onBegin, selectedCharacter, selectedLength, selectedMood, selectedVoiceId, selectedSoundscape]);
-
   const handleSkipSensory = useCallback(() => {
     onBegin({
       character: selectedCharacter,
@@ -274,7 +260,22 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
         <div className="flex w-full flex-col items-center gap-3">
           {/* Primary: consent + begin */}
-          <form action={consentAction} className="w-full max-w-xs">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              consentAction(formData);
+              onBegin({
+                character: selectedCharacter,
+                sessionLength: selectedLength,
+                sensoryConsent: true,
+                mood: selectedMood,
+                voiceId: selectedVoiceId,
+                soundscape: selectedSoundscape,
+              });
+            }}
+            className="w-full max-w-xs"
+          >
             <input type="hidden" name="consent" value="true" />
             <button
               type="submit"

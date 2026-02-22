@@ -49,12 +49,15 @@ export function handleSession(client: WebSocket): void {
   const controller = new AbortController();
   const sessionId = crypto.randomUUID();
 
+  console.log(`[ws:${sessionId}] New connection established`);
+
   // Session state
   let isPaused = false;
   let isStreaming = false;
   let resumeResolve: (() => void) | null = null;
 
   // Send initial session_start
+  console.log(`[ws:${sessionId}] Sending session_start event`);
   send(client, { type: "session_start", sessionId });
 
   // Heartbeat: ping every 30 seconds to keep connection alive
@@ -87,6 +90,7 @@ export function handleSession(client: WebSocket): void {
 
     switch (message.type) {
       case "start_session": {
+        console.log(`[ws:${sessionId}] Received start_session command`, message);
         if (isStreaming) {
           send(client, {
             type: "error",

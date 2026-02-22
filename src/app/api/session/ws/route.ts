@@ -18,7 +18,7 @@ import { handleSession } from "@/lib/ws/session-handler";
  * Called by next-ws when a client upgrades to WebSocket at /api/session/ws.
  * Delegates full session lifecycle management to handleSession.
  */
-export function SOCKET(
+export function UPGRADE(
   client: WebSocket,
   _request: NextRequest,
 ): void {

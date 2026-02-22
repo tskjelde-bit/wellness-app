@@ -56,6 +56,7 @@ export function SessionScreen() {
     voiceId: string;
     soundscape: string;
   }) => {
+    console.log("[SessionScreen] handleBegin triggered", options);
     setSelectedCharacter(options.character);
     setSelectedLength(options.sessionLength);
     setSensoryConsent(options.sensoryConsent);
@@ -69,6 +70,10 @@ export function SessionScreen() {
   // Start session once WebSocket connection opens (Research Pitfall 3: race condition)
   useEffect(() => {
     if (hasInitiated && isConnected && !sessionId) {
+      console.log("[SessionScreen] Triggering startSession", {
+        character: selectedCharacter,
+        sessionLength: selectedLength,
+      });
       startSession({
         character: selectedCharacter,
         sessionLength: selectedLength,
