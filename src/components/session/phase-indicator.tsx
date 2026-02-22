@@ -27,7 +27,7 @@ export function PhaseIndicator({ currentPhase }: PhaseIndicatorProps) {
       {SESSION_PHASES.map((phase, index) => (
         <div
           key={phase}
-          className={`h-1 w-5 rounded-full transition-colors duration-500 ${index <= activeIndex ? "bg-rose-500" : "bg-gray-300"
+          className={`h-1.5 w-6 rounded-full transition-colors duration-500 ${index <= activeIndex ? "bg-black" : "bg-gray-200"
             }`}
           title={phase.charAt(0).toUpperCase() + phase.slice(1)}
         />

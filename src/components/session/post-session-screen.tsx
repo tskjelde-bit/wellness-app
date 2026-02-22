@@ -54,31 +54,30 @@ export function PostSessionScreen({ onDone }: PostSessionScreenProps) {
   );
 
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-[url('/bg.png')] bg-cover bg-center px-4 safe-area-padding animate-fade-in">
-      <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]" />
+    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-white px-4 safe-area-padding animate-fade-in">
       <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-8">
         {/* Heading */}
-        <h2 className="text-2xl font-bold text-gray-900 drop-shadow-sm">
+        <h2 className="text-2xl font-black text-gray-950 uppercase tracking-tighter">
           Sesjonen er ferdig
         </h2>
 
         {/* Grounding exercise card */}
-        <div className="w-full rounded-2xl bg-gradient-to-br from-white/95 to-white/70 p-6 shadow-xl border border-pink-50">
-          <h3 className="mb-3 text-lg font-bold text-gray-900">{exercise.title}</h3>
-          <p className="text-sm leading-relaxed font-medium text-gray-700">
+        <div className="w-full rounded-2xl bg-gradient-to-b from-gray-50 to-gray-100 p-6 shadow-xl border border-gray-200">
+          <h3 className="mb-3 text-lg font-black text-gray-900 uppercase tracking-tight">{exercise.title}</h3>
+          <p className="text-sm leading-relaxed font-bold text-gray-800">
             {exercise.description}
           </p>
         </div>
 
         {/* Reflection prompt */}
-        <p className="px-4 text-center text-sm italic font-bold text-gray-600">
+        <p className="px-4 text-center text-sm italic font-black text-gray-500 uppercase tracking-widest">
           {prompt}
         </p>
 
         {/* Return to dashboard */}
         <button
           onClick={onDone}
-          className="w-full max-w-xs rounded-xl bg-gradient-to-r from-pink-300 to-rose-400 py-3.5 font-bold text-rose-950 shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full max-w-xs rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 py-3.5 font-bold text-white shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
         >
           Gå tilbake til oversikten
         </button>

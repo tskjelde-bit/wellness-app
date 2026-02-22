@@ -23,9 +23,9 @@ export function MoodSelector({ selected, onSelect }: MoodSelectorProps) {
         <button
           key={mood.id}
           onClick={() => onSelect(mood.id)}
-          className={`flex items-center justify-center gap-2 min-h-[56px] rounded-xl px-4 py-3 text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98] ${selected === mood.id
-            ? "bg-gradient-to-r from-pink-300 to-rose-400 text-rose-950 shadow-md"
-            : "bg-gradient-to-br from-white/95 to-white/70 text-gray-700 border border-pink-100"
+          className={`flex items-center justify-center gap-2 min-h-[56px] rounded-xl px-4 py-3 text-sm font-black uppercase tracking-tight transition-all hover:scale-[1.02] active:scale-[0.98] ${selected === mood.id
+            ? "bg-gradient-to-b from-gray-800 to-gray-950 text-white shadow-xl"
+            : "bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 border border-gray-200"
             }`}
         >
           <span className="text-xl">{mood.emoji}</span>

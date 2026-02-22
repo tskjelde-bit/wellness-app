@@ -122,9 +122,8 @@ export function SessionScreen() {
   // ---- Connecting state ----
   if (!isConnected && hasInitiated) {
     return (
-      <div className="relative flex min-h-dvh flex-col items-center justify-center bg-[url('/bg.png')] bg-cover bg-center px-4 safe-area-padding">
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]" />
-        <div className="relative z-10 animate-pulse text-gray-800 font-bold text-lg">
+      <div className="relative flex min-h-dvh flex-col items-center justify-center bg-white px-4 safe-area-padding">
+        <div className="animate-pulse text-gray-950 font-black text-xl uppercase tracking-tighter">
           Kobler til...
         </div>
       </div>
@@ -133,12 +132,11 @@ export function SessionScreen() {
 
   // ---- Active session: voice-first minimal chrome ----
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-[url('/bg.png')] bg-cover bg-center safe-area-padding">
-      <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px]" />
+    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-white safe-area-padding">
 
       {/* Error banner */}
       {error && (
-        <div className="absolute top-4 left-4 right-4 z-50 rounded-lg bg-rose/10 border border-rose-200 p-3 text-center text-sm font-bold text-rose-900 animate-fade-in safe-area-padding">
+        <div className="absolute top-4 left-4 right-4 z-50 rounded-lg bg-gray-50 border border-gray-200 p-3 text-center text-sm font-bold text-gray-900 animate-fade-in safe-area-padding">
           {error}
         </div>
       )}
@@ -158,7 +156,7 @@ export function SessionScreen() {
 
       {/* Current sentence text (subtle overlay) */}
       {currentText && (
-        <p className="relative z-10 mt-8 max-w-sm px-4 text-center text-base font-bold text-gray-800 animate-fade-in drop-shadow-sm">
+        <p className="relative z-10 mt-8 max-w-sm px-4 text-center text-lg font-black text-gray-900 animate-fade-in tracking-tight">
           {currentText}
         </p>
       )}
@@ -185,7 +183,7 @@ export function SessionScreen() {
         {/* Mixer toggle button */}
         <button
           onClick={() => setShowMixer((v) => !v)}
-          className="text-xs font-bold text-gray-500 transition-colors hover:text-gray-800"
+          className="text-xs font-black text-gray-400 uppercase tracking-widest transition-colors hover:text-gray-950"
           aria-label={showMixer ? "Hide volume mixer" : "Show volume mixer"}
         >
           <svg
@@ -195,7 +193,7 @@ export function SessionScreen() {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="3"
+            strokeWidth="4"
             strokeLinecap="round"
             strokeLinejoin="round"
           >
