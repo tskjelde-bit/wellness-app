@@ -31,6 +31,7 @@ export class AudioPlaybackQueue {
   private isPaused: boolean = false;
   private isPlayNextScheduled: boolean = false;
   private activeSource: AudioBufferSourceNode | null = null;
+  private safetyTimer: ReturnType<typeof setTimeout> | null = null;
   private currentCaption: string = "";
   onStateChange: (() => void) | null = null;
   onCaptionChange: ((caption: string) => void) | null = null;
@@ -64,6 +65,17 @@ export class AudioPlaybackQueue {
       }
     } catch (err) {
       console.warn("[AudioQueue] Could not decode audio chunk:", err);
+      // Show caption as fallback even though audio decoding failed
+      if (caption) {
+        this.onCaptionChange?.(caption);
+        const fallbackCaption = caption;
+        setTimeout(() => {
+          if (this.currentCaption === fallbackCaption) {
+            this.currentCaption = "";
+            this.onCaptionChange?.("");
+          }
+        }, 4000);
+      }
     }
   }
 
@@ -75,10 +87,16 @@ export class AudioPlaybackQueue {
     if (this.isPlayNextScheduled) return;
     this.isPlayNextScheduled = true;
 
+    // Resume AudioContext if browser suspended it (e.g. background tab)
+    if (this.audioContext.state === "suspended") {
+      this.audioContext.resume();
+    }
+
     if (this.queue.length === 0) {
       this.isPlaying = false;
       this.isPlayNextScheduled = false;
       this.activeSource = null;
+      this.nextPlayTime = 0;
       this.currentCaption = "";
       this.onCaptionChange?.("");
       this.onStateChange?.();
@@ -108,7 +126,19 @@ export class AudioPlaybackQueue {
       source.start(startTime);
       this.nextPlayTime = startTime + item.buffer.duration;
 
+      // Safety timeout: if onended never fires (e.g. AudioContext frozen),
+      // force-advance the queue to prevent permanent stall.
+      const expectedDuration = (startTime + item.buffer.duration) - this.audioContext.currentTime;
+      if (this.safetyTimer) clearTimeout(this.safetyTimer);
+      this.safetyTimer = setTimeout(() => {
+        console.warn("[AudioQueue] Safety timeout — onended did not fire, forcing next");
+        this.safetyTimer = null;
+        this.isPlayNextScheduled = false;
+        this.playNext();
+      }, (expectedDuration * 1000) + 3000);
+
       source.onended = () => {
+        if (this.safetyTimer) { clearTimeout(this.safetyTimer); this.safetyTimer = null; }
         this.isPlayNextScheduled = false;
         this.playNext();
       };
@@ -148,6 +178,9 @@ export class AudioPlaybackQueue {
 
   /** Stop playback, clear queue, and close the AudioContext. */
   stop(): void {
+    // Clear safety timer to prevent ghost playNext() calls
+    if (this.safetyTimer) { clearTimeout(this.safetyTimer); this.safetyTimer = null; }
+
     // Disconnect active source before closing to prevent ghost onended callbacks
     if (this.activeSource) {
       this.activeSource.onended = null;
@@ -202,6 +235,7 @@ interface AudioQueueState {
  */
 export function useAudioQueue() {
   const queueRef = useRef<AudioPlaybackQueue | null>(null);
+  const visibilityHandlerRef = useRef<(() => void) | null>(null);
   const [state, setState] = useState<AudioQueueState>({
     isPlaying: false,
     isPaused: false,
@@ -248,6 +282,16 @@ export function useAudioQueue() {
     };
     queueRef.current = queue;
 
+    // Resume AudioContext when tab becomes visible again
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible" && ctx.state === "suspended") {
+        console.log("[AudioQueue] visibilitychange resume");
+        ctx.resume();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    visibilityHandlerRef.current = handleVisibility;
+
     console.log("[AudioQueue] Initialized AudioContext and GainNodes");
 
     // Expose via state so consumers can use them reactively
@@ -275,6 +319,10 @@ export function useAudioQueue() {
   const stop = useCallback(() => {
     queueRef.current?.stop();
     queueRef.current = null;
+    if (visibilityHandlerRef.current) {
+      document.removeEventListener("visibilitychange", visibilityHandlerRef.current);
+      visibilityHandlerRef.current = null;
+    }
   }, []);
 
   // Clean up on unmount
@@ -282,6 +330,10 @@ export function useAudioQueue() {
     return () => {
       queueRef.current?.stop();
       queueRef.current = null;
+      if (visibilityHandlerRef.current) {
+        document.removeEventListener("visibilitychange", visibilityHandlerRef.current);
+        visibilityHandlerRef.current = null;
+      }
     };
   }, []);
 

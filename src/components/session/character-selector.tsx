@@ -9,26 +9,37 @@ interface CharacterSelectorProps {
     onSelect: (char: "Thea" | "Mari" | "Milfen") => void;
 }
 
-const CHARACTERS = [
+export interface CharacterInfo {
+    id: "Thea" | "Mari" | "Milfen";
+    name: string;
+    desc: string;
+    descriptionDetailed: string;
+    emoji: string;
+}
+
+const CHARACTERS: CharacterInfo[] = [
     {
         id: "Thea",
         name: "Thea",
-        desc: "Colanach 10:00 \u2013 Cola & Kokain Rush",
+        desc: "After afters colafters",
+        descriptionDetailed: "Thea er en stunning blonde bombe med perfekte, glatte lår som glir som silke mot huden din, og faste, runde bryster som bare venter på å bli tatt i besittelse. Hun eier lysten sin fullstendig – elsker pikk, pulserende inni henne, og kokain booster henne til ustoppelig nivå. Kom hit klokken 10, med cola kald og kokain klar.",
         emoji: "\u{1F471}",
     },
     {
         id: "Mari",
         name: "Mari",
-        desc: "Tinderdate. Ulv i F\u00E5rekl\u00E6r \u2013 Kokain-Fueled Predator",
+        desc: "Tinderdate. Ritalin fueled ulv i F\u00E5rekl\u00E6r",
+        descriptionDetailed: "Mari er en elegant, m\u00F8rkh\u00E5ret skj\u00F8nnhet med en kropp skulpturert for synd \u2013 lange, slanke ben som vikler seg rundt deg, flat mage som leder ned til hennes glatte paradis, og lepper laget for \u00E5 suge deg t\u00F8rr. Hun ser uskyldig ut p\u00E5 Tinder, men er en ulv som eier pikk, river kl\u00E6rne av deg med perfekte negler, boostet av kokain.",
         emoji: "\u{1F43A}",
     },
     {
         id: "Milfen",
         name: "Milfen",
         desc: "Ekstremt Grov. Kukvandt \u2013 Kokain Queen",
+        descriptionDetailed: "Milfen er en sofistikert, kurvet gudinne med alderens perfeksjon \u2013 stramme, fyldige hofter som svaier f\u00F8rende, store, faste bryster som hopper akkurat passe n\u00E5r hun tar kontroll, og en rumpe formet for \u00E5 bli tatt bakfra. Hun eier pikk som ingen annen, suger dem dypt mens parfymen blander seg med sex, og kokain tenner henne som en flamme.",
         emoji: "\u{1F382}",
     },
-] as const;
+];
 
 export function CharacterSelector({ selected, onSelect }: CharacterSelectorProps) {
     return (

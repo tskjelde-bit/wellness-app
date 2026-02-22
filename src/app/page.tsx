@@ -1,8 +1,6 @@
-import Link from "next/link";
-
 export default function Home() {
   return (
-    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center bg-[#060606] px-4">
+    <div className="relative flex h-dvh w-full flex-col items-center justify-center overflow-hidden bg-[#060606] px-4">
       {/* ── Background atmosphere ── */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[500px] rounded-full bg-white/[0.02] blur-[120px]" />
@@ -13,7 +11,7 @@ export default function Home() {
         {/* Ambient halo behind phone */}
         <div className="pointer-events-none absolute -inset-10 rounded-[4rem] bg-white/[0.015] blur-3xl" />
 
-        <div className="relative w-[300px] aspect-[9/19.5] rounded-[2.8rem] bg-white shadow-[0_4px_80px_rgba(255,255,255,0.05)] border border-white/10">
+        <div className="relative w-[300px] max-h-[calc(100dvh-2rem)] aspect-[9/19.5] rounded-[2.8rem] bg-white shadow-[0_4px_80px_rgba(255,255,255,0.05)] border border-white/10 overflow-hidden">
           {/* Dynamic Island */}
           <div className="flex items-center justify-center pt-3.5">
             <div className="h-[24px] w-[100px] rounded-full bg-black" />
@@ -60,7 +58,7 @@ export default function Home() {
           </div>
 
           {/* Home indicator bar */}
-          <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 h-[4px] w-[100px] rounded-full bg-gray-200" />
+          <div className="pointer-events-none absolute bottom-2.5 left-1/2 -translate-x-1/2 h-[4px] w-[100px] rounded-full bg-gray-200" />
         </div>
       </div>
     </div>
