@@ -38,17 +38,17 @@ export function CharacterSelector({ selected, onSelect }: CharacterSelectorProps
                     key={char.id}
                     onClick={() => onSelect(char.id)}
                     className={`relative overflow-hidden rounded-2xl p-4 text-left transition-all hover:scale-[1.02] active:scale-[0.98] ${selected === char.id
-                            ? "bg-rose ring-2 ring-rose ring-offset-2 ring-offset-charcoal"
-                            : "bg-cream/5 hover:bg-cream/10"
+                        ? "bg-gradient-to-r from-pink-300 to-rose-400 shadow-md ring-2 ring-pink-400"
+                        : "bg-gradient-to-br from-white/95 to-white/70 border border-pink-50"
                         }`}
                 >
                     <div className="flex items-center gap-4">
                         <span className="text-3xl">{char.emoji}</span>
                         <div>
-                            <h3 className={`font-semibold ${selected === char.id ? "text-white" : "text-cream"}`}>
+                            <h3 className={`font-bold ${selected === char.id ? "text-rose-950" : "text-gray-900"}`}>
                                 {char.name}
                             </h3>
-                            <p className={`text-xs ${selected === char.id ? "text-white/80" : "text-cream/50"}`}>
+                            <p className={`text-xs font-medium ${selected === char.id ? "text-rose-900/80" : "text-gray-500"}`}>
                                 {char.desc}
                             </p>
                         </div>

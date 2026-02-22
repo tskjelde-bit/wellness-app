@@ -33,27 +33,27 @@ export function VolumeMixer({ voiceGain, ambientGain }: VolumeMixerProps) {
 
   return (
     <div className="flex flex-col gap-2 w-full max-w-[200px]">
-      <label className="flex items-center gap-2 text-xs text-cream/50">
-        <span className="w-14 shrink-0">Voice</span>
+      <label className="flex items-center gap-2 text-xs font-bold text-gray-600">
+        <span className="w-14 shrink-0">Stemme</span>
         <input
           type="range"
           min={0}
           max={100}
           defaultValue={100}
-          className="flex-1 accent-rose"
+          className="flex-1 accent-rose-500"
           onChange={(e) =>
             voiceGain && setVolume(voiceGain, Number(e.target.value) / 100)
           }
         />
       </label>
-      <label className="flex items-center gap-2 text-xs text-cream/50">
-        <span className="w-14 shrink-0">Ambient</span>
+      <label className="flex items-center gap-2 text-xs font-bold text-gray-600">
+        <span className="w-14 shrink-0">Bakgrunn</span>
         <input
           type="range"
           min={0}
           max={100}
           defaultValue={30}
-          className="flex-1 accent-blush"
+          className="flex-1 accent-rose-500"
           onChange={(e) =>
             ambientGain && setVolume(ambientGain, Number(e.target.value) / 100)
           }

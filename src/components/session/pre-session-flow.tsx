@@ -41,6 +41,14 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
   const [selectedVoiceId, setSelectedVoiceId] = useState(DEFAULT_VOICE_ID);
   const [selectedSoundscape, setSelectedSoundscape] = useState("silence");
 
+  const commonBgClass = "relative flex min-h-dvh flex-col items-center justify-center bg-[url('/bg.png')] bg-cover bg-center px-4 safe-area-padding";
+  const overlayClass = "absolute inset-0 bg-white/60 backdrop-blur-[2px]";
+  const containerClass = "relative z-10 flex w-full max-w-sm flex-col items-center gap-8";
+
+  const textTitleClass = "text-xl font-bold text-gray-900";
+  const textSubclass = "mt-1 text-sm text-gray-600";
+  const pinkButtonClass = "w-full max-w-xs rounded-xl bg-gradient-to-r from-pink-300 to-rose-400 py-3.5 font-bold text-rose-950 shadow-lg transition-all hover:scale-[1.02] hover:shadow-pink-200/50 active:scale-[0.98]";
+
   // Server action for sensory consent audit trail
   const [consentState, consentAction, isConsentPending] = useActionState(
     recordSensoryConsent,
@@ -64,13 +72,14 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
   if (step === "character") {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
-        <div className="flex w-full max-w-sm flex-col items-center gap-8">
+      <div className={commonBgClass}>
+        <div className={overlayClass} />
+        <div className={containerClass}>
           <div className="text-center">
-            <h2 className="text-lg font-medium text-cream/80">
+            <h2 className={textTitleClass}>
               Velg dama di
             </h2>
-            <p className="mt-1 text-sm text-cream/50">
+            <p className={textSubclass}>
               Hvem skal eie deg i kveld?
             </p>
           </div>
@@ -79,7 +88,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
           <button
             onClick={() => setStep("mood")}
-            className="w-full max-w-xs rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98]"
+            className={pinkButtonClass}
           >
             Velg henne
           </button>
@@ -94,18 +103,14 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
   if (step === "mood") {
     return (
-      <div className="relative flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
-        {/* Ambient breathing orb (static, decorative) */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-20">
-          <BreathingOrb isPlaying={false} />
-        </div>
-
-        <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-8">
+      <div className={commonBgClass}>
+        <div className={overlayClass} />
+        <div className={containerClass}>
           <div className="text-center">
-            <h2 className="text-lg font-medium text-cream/80">
+            <h2 className={textTitleClass}>
               Hvilket humør er hun i?
             </h2>
-            <p className="mt-1 text-sm text-cream/50">
+            <p className={textSubclass}>
               Dette setter stemningen for rushet
             </p>
           </div>
@@ -114,7 +119,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
           <button
             onClick={() => setStep("voice")}
-            className="w-full max-w-xs rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98]"
+            className={pinkButtonClass}
           >
             Fortsett
           </button>
@@ -129,18 +134,14 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
   if (step === "voice") {
     return (
-      <div className="relative flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
-        {/* Ambient breathing orb (static, decorative) */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-20">
-          <BreathingOrb isPlaying={false} />
-        </div>
-
-        <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-8">
+      <div className={commonBgClass}>
+        <div className={overlayClass} />
+        <div className={containerClass}>
           <div className="text-center">
-            <h2 className="text-lg font-medium text-cream/80">
+            <h2 className={textTitleClass}>
               Velg stemmen hennes
             </h2>
-            <p className="mt-1 text-sm text-cream/50">
+            <p className={textSubclass}>
               Hvordan vil du at hun skal snakke til deg?
             </p>
           </div>
@@ -149,7 +150,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
           <button
             onClick={() => setStep("length")}
-            className="w-full max-w-xs rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98]"
+            className={pinkButtonClass}
           >
             Fortsett
           </button>
@@ -164,18 +165,14 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
   if (step === "length") {
     return (
-      <div className="relative flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
-        {/* Ambient breathing orb (static, decorative) */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-20">
-          <BreathingOrb isPlaying={false} />
-        </div>
-
-        <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-8">
+      <div className={commonBgClass}>
+        <div className={overlayClass} />
+        <div className={containerClass}>
           <div className="text-center">
-            <h2 className="text-lg font-medium text-cream/80">
+            <h2 className={textTitleClass}>
               Hvor lenge skal det vare?
             </h2>
-            <p className="mt-1 text-sm text-cream/50">
+            <p className={textSubclass}>
               Velg lengden på rushet
             </p>
           </div>
@@ -186,9 +183,9 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
               <button
                 key={minutes}
                 onClick={() => setSelectedLength(minutes)}
-                className={`flex items-center justify-center min-h-[56px] rounded-xl text-base font-medium transition-all hover:scale-[1.02] active:scale-[0.98] ${selectedLength === minutes
-                  ? "bg-rose text-white shadow-glow"
-                  : "bg-cream/5 text-cream/70 hover:bg-cream/10 border border-gold/10"
+                className={`flex items-center justify-center min-h-[56px] rounded-xl text-base font-bold transition-all hover:scale-[1.02] active:scale-[0.98] ${selectedLength === minutes
+                  ? "bg-gradient-to-r from-pink-300 to-rose-400 text-rose-950 shadow-md"
+                  : "bg-gradient-to-br from-white/90 to-white/60 text-gray-700 border border-pink-100"
                   }`}
               >
                 {minutes} min
@@ -198,7 +195,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
           {/* Soundscape selector */}
           <div className="w-full">
-            <p className="mb-3 text-center text-sm text-cream/50">
+            <p className="mb-3 text-center text-sm font-medium text-gray-600">
               Bakgrunnslyd
             </p>
             <div className="grid w-full grid-cols-3 gap-2">
@@ -206,9 +203,9 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
                 <button
                   key={option.id}
                   onClick={() => setSelectedSoundscape(option.id)}
-                  className={`flex h-10 items-center justify-center rounded-xl border text-xs transition-all hover:scale-[1.02] active:scale-[0.98] ${selectedSoundscape === option.id
-                    ? "border-rose bg-rose/20 text-cream"
-                    : "border-gold/10 bg-cream/5 text-cream/50 hover:bg-cream/10"
+                  className={`flex h-10 items-center justify-center rounded-xl border text-xs font-bold transition-all hover:scale-[1.02] active:scale-[0.98] ${selectedSoundscape === option.id
+                    ? "border-rose bg-gradient-to-r from-pink-200 to-pink-300 text-rose-900"
+                    : "border-pink-100 bg-white/70 text-gray-500"
                     }`}
                 >
                   {option.label}
@@ -219,7 +216,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
           <button
             onClick={() => setStep("consent")}
-            className="w-full max-w-xs rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98]"
+            className={pinkButtonClass}
           >
             Fortsett
           </button>
@@ -233,19 +230,15 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
   // -------------------------------------------------------------------
 
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
-      {/* Ambient breathing orb (static, decorative) */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-20">
-        <BreathingOrb isPlaying={false} />
-      </div>
-
-      <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-8">
+    <div className={commonBgClass}>
+      <div className={overlayClass} />
+      <div className={containerClass}>
         <div className="space-y-4 text-center">
-          <p className="text-sm leading-relaxed text-cream/60">
+          <p className="text-sm leading-relaxed font-medium text-gray-700">
             Før vi starter &mdash; jeg er en AI-guide designet for å eie lysten din.
             Dette er rollespill for voksne, en flukt fra virkeligheten.
           </p>
-          <p className="text-sm leading-relaxed text-cream/60">
+          <p className="text-sm leading-relaxed font-medium text-gray-700">
             Denne sesjonen inneholder grov tale, detaljerte kroppsbeskrivelser og
             temaer rundt intens nytelse og ekstase. Er du klar for å gi slipp?
           </p>
@@ -253,7 +246,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
         {/* Error from consent action */}
         {(consentState as { error?: string })?.error && (
-          <div className="w-full rounded-lg bg-rose/20 p-3 text-center text-sm text-cream/80">
+          <div className="w-full rounded-lg bg-rose/10 p-3 text-center text-sm text-rose-900 border border-rose-200">
             {(consentState as { error?: string }).error}
           </div>
         )}
@@ -282,7 +275,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
             <button
               type="submit"
               disabled={isConsentPending}
-              className="w-full rounded-lg bg-rose py-3 font-medium text-white transition-colors hover:bg-rose/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+              className={pinkButtonClass}
             >
               {isConsentPending ? "Starter..." : "Jeg er klar. Eier meg."}
             </button>
@@ -292,7 +285,7 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
           <button
             type="button"
             onClick={handleSkipSensory}
-            className="text-sm text-cream/40 transition-colors hover:text-cream/60"
+            className="text-sm font-bold text-gray-500 transition-colors hover:text-gray-700 underline underline-offset-4"
           >
             Hopp over introduksjon
           </button>

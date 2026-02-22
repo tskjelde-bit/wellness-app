@@ -122,9 +122,10 @@ export function SessionScreen() {
   // ---- Connecting state ----
   if (!isConnected && hasInitiated) {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center bg-charcoal safe-area-padding">
-        <div className="animate-pulse text-cream/60 text-sm">
-          Connecting...
+      <div className="relative flex min-h-dvh flex-col items-center justify-center bg-[url('/bg.png')] bg-cover bg-center px-4 safe-area-padding">
+        <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]" />
+        <div className="relative z-10 animate-pulse text-gray-800 font-bold text-lg">
+          Kobler til...
         </div>
       </div>
     );
@@ -132,10 +133,12 @@ export function SessionScreen() {
 
   // ---- Active session: voice-first minimal chrome ----
   return (
-    <div className="flex min-h-dvh flex-col items-center justify-center bg-charcoal safe-area-padding">
+    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-[url('/bg.png')] bg-cover bg-center safe-area-padding">
+      <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px]" />
+
       {/* Error banner */}
       {error && (
-        <div className="absolute top-4 left-4 right-4 rounded-lg bg-rose/20 p-3 text-center text-sm text-cream/80 animate-fade-in safe-area-padding">
+        <div className="absolute top-4 left-4 right-4 z-50 rounded-lg bg-rose/10 border border-rose-200 p-3 text-center text-sm font-bold text-rose-900 animate-fade-in safe-area-padding">
           {error}
         </div>
       )}
@@ -149,11 +152,13 @@ export function SessionScreen() {
       </div>
 
       {/* Central breathing orb -- stops animating when paused */}
-      <BreathingOrb isPlaying={isPlaying && !isPaused} />
+      <div className="relative z-10">
+        <BreathingOrb isPlaying={isPlaying && !isPaused} />
+      </div>
 
       {/* Current sentence text (subtle overlay) */}
       {currentText && (
-        <p className="mt-8 max-w-sm px-4 text-center text-sm text-cream/60 animate-fade-in">
+        <p className="relative z-10 mt-8 max-w-sm px-4 text-center text-base font-bold text-gray-800 animate-fade-in drop-shadow-sm">
           {currentText}
         </p>
       )}
@@ -167,7 +172,7 @@ export function SessionScreen() {
 
       {/* Session controls at bottom (pause/resume + end session + mixer toggle) */}
       <div
-        className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-3"
+        className="relative z-10 absolute bottom-8 left-0 right-0 flex flex-col items-center gap-3"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
         <SessionControls
@@ -180,17 +185,17 @@ export function SessionScreen() {
         {/* Mixer toggle button */}
         <button
           onClick={() => setShowMixer((v) => !v)}
-          className="text-xs text-cream/30 transition-colors hover:text-cream/50"
+          className="text-xs font-bold text-gray-500 transition-colors hover:text-gray-800"
           aria-label={showMixer ? "Hide volume mixer" : "Show volume mixer"}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
           >

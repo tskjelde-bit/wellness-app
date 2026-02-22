@@ -23,12 +23,12 @@ export function VoicePicker({ selected, onSelect }: VoicePickerProps) {
           key={voice.id}
           onClick={() => onSelect(voice.id)}
           className={`rounded-2xl border p-4 text-left transition-all hover:scale-[1.02] active:scale-[0.98] ${selected === voice.id
-              ? "border-rose bg-rose/20 shadow-glow ring-1 ring-rose"
-              : "border-gold/10 bg-cream/5 hover:bg-cream/10"
+            ? "bg-gradient-to-r from-pink-300 to-rose-400 border-pink-400 text-rose-950 shadow-md"
+            : "bg-gradient-to-br from-white/95 to-white/70 border border-pink-50 text-gray-800"
             }`}
         >
-          <span className="block font-bold text-cream underline decoration-gold/30 underline-offset-4">{voice.name}</span>
-          <span className="block text-sm text-cream/50 mt-1">{voice.preview}</span>
+          <span className={`block font-bold underline decoration-pink-300 underline-offset-4 ${selected === voice.id ? "text-rose-950" : "text-gray-900"}`}>{voice.name}</span>
+          <span className={`block text-xs mt-2 font-medium ${selected === voice.id ? "text-rose-900/80" : "text-gray-500"}`}>{voice.preview}</span>
         </button>
       ))}
     </div>
