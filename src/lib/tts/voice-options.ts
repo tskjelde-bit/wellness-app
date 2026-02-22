@@ -26,8 +26,8 @@ export interface LocalizedVoiceOption {
 
 const VOICE_DATA: LocalizedVoiceOption[] = [
   {
-    id: "LcfcDJNUP1GQjkzn1xUU",
-    name: "Emily",
+    id: "nova",
+    name: "Nova",
     descriptions: {
       no: "En leken og utfordrende stemme. Perfekt for de som vil eies.",
       en: "A playful and challenging voice. Perfect for those who want to be owned.",
@@ -40,8 +40,8 @@ const VOICE_DATA: LocalizedVoiceOption[] = [
     },
   },
   {
-    id: "21m00Tcm4TlvDq8ikWAM",
-    name: "Rachel",
+    id: "shimmer",
+    name: "Shimmer",
     descriptions: {
       no: "En dyp, erfaren stemme. Hun vet nøyaktig hva hun gjør.",
       en: "A deep, experienced voice. She knows exactly what she's doing.",
@@ -54,8 +54,8 @@ const VOICE_DATA: LocalizedVoiceOption[] = [
     },
   },
   {
-    id: "JBFqnCBsd6RMkjVDRZzb",
-    name: "Bella",
+    id: "alloy",
+    name: "Alloy",
     descriptions: {
       no: "En søt stemme med en mørk side. Hun lokker deg inn i dypet.",
       en: "A sweet voice with a dark side. She lures you into the depths.",

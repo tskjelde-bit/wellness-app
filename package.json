@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.1",
-    "@elevenlabs/elevenlabs-js": "^2.36.0",
     "@neondatabase/serverless": "^1.0.2",
     "@upstash/redis": "^1.36.2",
     "bcryptjs": "^3.0.3",

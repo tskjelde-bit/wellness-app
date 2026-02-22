@@ -8,7 +8,7 @@ const envSchema = z.object({
   AUTH_SECRET: z.string().min(32),
   AUTH_URL: z.string().url().optional().default("http://localhost:3000"),
   OPENAI_API_KEY: z.string().min(1),
-  ELEVENLABS_API_KEY: z.string().min(1),
+  ELEVENLABS_API_KEY: z.string().min(1).optional(),
   // CCBill payment integration (optional -- not needed for non-payment features)
   CCBILL_ACCOUNT_NUMBER: z.string().min(1).optional(),
   CCBILL_SUBACCOUNT: z.string().min(1).optional(),
