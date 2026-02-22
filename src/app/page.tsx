@@ -54,6 +54,14 @@ export default function Home() {
               >
                 Registrer
               </a>
+              <a
+                href="https://tskjelde-bit.github.io/wellness-app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-xl border border-gray-300 px-6 py-2.5 text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] text-center transition-all hover:border-gray-400 hover:text-gray-600 active:scale-[0.97]"
+              >
+                Prosjekt Dashboard
+              </a>
             </div>
           </div>
 
