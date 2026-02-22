@@ -76,14 +76,6 @@ export default function LoginForm() {
         </Link>
       </p>
 
-      <a
-        href="https://tskjelde-bit.github.io/wellness-app/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-4 block w-full rounded-xl border border-gray-300 px-4 py-3 text-center text-xs font-bold text-gray-400 uppercase tracking-widest transition-all hover:border-gray-400 hover:text-gray-600 active:scale-[0.98]"
-      >
-        Prosjekt Dashboard
-      </a>
     </div>
   );
 }
