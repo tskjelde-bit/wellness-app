@@ -9,7 +9,12 @@
 
 import OpenAI from "openai";
 
-const openai = new OpenAI(); // Reads OPENAI_API_KEY from env automatically
+// Lazy-initialized to avoid build-time errors when env vars are missing.
+let _openai: OpenAI | null = null;
+function getOpenAI(): OpenAI {
+  if (!_openai) _openai = new OpenAI();
+  return _openai;
+}
 
 export interface ModerationResult {
   flagged: boolean;
@@ -21,7 +26,7 @@ export interface ModerationResult {
 export async function moderateContent(
   text: string,
 ): Promise<ModerationResult> {
-  const response = await openai.moderations.create({
+  const response = await getOpenAI().moderations.create({
     model: "omni-moderation-latest",
     input: text,
   });
