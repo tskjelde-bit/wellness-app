@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useCallback, useEffect, useState } from "react";
+import { useActionState, useCallback, useEffect, useState, startTransition } from "react";
 import { recordSensoryConsent } from "@/actions/consent";
 import { BreathingOrb } from "@/components/session/breathing-orb";
 import { MoodSelector } from "@/components/session/mood-selector";
@@ -264,7 +264,9 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
             onSubmit={(e) => {
               e.preventDefault();
               const formData = new FormData(e.currentTarget);
-              consentAction(formData);
+              startTransition(() => {
+                consentAction(formData);
+              });
               onBegin({
                 character: selectedCharacter,
                 sessionLength: selectedLength,
