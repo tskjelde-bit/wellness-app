@@ -46,16 +46,16 @@ export default function proxy(request: NextRequest) {
 
   // Session routes only: require active subscription
   // Dashboard is NOT gated. Subscribe routes are NOT gated (users need to reach them).
-  // Skip in development when CCBill is not configured
-  if (
-    isSessionRoute &&
-    sessionCookie &&
-    consentComplete &&
-    !subscriptionActive &&
-    process.env.NODE_ENV !== "development"
-  ) {
-    return NextResponse.redirect(new URL("/subscribe", request.url));
-  }
+  // Disabled until CCBill is configured
+  // if (
+  //   isSessionRoute &&
+  //   sessionCookie &&
+  //   consentComplete &&
+  //   !subscriptionActive &&
+  //   process.env.NODE_ENV !== "development"
+  // ) {
+  //   return NextResponse.redirect(new URL("/subscribe", request.url));
+  // }
 
   // Already logged in -> redirect away from auth pages
   // Only redirect if consent is also complete, otherwise let them access login
