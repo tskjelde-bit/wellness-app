@@ -1,25 +1,32 @@
 /**
  * TTS service: converts a text sentence into an async stream of audio chunks.
  *
- * Wraps the ElevenLabs `textToSpeech.stream()` SDK call. Each invocation
+ * Uses OpenAI TTS API (tts-1 model) for audio synthesis. Each invocation
  * produces a stream of Uint8Array MP3 audio chunks for a single sentence.
- *
- * Previous text context is passed to ElevenLabs for prosody continuity
- * across sentences within a session.
  */
 
-import { getElevenLabsClient, TTS_CONFIG } from "./elevenlabs-client";
+import OpenAI from "openai";
+import { DEFAULT_VOICE_ID } from "./voice-options";
+
+// ---------------------------------------------------------------------------
+// OpenAI client singleton (lazy to avoid build-time env var errors)
+// ---------------------------------------------------------------------------
+let _openai: OpenAI | null = null;
+function getOpenAI(): OpenAI {
+  if (!_openai) _openai = new OpenAI();
+  return _openai;
+}
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
 export interface SynthesizeOptions {
-  /** Override the default voice ID */
+  /** Override the default voice (e.g. "nova", "shimmer", "alloy") */
   voiceId?: string;
-  /** Text preceding this sentence for prosody continuity (max ~1000 chars) */
+  /** Unused with OpenAI TTS -- kept for interface compatibility */
   previousText?: string;
-  /** Text following this sentence for prosody continuity */
+  /** Unused with OpenAI TTS -- kept for interface compatibility */
   nextText?: string;
   /** AbortSignal for clean cancellation */
   signal?: AbortSignal;
@@ -32,48 +39,34 @@ export interface SynthesizeOptions {
 /**
  * Converts a text sentence into an async stream of audio chunks (Uint8Array).
  *
- * Uses the ElevenLabs HTTP streaming endpoint per sentence. The SDK returns
- * a ReadableStream which we iterate and yield chunk-by-chunk.
+ * Uses OpenAI TTS API with the tts-1 model for low-latency streaming.
  *
  * On error: logs the error and returns (does not throw). Downstream handles
- * missing audio gracefully, similar to the LLM error pattern in generate-session.ts.
- *
- * @param text - The sentence to synthesize
- * @param options - Voice, prosody context, and abort signal options
+ * missing audio gracefully with text fallback.
  */
 export async function* synthesizeSentence(
   text: string,
   options?: SynthesizeOptions,
 ): AsyncGenerator<Uint8Array> {
-  const voiceId = options?.voiceId ?? TTS_CONFIG.voiceId;
+  const voice = (options?.voiceId ?? DEFAULT_VOICE_ID) as "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer";
 
   try {
-    const audioStream = await getElevenLabsClient().textToSpeech.stream(
-      voiceId,
-      {
-        text,
-        modelId: TTS_CONFIG.modelId,
-        outputFormat: TTS_CONFIG.outputFormat,
-        optimizeStreamingLatency: TTS_CONFIG.optimizeStreamingLatency,
-        voiceSettings: {
-          stability: TTS_CONFIG.voiceSettings.stability,
-          similarityBoost: TTS_CONFIG.voiceSettings.similarityBoost,
-          style: TTS_CONFIG.voiceSettings.style,
-          speed: TTS_CONFIG.voiceSettings.speed,
-        },
-        previousText: options?.previousText,
-        nextText: options?.nextText,
-      },
-      {
-        abortSignal: options?.signal,
-      },
-    );
+    const response = await getOpenAI().audio.speech.create({
+      model: "tts-1",
+      voice,
+      input: text,
+      response_format: "mp3",
+      speed: 0.95,
+    });
 
-    // ReadableStream does not implement Symbol.asyncIterator in all
-    // TypeScript targets, so we use getReader() for compatibility.
-    const reader = audioStream.getReader();
+    // response.body is a ReadableStream<Uint8Array>
+    const body = response.body;
+    if (!body) return;
+
+    const reader = (body as ReadableStream<Uint8Array>).getReader();
     try {
       while (true) {
+        if (options?.signal?.aborted) break;
         const { done, value } = await reader.read();
         if (done) break;
         yield value;
@@ -83,7 +76,6 @@ export async function* synthesizeSentence(
     }
   } catch (error) {
     // Log and return gracefully -- downstream handles missing audio
-    // similar to how streamLlmTokens yields fallback on error
     console.error("[TTS] synthesizeSentence error:", error);
   }
 }

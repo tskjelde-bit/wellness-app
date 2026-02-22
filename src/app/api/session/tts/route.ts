@@ -1,7 +1,7 @@
 /**
  * POST /api/session/tts
  *
- * Streams binary audio (MP3) for a single sentence via ElevenLabs TTS.
+ * Streams binary audio (MP3) for a single sentence via OpenAI TTS.
  * Replaces the per-sentence binary audio chunks previously sent over WebSocket.
  *
  * Request body: { text: string, voiceId?: string, previousText?: string }
