@@ -20,17 +20,16 @@ export default function TosAcceptance() {
   const bothChecked = tosChecked && privacyChecked;
 
   return (
-    <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
-      <h2 className="mb-2 text-center text-2xl font-semibold text-charcoal">
-        Terms & Privacy
+    <div className="w-full max-w-md rounded-2xl bg-gradient-to-b from-gray-50 to-gray-100 p-8 shadow-heavy border border-gray-200">
+      <h2 className="mb-2 text-center text-3xl font-black text-gray-950 uppercase tracking-tighter">
+        Vilkår & Personvern
       </h2>
-      <p className="mb-6 text-center text-sm text-charcoal/60">
-        Please review and accept our terms of service and privacy policy before
-        continuing.
+      <p className="mb-6 text-center text-xs font-bold text-gray-400 uppercase tracking-widest leading-relaxed">
+        Vennligst gå gjennom og godta våre vilkår og personvernerklæring før du fortsetter.
       </p>
 
       {state?.error && (
-        <div className="mb-4 rounded-lg bg-red-50 p-3 text-center text-sm text-red-600">
+        <div className="mb-4 rounded-lg bg-gray-50 p-3 text-center text-sm font-bold text-gray-900 border border-gray-200">
           {state.error}
         </div>
       )}
@@ -40,55 +39,55 @@ export default function TosAcceptance() {
           href="/terms"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm font-medium text-rose hover:text-rose/80 underline"
+          className="text-xs font-black uppercase tracking-widest text-gray-900 hover:underline underline-offset-8 decoration-gray-300 transition-all"
         >
-          Read Terms of Service
+          Les brukervilkårene
         </Link>
         <Link
           href="/privacy"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm font-medium text-rose hover:text-rose/80 underline"
+          className="text-xs font-black uppercase tracking-widest text-gray-900 hover:underline underline-offset-8 decoration-gray-300 transition-all"
         >
-          Read Privacy Policy
+          Les personvernerklæringen
         </Link>
       </div>
 
-      <form action={formAction} className="flex flex-col gap-4">
-        <label className="flex items-start gap-3 cursor-pointer">
+      <form action={formAction} className="flex flex-col gap-5">
+        <label className="flex items-center gap-3 cursor-pointer group">
           <input
             type="checkbox"
             name="tosAccepted"
             value="true"
             checked={tosChecked}
             onChange={(e) => setTosChecked(e.target.checked)}
-            className="mt-0.5 h-4 w-4 rounded border-blush text-rose accent-rose"
+            className="h-5 w-5 rounded border-gray-300 text-black accent-black transition-all"
           />
-          <span className="text-sm text-charcoal">
-            I accept the Terms of Service
+          <span className="text-sm font-bold text-gray-800 uppercase tracking-tight group-hover:text-black">
+            Jeg godtar brukervilkårene
           </span>
         </label>
 
-        <label className="flex items-start gap-3 cursor-pointer">
+        <label className="flex items-center gap-3 cursor-pointer group">
           <input
             type="checkbox"
             name="privacyAccepted"
             value="true"
             checked={privacyChecked}
             onChange={(e) => setPrivacyChecked(e.target.checked)}
-            className="mt-0.5 h-4 w-4 rounded border-blush text-rose accent-rose"
+            className="h-5 w-5 rounded border-gray-300 text-black accent-black transition-all"
           />
-          <span className="text-sm text-charcoal">
-            I accept the Privacy Policy
+          <span className="text-sm font-bold text-gray-800 uppercase tracking-tight group-hover:text-black">
+            Jeg godtar personvernerklæringen
           </span>
         </label>
 
         <button
           type="submit"
           disabled={isPending || !bothChecked}
-          className="mt-2 w-full rounded-lg bg-rose px-4 py-2.5 font-medium text-white transition-colors hover:bg-rose/90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="mt-2 w-full rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 px-4 py-4 font-black text-white uppercase tracking-widest shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {isPending ? "Processing..." : "Accept & Continue"}
+          {isPending ? "Behandler..." : "Godta & Fortsett"}
         </button>
       </form>
     </div>

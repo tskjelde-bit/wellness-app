@@ -17,28 +17,27 @@ export default function AgeGate() {
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
-      <h2 className="mb-2 text-center text-2xl font-semibold text-charcoal">
-        Age Verification
+    <div className="w-full max-w-md rounded-2xl bg-gradient-to-b from-gray-50 to-gray-100 p-8 shadow-heavy border border-gray-200">
+      <h2 className="mb-2 text-center text-3xl font-black text-gray-950 uppercase tracking-tighter">
+        Verifiser alder
       </h2>
-      <p className="mb-6 text-center text-sm text-charcoal/60">
-        For your safety and legal compliance, we need to verify that you are 18
-        years or older.
+      <p className="mb-6 text-center text-xs font-bold text-gray-400 uppercase tracking-widest leading-relaxed">
+        For din sikkerhet og for å følge loven, må vi bekrefte at du er 18 år eller eldre.
       </p>
 
       {state?.error && (
-        <div className="mb-4 rounded-lg bg-red-50 p-3 text-center text-sm text-red-600">
+        <div className="mb-4 rounded-lg bg-gray-50 p-3 text-center text-sm font-bold text-gray-900 border border-gray-200">
           {state.error}
         </div>
       )}
 
-      <form action={formAction} className="flex flex-col gap-4">
+      <form action={formAction} className="flex flex-col gap-5">
         <div>
           <label
             htmlFor="dateOfBirth"
-            className="mb-1 block text-sm font-medium text-charcoal"
+            className="mb-1.5 block text-xs font-black uppercase tracking-widest text-gray-400"
           >
-            Date of Birth
+            Fødselsdato
           </label>
           <input
             id="dateOfBirth"
@@ -46,16 +45,16 @@ export default function AgeGate() {
             type="date"
             required
             max={today}
-            className="w-full rounded-lg border border-blush bg-cream px-4 py-2.5 text-charcoal outline-none focus:border-rose focus:ring-2 focus:ring-rose/20"
+            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 font-bold outline-none focus:border-black focus:ring-4 focus:ring-gray-100 transition-all"
           />
         </div>
 
         <button
           type="submit"
           disabled={isPending}
-          className="mt-2 w-full rounded-lg bg-rose px-4 py-2.5 font-medium text-white transition-colors hover:bg-rose/90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="mt-2 w-full rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 px-4 py-4 font-black text-white uppercase tracking-widest shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {isPending ? "Verifying..." : "Verify My Age"}
+          {isPending ? "Verifiserer..." : "Bekreft alder"}
         </button>
       </form>
     </div>

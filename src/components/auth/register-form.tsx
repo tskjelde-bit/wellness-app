@@ -17,22 +17,22 @@ export default function RegisterForm() {
   }, [state?.success, router]);
 
   return (
-    <div className="w-full max-w-md rounded-2xl bg-charcoal p-8 shadow-fetish ring-1 ring-gold/20">
-      <h2 className="mb-6 text-center text-2xl font-semibold text-cream">
+    <div className="w-full max-w-md rounded-2xl bg-gradient-to-b from-gray-50 to-gray-100 p-8 shadow-heavy border border-gray-200">
+      <h2 className="mb-6 text-center text-3xl font-black text-gray-950 uppercase tracking-tighter">
         Opprett konto
       </h2>
 
       {(state as { error?: string })?.error && (
-        <div className="mb-4 rounded-lg bg-rose/20 p-3 text-center text-sm text-cream/80 border border-rose/30">
+        <div className="mb-4 rounded-lg bg-gray-50 p-3 text-center text-sm font-bold text-gray-900 border border-gray-200">
           {(state as { error?: string }).error}
         </div>
       )}
 
-      <form action={formAction} className="flex flex-col gap-4">
+      <form action={formAction} className="flex flex-col gap-5">
         <div>
           <label
             htmlFor="name"
-            className="mb-1 block text-sm font-medium text-cream/70"
+            className="mb-1.5 block text-xs font-black uppercase tracking-widest text-gray-400"
           >
             Navn
           </label>
@@ -42,7 +42,7 @@ export default function RegisterForm() {
             type="text"
             required
             autoComplete="name"
-            className="w-full rounded-lg border border-gold/10 bg-black/40 px-4 py-2.5 text-cream placeholder-cream/20 outline-none focus:border-gold/50 focus:ring-2 focus:ring-gold/10"
+            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 font-bold placeholder-gray-300 outline-none focus:border-black focus:ring-4 focus:ring-gray-100 transition-all"
             placeholder="Ditt navn"
           />
         </div>
@@ -50,7 +50,7 @@ export default function RegisterForm() {
         <div>
           <label
             htmlFor="email"
-            className="mb-1 block text-sm font-medium text-cream/70"
+            className="mb-1.5 block text-xs font-black uppercase tracking-widest text-gray-400"
           >
             E-post
           </label>
@@ -60,7 +60,7 @@ export default function RegisterForm() {
             type="email"
             required
             autoComplete="email"
-            className="w-full rounded-lg border border-gold/10 bg-black/40 px-4 py-2.5 text-cream placeholder-cream/20 outline-none focus:border-gold/50 focus:ring-2 focus:ring-gold/10"
+            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 font-bold placeholder-gray-300 outline-none focus:border-black focus:ring-4 focus:ring-gray-100 transition-all"
             placeholder="din@epost.no"
           />
         </div>
@@ -68,7 +68,7 @@ export default function RegisterForm() {
         <div>
           <label
             htmlFor="password"
-            className="mb-1 block text-sm font-medium text-cream/70"
+            className="mb-1.5 block text-xs font-black uppercase tracking-widest text-gray-400"
           >
             Passord
           </label>
@@ -79,7 +79,7 @@ export default function RegisterForm() {
             required
             minLength={8}
             autoComplete="new-password"
-            className="w-full rounded-lg border border-gold/10 bg-black/40 px-4 py-2.5 text-cream placeholder-cream/20 outline-none focus:border-gold/50 focus:ring-2 focus:ring-gold/10"
+            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 font-bold placeholder-gray-300 outline-none focus:border-black focus:ring-4 focus:ring-gray-100 transition-all"
             placeholder="Minst 8 tegn"
           />
         </div>
@@ -87,17 +87,17 @@ export default function RegisterForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="mt-2 w-full rounded-lg bg-rose px-4 py-3 font-medium text-white transition-all hover:bg-rose/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+          className="mt-2 w-full rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 px-4 py-4 font-black text-white uppercase tracking-widest shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {isPending ? "Oppretter..." : "Bli med på rushet"}
+          {isPending ? "Oppretter..." : "Opprett konto"}
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-cream/40">
+      <p className="mt-8 text-center text-xs font-bold text-gray-400 uppercase tracking-widest">
         Har du allerede konto?{" "}
         <Link
           href="/login"
-          className="font-medium text-gold hover:text-gold/80 transition-colors"
+          className="font-black text-gray-950 hover:underline underline-offset-4 transition-all"
         >
           Logg inn
         </Link>

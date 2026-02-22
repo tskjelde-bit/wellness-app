@@ -123,7 +123,7 @@ export function SessionScreen() {
   if (!isConnected && hasInitiated) {
     return (
       <div className="relative flex min-h-dvh flex-col items-center justify-center bg-white px-4 safe-area-padding">
-        <div className="animate-pulse text-gray-950 font-black text-xl uppercase tracking-tighter">
+        <div className="text-gray-950 font-black text-2xl uppercase tracking-[0.2em] animate-fade-in">
           Kobler til...
         </div>
       </div>

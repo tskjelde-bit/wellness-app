@@ -13,58 +13,56 @@ export default async function SubscribePage() {
   if (status === "active") redirect("/dashboard");
 
   return (
-    <div className="flex min-h-dvh items-center justify-center bg-gradient-to-b from-cream to-blush-light px-4">
+    <div className="flex min-h-dvh items-center justify-center bg-white px-4">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <h1 className="text-3xl font-semibold text-charcoal">
-            Unlock Your Wellness Journey
+          <h1 className="text-3xl font-black text-gray-950 uppercase tracking-tighter leading-none">
+            Lås opp din wellness-reise
           </h1>
-          <p className="mx-auto mt-4 max-w-sm text-charcoal/60">
-            Experience personalized, voice-guided relaxation sessions crafted
-            just for you. Let yourself be held in a space of calm, presence, and
-            gentle awareness.
+          <p className="mx-auto mt-6 max-w-sm text-xs font-bold text-gray-400 uppercase tracking-widest leading-relaxed">
+            Opplev personlig, stemmestyrt avslapning skreddersydd for deg. La deg bli holdt i et rom av ro, tilstedeværelse og nytelse.
           </p>
         </div>
 
-        <div className="rounded-[--radius-card] bg-white p-8 shadow-soft">
+        <div className="rounded-2xl bg-gradient-to-b from-gray-50 to-gray-100 p-8 shadow-heavy border border-gray-200">
           <div className="mb-6 text-center">
-            <p className="text-sm font-medium uppercase tracking-wider text-rose">
-              Full Access
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
+              Full tilgang
             </p>
-            <p className="mt-2 text-2xl font-semibold text-charcoal">
-              Monthly Subscription
+            <p className="mt-3 text-2xl font-black text-gray-950 uppercase tracking-tight">
+              Månedlig abonnement
             </p>
-            <p className="mt-1 text-sm text-charcoal/50">
-              Unlimited voice-guided sessions
+            <p className="mt-1 text-xs font-bold text-gray-500 uppercase tracking-widest">
+              Ubegrensede sesjoner
             </p>
           </div>
 
-          <ul className="mb-8 space-y-3 text-sm text-charcoal/70">
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-rose">*</span>
-              <span>Personalized AI-guided relaxation</span>
+          <ul className="mb-8 space-y-4 text-xs font-bold text-gray-600 uppercase tracking-wider">
+            <li className="flex items-start gap-3">
+              <span className="shrink-0 text-black">✓</span>
+              <span>Personlig AI-veiledet avslapning</span>
             </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-rose">*</span>
-              <span>Adaptive sessions that respond to you</span>
+            <li className="flex items-start gap-3">
+              <span className="shrink-0 text-black">✓</span>
+              <span>Adaptive sesjoner</span>
             </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-rose">*</span>
-              <span>Safe, private, judgment-free space</span>
+            <li className="flex items-start gap-3">
+              <span className="shrink-0 text-black">✓</span>
+              <span>Sikkert, privat rom</span>
             </li>
           </ul>
 
           <form action={initiateCheckout}>
             <button
               type="submit"
-              className="flex min-h-[44px] w-full items-center justify-center rounded-lg bg-rose px-4 py-3 font-medium text-white transition-colors hover:bg-rose-dark active:scale-[0.98]"
+              className="w-full rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 py-4 font-black text-white uppercase tracking-widest shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
-              Subscribe Now
+              Abonner nå
             </button>
           </form>
 
-          <p className="mt-4 text-center text-xs text-charcoal/40">
-            Secure payment processed by CCBill. Cancel anytime.
+          <p className="mt-6 text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+            Sikker betaling via CCBill. Avbryt når som helst.
           </p>
         </div>
       </div>
