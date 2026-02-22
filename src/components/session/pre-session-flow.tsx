@@ -108,8 +108,13 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
   if (step === "mood") {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
-        <div className="flex w-full max-w-sm flex-col items-center gap-8">
+      <div className="relative flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
+        {/* Ambient breathing orb (static, decorative) */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-20">
+          <BreathingOrb isPlaying={false} />
+        </div>
+
+        <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-8">
           <div className="text-center">
             <h2 className="text-lg font-medium text-cream/80">
               Hvilket humør er hun i?
@@ -138,8 +143,13 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
   if (step === "voice") {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
-        <div className="flex w-full max-w-sm flex-col items-center gap-8">
+      <div className="relative flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
+        {/* Ambient breathing orb (static, decorative) */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-20">
+          <BreathingOrb isPlaying={false} />
+        </div>
+
+        <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-8">
           <div className="text-center">
             <h2 className="text-lg font-medium text-cream/80">
               Velg stemmen hennes
@@ -168,8 +178,13 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
 
   if (step === "length") {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
-        <div className="flex w-full max-w-sm flex-col items-center gap-8">
+      <div className="relative flex min-h-dvh flex-col items-center justify-center bg-charcoal px-4 safe-area-padding">
+        {/* Ambient breathing orb (static, decorative) */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-20">
+          <BreathingOrb isPlaying={false} />
+        </div>
+
+        <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-8">
           <div className="text-center">
             <h2 className="text-lg font-medium text-cream/80">
               Hvor lenge skal det vare?
@@ -186,8 +201,8 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
                 key={minutes}
                 onClick={() => setSelectedLength(minutes)}
                 className={`flex items-center justify-center min-h-[56px] rounded-xl text-base font-medium transition-all hover:scale-[1.02] active:scale-[0.98] ${selectedLength === minutes
-                    ? "bg-rose text-white shadow-glow"
-                    : "bg-cream/5 text-cream/70 hover:bg-cream/10 border border-gold/10"
+                  ? "bg-rose text-white shadow-glow"
+                  : "bg-cream/5 text-cream/70 hover:bg-cream/10 border border-gold/10"
                   }`}
               >
                 {minutes} min
