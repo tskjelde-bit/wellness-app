@@ -16,9 +16,13 @@ import { checkContentSafety, getRandomFallback } from "@/lib/safety";
 
 // ---------------------------------------------------------------------------
 // OpenAI client singleton (reads OPENAI_API_KEY from process.env)
-// Matches the pattern used in src/lib/safety/moderation.ts
+// Lazy-initialized to avoid build-time errors when env vars are missing.
 // ---------------------------------------------------------------------------
-const openai = new OpenAI();
+let _openai: OpenAI | null = null;
+function getOpenAI(): OpenAI {
+  if (!_openai) _openai = new OpenAI();
+  return _openai;
+}
 
 // ---------------------------------------------------------------------------
 // Configurable defaults
@@ -53,7 +57,7 @@ export async function* streamLlmTokens(
       { role: "user", content: options?.userMessage ?? "Begin the session." }
     ];
 
-    const stream = await openai.chat.completions.create({
+    const stream = await getOpenAI().chat.completions.create({
       model,
       messages,
       temperature,

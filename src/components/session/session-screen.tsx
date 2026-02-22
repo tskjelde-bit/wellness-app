@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSessionWebSocket } from "@/hooks/use-session-ws";
+import { useSessionOrchestrator } from "@/hooks/use-session-orchestrator";
 import { useAmbientAudio } from "@/hooks/use-ambient-audio";
 import { BreathingOrb } from "@/components/session/breathing-orb";
 import { PreSessionFlow } from "@/components/session/pre-session-flow";
@@ -31,7 +31,7 @@ export function SessionScreen() {
     voiceGain,
     ambientGain,
     error,
-  } = useSessionWebSocket();
+  } = useSessionOrchestrator();
 
   const { startSoundscape, stopSoundscape } = useAmbientAudio(
     audioContext,
@@ -67,7 +67,7 @@ export function SessionScreen() {
     setHasInitiated(true);
   };
 
-  // Start session once WebSocket connection opens (Research Pitfall 3: race condition)
+  // Start session once AudioContext is ready and connected
   useEffect(() => {
     if (hasInitiated && isConnected && !sessionId) {
       console.log("[SessionScreen] Triggering startSession", {
