@@ -40,6 +40,15 @@ export default async function DashboardPage() {
             Start ny sesjon
           </Link>
 
+          {session.user.isAdmin && (
+            <Link
+              href="/admin"
+              className="flex min-h-[44px] w-full items-center justify-center rounded-xl border-2 border-gray-800 px-6 py-3 text-[12px] font-black text-gray-800 uppercase tracking-[0.15em] transition-all hover:bg-gray-800 hover:text-white active:scale-[0.97]"
+            >
+              Admin Panel
+            </Link>
+          )}
+
           <form action={signOutAction}>
             <button
               type="submit"
