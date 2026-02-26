@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { IPhoneFrame } from "@/components/iphone-frame";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,9 +38,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased safe-area-padding`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <IPhoneFrame>{children}</IPhoneFrame>
       </body>
     </html>
   );

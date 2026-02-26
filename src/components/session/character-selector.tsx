@@ -48,7 +48,7 @@ export function CharacterSelector({ selected, onSelect }: CharacterSelectorProps
                 <button
                     key={char.id}
                     onClick={() => onSelect(char.id)}
-                    className={`relative overflow-hidden rounded-2xl p-4 text-left transition-all hover:scale-[1.02] active:scale-[0.98] ${selected === char.id
+                    className={`relative overflow-hidden rounded-xl p-4 text-left transition-all hover:scale-[1.02] active:scale-[0.98] ${selected === char.id
                         ? "bg-gradient-to-b from-gray-800 to-gray-950 shadow-xl ring-2 ring-black"
                         : "bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200"
                         }`}

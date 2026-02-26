@@ -14,7 +14,7 @@ export default function SubscribeSuccessPage() {
   useEffect(() => {
     let cancelled = false;
     let attempts = 0;
-    const maxAttempts = 8; // 8 attempts * 2s = 16s max
+    const maxAttempts = 8;
 
     const poll = async () => {
       while (attempts < maxAttempts && !cancelled) {
@@ -43,92 +43,96 @@ export default function SubscribeSuccessPage() {
   }, []);
 
   return (
-    <div className="flex min-h-dvh items-center justify-center bg-gradient-to-b from-cream to-blush-light px-4">
-      <div className="w-full max-w-md rounded-[--radius-card] bg-white p-8 text-center shadow-soft">
-        {state === "polling" && (
-          <>
-            <div className="mx-auto mb-6 h-12 w-12 animate-pulse rounded-full bg-rose/20" />
-            <h1 className="mb-2 text-2xl font-semibold text-charcoal">
-              Processing your payment...
-            </h1>
-            <p className="text-charcoal/60">
-              This will only take a moment.
-            </p>
-          </>
-        )}
+    <div className="flex flex-1 flex-col items-center px-6 pt-6 pb-10 bg-white">
+      {state === "polling" && (
+        <>
+          <div className="mt-8 h-16 w-16 rounded-full bg-gradient-to-br from-gray-700 to-black animate-breathe border border-gray-600" />
+          <h1 className="mt-6 text-[13px] font-black text-gray-900 uppercase tracking-[0.25em] text-center">
+            Behandler betaling...
+          </h1>
+          <p className="mt-2 text-[10px] font-bold text-gray-400 uppercase tracking-[0.12em] text-center">
+            Dette tar bare et øyeblikk.
+          </p>
+        </>
+      )}
 
-        {state === "active" && (
-          <>
-            <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-rose/10">
-              <svg
-                className="h-6 w-6 text-rose"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </div>
-            <h1 className="mb-2 text-2xl font-semibold text-charcoal">
-              Welcome! Your subscription is active.
-            </h1>
-            <p className="mb-8 text-charcoal/60">
-              You now have full access to personalized wellness sessions.
-            </p>
-            <div className="space-y-3">
-              <Link
-                href="/session"
-                className="flex min-h-[44px] w-full items-center justify-center rounded-lg bg-rose px-4 py-3 font-medium text-white transition-colors hover:bg-rose-dark active:scale-[0.98]"
-              >
-                Start a Session
-              </Link>
-              <Link
-                href="/dashboard"
-                className="flex min-h-[44px] w-full items-center justify-center rounded-lg border border-charcoal/20 px-4 py-3 font-medium text-charcoal/60 transition-colors hover:border-charcoal/40 hover:text-charcoal"
-              >
-                Go to Dashboard
-              </Link>
-            </div>
-          </>
-        )}
+      {state === "active" && (
+        <>
+          <div className="mt-8 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+            <svg
+              className="h-6 w-6 text-gray-900"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </div>
+          <h1 className="mt-6 text-[13px] font-black text-gray-900 uppercase tracking-[0.25em] text-center">
+            Abonnementet er aktivt
+          </h1>
+          <p className="mt-2 text-[10px] font-bold text-gray-400 uppercase tracking-[0.12em] text-center">
+            Du har nå full tilgang til wellness-sesjoner.
+          </p>
 
-        {state === "timeout" && (
-          <>
-            <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-rose/10">
-              <svg
-                className="h-6 w-6 text-rose"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <h1 className="mb-2 text-2xl font-semibold text-charcoal">
-              Payment received!
-            </h1>
-            <p className="mb-8 text-charcoal/60">
-              It may take a moment to activate. You can check your dashboard.
-            </p>
+          <div className="flex-1" />
+
+          <div className="flex w-full flex-col gap-2.5">
+            <Link
+              href="/session"
+              className="block rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 px-6 py-3 text-[12px] font-black text-white uppercase tracking-[0.15em] text-center transition-all hover:opacity-90 active:scale-[0.97]"
+            >
+              Start en sesjon
+            </Link>
             <Link
               href="/dashboard"
-              className="flex min-h-[44px] w-full items-center justify-center rounded-lg bg-rose px-4 py-3 font-medium text-white transition-colors hover:bg-rose-dark active:scale-[0.98]"
+              className="block rounded-xl border-2 border-gray-200 px-6 py-3 text-[12px] font-bold text-gray-500 uppercase tracking-[0.15em] text-center transition-all hover:border-gray-300 hover:text-gray-700 active:scale-[0.97]"
             >
-              Go to Dashboard
+              Gå til Dashboard
             </Link>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
+
+      {state === "timeout" && (
+        <>
+          <div className="mt-8 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+            <svg
+              className="h-6 w-6 text-gray-900"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <h1 className="mt-6 text-[13px] font-black text-gray-900 uppercase tracking-[0.25em] text-center">
+            Betaling mottatt
+          </h1>
+          <p className="mt-2 text-[10px] font-bold text-gray-400 uppercase tracking-[0.12em] text-center">
+            Det kan ta et øyeblikk å aktivere. Sjekk dashboardet.
+          </p>
+
+          <div className="flex-1" />
+
+          <Link
+            href="/dashboard"
+            className="block w-full rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 px-6 py-3 text-[12px] font-black text-white uppercase tracking-[0.15em] text-center transition-all hover:opacity-90 active:scale-[0.97]"
+          >
+            Gå til Dashboard
+          </Link>
+        </>
+      )}
     </div>
   );
 }

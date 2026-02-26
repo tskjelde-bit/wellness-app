@@ -122,8 +122,8 @@ export function SessionScreen() {
   // ---- Connecting state ----
   if (!isConnected && hasInitiated) {
     return (
-      <div className="relative flex min-h-dvh flex-col items-center justify-center bg-white px-4 safe-area-padding">
-        <div className="text-gray-950 font-black text-2xl uppercase tracking-[0.2em] animate-fade-in">
+      <div className="relative flex flex-1 flex-col items-center justify-center bg-white px-4">
+        <div className="text-gray-950 font-black text-[13px] uppercase tracking-[0.25em] animate-fade-in">
           Kobler til...
         </div>
       </div>
@@ -132,11 +132,11 @@ export function SessionScreen() {
 
   // ---- Active session: voice-first minimal chrome ----
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-white safe-area-padding">
+    <div className="relative flex flex-1 flex-col items-center justify-center bg-white">
 
       {/* Error banner */}
       {error && (
-        <div className="absolute top-4 left-4 right-4 z-50 rounded-lg bg-gray-50 border border-gray-200 p-3 text-center text-sm font-bold text-gray-900 animate-fade-in safe-area-padding">
+        <div className="absolute top-4 left-4 right-4 z-50 rounded-xl bg-gray-50 border border-gray-200 p-3 text-center text-sm font-bold text-gray-900 animate-fade-in">
           {error}
         </div>
       )}

@@ -22,7 +22,7 @@ export function SessionControls({
       {/* Pause/Resume toggle */}
       <button
         onClick={isPaused ? onResume : onPause}
-        className="flex min-h-[64px] min-w-[64px] items-center justify-center rounded-full bg-gradient-to-b from-white to-gray-50 shadow-2xl text-black transition-all hover:scale-110 active:scale-90 border border-gray-200"
+        className="flex min-h-[64px] min-w-[64px] items-center justify-center rounded-full bg-gradient-to-b from-white to-gray-50 shadow-soft text-black transition-all hover:scale-110 active:scale-90 border border-gray-200"
         aria-label={isPaused ? "Resume session" : "Pause session"}
       >
         {isPaused ? (

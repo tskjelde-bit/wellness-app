@@ -54,30 +54,30 @@ export function PostSessionScreen({ onDone }: PostSessionScreenProps) {
   );
 
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-white px-4 safe-area-padding animate-fade-in">
+    <div className="relative flex flex-1 flex-col items-center justify-center bg-white px-4 animate-fade-in">
       <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-8">
         {/* Heading */}
-        <h2 className="text-2xl font-black text-gray-950 uppercase tracking-tighter">
+        <h2 className="text-[13px] font-black text-gray-900 uppercase tracking-[0.25em]">
           Sesjonen er ferdig
         </h2>
 
         {/* Grounding exercise card */}
-        <div className="w-full rounded-2xl bg-gradient-to-b from-gray-50 to-gray-100 p-6 shadow-xl border border-gray-200">
-          <h3 className="mb-3 text-lg font-black text-gray-900 uppercase tracking-tight">{exercise.title}</h3>
-          <p className="text-sm leading-relaxed font-bold text-gray-800">
+        <div className="w-full rounded-xl bg-gradient-to-b from-gray-50 to-gray-100 p-6 shadow-soft border border-gray-200">
+          <h3 className="mb-3 text-[12px] font-black text-gray-900 uppercase tracking-[0.15em]">{exercise.title}</h3>
+          <p className="text-[11px] leading-relaxed font-bold text-gray-500">
             {exercise.description}
           </p>
         </div>
 
         {/* Reflection prompt */}
-        <p className="px-4 text-center text-sm italic font-black text-gray-500 uppercase tracking-widest">
+        <p className="px-4 text-center text-[10px] italic font-black text-gray-500 uppercase tracking-widest">
           {prompt}
         </p>
 
         {/* Return to dashboard */}
         <button
           onClick={onDone}
-          className="w-full max-w-xs rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 py-3.5 font-bold text-white shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full max-w-xs rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 py-3 text-[12px] font-black text-white uppercase tracking-[0.15em] transition-all hover:opacity-90 active:scale-[0.97]"
         >
           Gå tilbake til oversikten
         </button>

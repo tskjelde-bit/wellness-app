@@ -17,16 +17,16 @@ export default function AgeGate() {
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <div className="w-full max-w-md rounded-2xl bg-gradient-to-b from-gray-50 to-gray-100 p-8 shadow-heavy border border-gray-200">
-      <h2 className="mb-2 text-center text-3xl font-black text-gray-950 uppercase tracking-tighter">
+    <div className="w-full rounded-xl bg-gradient-to-b from-gray-50 to-gray-100 p-6 shadow-soft border border-gray-200">
+      <h2 className="mb-2 text-center text-[13px] font-black text-gray-900 uppercase tracking-[0.25em]">
         Verifiser alder
       </h2>
-      <p className="mb-6 text-center text-xs font-bold text-gray-400 uppercase tracking-widest leading-relaxed">
+      <p className="mb-4 text-center text-[10px] font-bold text-gray-400 uppercase tracking-[0.12em] leading-relaxed">
         For din sikkerhet og for å følge loven, må vi bekrefte at du er 18 år eller eldre.
       </p>
 
       {state?.error && (
-        <div className="mb-4 rounded-lg bg-gray-50 p-3 text-center text-sm font-bold text-gray-900 border border-gray-200">
+        <div className="mb-4 rounded-xl bg-gray-50 p-3 text-center text-sm font-bold text-gray-900 border border-gray-200">
           {state.error}
         </div>
       )}
@@ -52,7 +52,7 @@ export default function AgeGate() {
         <button
           type="submit"
           disabled={isPending}
-          className="mt-2 w-full rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 px-4 py-4 font-black text-white uppercase tracking-widest shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+          className="mt-2 w-full rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 px-4 py-3 text-[12px] font-black text-white uppercase tracking-[0.15em] transition-all hover:opacity-90 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isPending ? "Verifiserer..." : "Bekreft alder"}
         </button>

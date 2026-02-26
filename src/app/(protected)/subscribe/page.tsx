@@ -13,23 +13,23 @@ export default async function SubscribePage() {
   if (status === "active") redirect("/dashboard");
 
   return (
-    <div className="flex min-h-dvh items-center justify-center bg-white px-4">
-      <div className="w-full max-w-md space-y-8">
+    <div className="flex flex-1 flex-col items-center bg-white px-4 pt-6 pb-10">
+      <div className="w-full space-y-6">
         <div className="text-center">
-          <h1 className="text-3xl font-black text-gray-950 uppercase tracking-tighter leading-none">
+          <h1 className="text-[13px] font-black text-gray-900 uppercase tracking-[0.25em] leading-none">
             Lås opp din wellness-reise
           </h1>
-          <p className="mx-auto mt-6 max-w-sm text-xs font-bold text-gray-400 uppercase tracking-widest leading-relaxed">
+          <p className="mx-auto mt-3 text-[10px] font-bold text-gray-400 uppercase tracking-[0.12em] leading-relaxed">
             Opplev personlig, stemmestyrt avslapning skreddersydd for deg. La deg bli holdt i et rom av ro, tilstedeværelse og nytelse.
           </p>
         </div>
 
-        <div className="rounded-2xl bg-gradient-to-b from-gray-50 to-gray-100 p-8 shadow-heavy border border-gray-200">
+        <div className="rounded-xl bg-gradient-to-b from-gray-50 to-gray-100 p-6 shadow-soft border border-gray-200">
           <div className="mb-6 text-center">
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
               Full tilgang
             </p>
-            <p className="mt-3 text-2xl font-black text-gray-950 uppercase tracking-tight">
+            <p className="mt-3 text-base font-black text-gray-950 uppercase tracking-tight">
               Månedlig abonnement
             </p>
             <p className="mt-1 text-xs font-bold text-gray-500 uppercase tracking-widest">
@@ -55,7 +55,7 @@ export default async function SubscribePage() {
           <form action={initiateCheckout}>
             <button
               type="submit"
-              className="w-full rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 py-4 font-black text-white uppercase tracking-widest shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 py-3 text-[12px] font-black text-white uppercase tracking-[0.15em] transition-all hover:opacity-90 active:scale-[0.97]"
             >
               Abonner nå
             </button>

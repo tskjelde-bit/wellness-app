@@ -9,7 +9,7 @@
  */
 
 import type { SessionPhase } from "./phase-machine";
-import { SAFETY_SYSTEM_PROMPT_BY_LANG, SAFETY_SYSTEM_PROMPT } from "@/lib/llm/safety/system-prompt-safety";
+import { SAFETY_SYSTEM_PROMPT_BY_LANG, SAFETY_SYSTEM_PROMPT } from "@/lib/safety/system-prompt-safety";
 import { SYSTEM_BASE_BY_LANG, SYSTEM_BASE, type Lang } from "@/lib/llm/prompts";
 
 // ---------------------------------------------------------------------------

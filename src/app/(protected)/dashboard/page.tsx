@@ -23,19 +23,19 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="flex min-h-dvh items-center justify-center bg-white px-4">
-      <div className="w-full max-w-md rounded-[--radius-card] bg-gradient-to-b from-gray-50 to-gray-100 p-8 shadow-heavy border border-gray-200">
-        <h1 className="mb-2 text-center text-3xl font-black text-gray-950 uppercase tracking-tighter">
+    <div className="flex flex-1 items-center justify-center bg-white px-4">
+      <div className="w-full rounded-xl bg-gradient-to-b from-gray-50 to-gray-100 p-6 shadow-soft border border-gray-200">
+        <h1 className="mb-2 text-center text-[13px] font-black text-gray-900 uppercase tracking-[0.25em]">
           Dashboard
         </h1>
-        <p className="mb-8 text-center text-sm font-bold text-gray-500 uppercase tracking-widest">
+        <p className="mb-6 text-center text-[10px] font-bold text-gray-400 uppercase tracking-[0.12em]">
           Velkommen, {session.user?.name || session.user?.email}
         </p>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           <Link
             href="/session"
-            className="flex min-h-[44px] w-full items-center justify-center rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 px-4 py-4 font-black text-white uppercase tracking-widest shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+            className="flex min-h-[44px] w-full items-center justify-center rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 px-6 py-3 text-[12px] font-black text-white uppercase tracking-[0.15em] transition-all hover:opacity-90 active:scale-[0.97]"
           >
             Start ny sesjon
           </Link>
@@ -43,7 +43,7 @@ export default async function DashboardPage() {
           <form action={signOutAction}>
             <button
               type="submit"
-              className="w-full rounded-xl border-2 border-gray-950 bg-transparent px-4 py-3 font-bold text-gray-950 uppercase text-xs tracking-widest transition-all hover:bg-gray-200 active:scale-[0.98]"
+              className="w-full rounded-xl border-2 border-gray-200 px-6 py-3 text-[12px] font-bold text-gray-500 uppercase tracking-[0.15em] transition-all hover:border-gray-300 hover:text-gray-700 active:scale-[0.97]"
             >
               Logg ut
             </button>

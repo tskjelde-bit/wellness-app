@@ -22,7 +22,7 @@ export function VoicePicker({ selected, onSelect }: VoicePickerProps) {
         <button
           key={voice.id}
           onClick={() => onSelect(voice.id)}
-          className={`rounded-2xl border p-4 text-left transition-all hover:scale-[1.02] active:scale-[0.98] ${selected === voice.id
+          className={`rounded-xl border p-4 text-left transition-all hover:scale-[1.02] active:scale-[0.98] ${selected === voice.id
             ? "bg-gradient-to-b from-gray-800 to-gray-950 border-black text-white shadow-xl"
             : "bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200 text-gray-800"
             }`}

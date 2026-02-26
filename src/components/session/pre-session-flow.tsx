@@ -41,12 +41,12 @@ export function PreSessionFlow({ onBegin }: PreSessionFlowProps) {
   const [selectedVoiceId, setSelectedVoiceId] = useState(DEFAULT_VOICE_ID);
   const [selectedSoundscape, setSelectedSoundscape] = useState("silence");
 
-  const commonBgClass = "relative flex min-h-dvh flex-col items-center justify-center bg-white px-4 safe-area-padding";
+  const commonBgClass = "relative flex flex-1 flex-col items-center justify-center bg-white px-4 pb-6";
   const containerClass = "relative z-10 flex w-full max-w-sm flex-col items-center gap-8";
 
-  const textTitleClass = "text-xl font-extrabold text-gray-900 tracking-tight";
-  const textSubclass = "mt-1 text-sm font-medium text-gray-500";
-  const monochromeButtonClass = "w-full max-w-xs rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 py-3.5 font-bold text-white shadow-xl transition-all hover:scale-[1.02] hover:bg-black active:scale-[0.98]";
+  const textTitleClass = "text-[13px] font-black text-gray-900 uppercase tracking-[0.25em]";
+  const textSubclass = "mt-1 text-[10px] font-bold text-gray-400 uppercase tracking-[0.12em]";
+  const monochromeButtonClass = "w-full max-w-xs rounded-xl bg-gradient-to-b from-gray-800 to-gray-950 py-3 text-[12px] font-black text-white uppercase tracking-[0.15em] transition-all hover:opacity-90 active:scale-[0.97]";
 
   // Server action for sensory consent audit trail
   const [consentState, consentAction, isConsentPending] = useActionState(
