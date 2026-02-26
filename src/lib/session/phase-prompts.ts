@@ -9,7 +9,7 @@
  */
 
 import type { SessionPhase } from "./phase-machine";
-import { SAFETY_SYSTEM_PROMPT_BY_LANG, SAFETY_SYSTEM_PROMPT } from "@/lib/safety/system-prompt-safety";
+import { SAFETY_SYSTEM_PROMPT_BY_LANG, SAFETY_SYSTEM_PROMPT } from "@/lib/llm/safety/system-prompt-safety";
 import { SYSTEM_BASE_BY_LANG, SYSTEM_BASE, type Lang } from "@/lib/llm/prompts";
 
 // ---------------------------------------------------------------------------
@@ -224,6 +224,87 @@ const ALL_TRANSITION_HINTS: Record<Lang, Record<SessionPhase, string>> = {
 // Backward-compatible defaults (Norwegian)
 export const PHASE_PROMPTS = PHASE_PROMPTS_NO;
 export const TRANSITION_HINTS = TRANSITION_HINTS_NO;
+
+// Export all prompts for admin config seeding
+export { ALL_PHASE_PROMPTS, ALL_TRANSITION_HINTS };
+
+// ---------------------------------------------------------------------------
+// Async DB-backed instruction builder
+// ---------------------------------------------------------------------------
+
+/**
+ * Async version that reads phase prompts and transition hints from DB config.
+ * Falls back to hardcoded values if DB config is empty.
+ */
+export async function buildPhaseInstructionsFromDb(
+  phase: SessionPhase,
+  transitionHint?: string,
+  moodContext?: string,
+  characterPrompt?: string,
+  lang: Lang = 'no',
+): Promise<string> {
+  const { getPhasePromptsConfig, getPromptsConfig, getSafetyConfig } = await import("@/lib/admin/config-sections");
+
+  const [phasePromptsConfig, promptsConfig, safetyConfig] = await Promise.all([
+    getPhasePromptsConfig(),
+    getPromptsConfig(),
+    getSafetyConfig(),
+  ]);
+
+  // Use DB values or fall back to file values
+  const safetyPrompt = safetyConfig?.safetyPrompts?.[lang]
+    ?? SAFETY_SYSTEM_PROMPT_BY_LANG[lang]
+    ?? SAFETY_SYSTEM_PROMPT;
+
+  const systemBase = promptsConfig?.systemBase?.[lang]
+    ?? SYSTEM_BASE_BY_LANG[lang]
+    ?? SYSTEM_BASE;
+
+  const parts: string[] = [
+    safetyPrompt,
+    systemBase,
+  ];
+
+  if (characterPrompt) {
+    parts.push(characterPrompt);
+  }
+
+  if (moodContext) {
+    parts.push(moodContext);
+  }
+
+  const phaseLabel: Record<Lang, string> = {
+    no: `GJELDENDE FASE: ${phase.toUpperCase()}`,
+    en: `CURRENT PHASE: ${phase.toUpperCase()}`,
+    sv: `NUVARANDE FAS: ${phase.toUpperCase()}`,
+  };
+
+  parts.push(phaseLabel[lang]);
+
+  // Use DB phase prompts if available
+  const dbPhasePrompt = phasePromptsConfig?.phasePrompts?.[lang]?.[phase];
+  parts.push(dbPhasePrompt || ALL_PHASE_PROMPTS[lang][phase]);
+
+  if (transitionHint) {
+    const transitionLabel: Record<Lang, string> = {
+      no: `OVERGANG: ${transitionHint}`,
+      en: `TRANSITION: ${transitionHint}`,
+      sv: `ÖVERGÅNG: ${transitionHint}`,
+    };
+    parts.push(transitionLabel[lang]);
+  }
+
+  return parts.join("\n\n");
+}
+
+/**
+ * Async version of getTransitionHint that reads from DB config.
+ */
+export async function getTransitionHintFromDb(phase: SessionPhase, lang: Lang = 'no'): Promise<string> {
+  const { getPhasePromptsConfig } = await import("@/lib/admin/config-sections");
+  const config = await getPhasePromptsConfig();
+  return config?.transitionHints?.[lang]?.[phase] ?? ALL_TRANSITION_HINTS[lang][phase];
+}
 
 // ---------------------------------------------------------------------------
 // Instruction builder

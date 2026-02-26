@@ -99,6 +99,9 @@ export const users = pgTable("users", {
     .notNull(),
   termsAcceptedAt: timestamp("terms_accepted_at"),
 
+  // Admin access
+  isAdmin: boolean("is_admin").default(false).notNull(),
+
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -347,6 +350,21 @@ export const paymentEventsTable = pgTable("payment_events", {
   eventType: text("event_type").notNull(),
   ccbillTransactionId: text("ccbill_transaction_id"),
   payload: text("payload").notNull(), // JSON string of the raw webhook body
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// ============================================================
+// ADMIN CONFIG
+// Runtime-editable application configuration stored as JSONB
+// ============================================================
+
+export const adminConfig = pgTable("admin_config", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  section: text("section").notNull().unique(),
+  data: jsonb("data").notNull().$type<Record<string, unknown>>(),
+  version: integer("version").default(1).notNull(),
+  updatedBy: uuid("updated_by").references(() => users.id),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

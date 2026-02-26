@@ -5,7 +5,6 @@
 import OpenAI from "openai";
 import { SYSTEM_BASE } from "./prompts";
 import { splitAtSentenceBoundaries } from "./sentence-chunker";
-import { getLlmSettingsConfig } from "@/lib/admin/config-sections";
 
 // OpenAI client
 let _openai: OpenAI | null = null;
@@ -17,18 +16,6 @@ function getOpenAI(): OpenAI {
 const DEFAULT_MODEL = "gpt-4o-mini";
 const DEFAULT_TEMPERATURE = 0.8;
 const MAX_OUTPUT_TOKENS = 4096;
-
-/**
- * Get LLM settings from DB config (with file fallback).
- */
-export async function getResolvedLlmSettings() {
-  const config = await getLlmSettingsConfig();
-  return {
-    model: config.model || DEFAULT_MODEL,
-    temperature: config.temperature ?? DEFAULT_TEMPERATURE,
-    maxOutputTokens: config.maxOutputTokens ?? MAX_OUTPUT_TOKENS,
-  };
-}
 
 export interface StreamLlmOptions {
   model?: string;

@@ -126,3 +126,12 @@ export const MOOD_PROMPTS = MOOD_PROMPTS_NO;
 export function getMoodPrompt(moodId: string, lang: Lang = 'no'): string {
   return MOOD_PROMPTS_BY_LANG[lang]?.[moodId] ?? MOOD_PROMPTS_BY_LANG['no'][moodId] ?? '';
 }
+
+/**
+ * Async version that reads mood prompts from DB config.
+ */
+export async function getMoodPromptFromDb(moodId: string, lang: Lang = 'no'): Promise<string> {
+  const { getMoodPromptsConfig } = await import("@/lib/admin/config-sections");
+  const config = await getMoodPromptsConfig();
+  return config?.prompts?.[lang]?.[moodId] ?? MOOD_PROMPTS_BY_LANG[lang]?.[moodId] ?? MOOD_PROMPTS_BY_LANG['no'][moodId] ?? '';
+}

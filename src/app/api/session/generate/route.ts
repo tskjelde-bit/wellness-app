@@ -12,11 +12,11 @@
  *   data: {"error": "..."}\n\n
  */
 
-import { streamLlmTokens, chunkBySentence, filterSafety } from "@/lib/llm/generate-session";
-import { buildPhaseInstructions, getTransitionHint } from "@/lib/session/phase-prompts";
-import { getMoodPrompt } from "@/lib/session/mood-prompts";
+import { streamLlmTokens, chunkBySentence, filterSafety, getResolvedLlmSettings } from "@/lib/llm/generate-session";
+import { buildPhaseInstructionsFromDb, getTransitionHintFromDb } from "@/lib/session/phase-prompts";
+import { getMoodPromptFromDb } from "@/lib/session/mood-prompts";
 import { buildCharacterPrompt } from "@/lib/llm/prompts";
-import { getSessionBudgets } from "@/lib/session/phase-config";
+import { getSessionBudgetsFromDb } from "@/lib/session/phase-config";
 import { SESSION_PHASES, type SessionPhase } from "@/lib/session/phase-machine";
 
 const VALID_SESSION_LENGTHS = [10, 15, 20, 30] as const;
@@ -55,12 +55,15 @@ export async function POST(request: Request) {
         ? sessionLength
         : 15;
 
-    // Calculate max sentences for this phase
-    const budgets = getSessionBudgets(length);
+    // Get LLM settings from DB config
+    const llmSettings = await getResolvedLlmSettings();
+
+    // Calculate max sentences for this phase (async DB-backed)
+    const budgets = await getSessionBudgetsFromDb(length);
     const maxSentences = budgets[validPhase].sentenceBudget;
 
-    // Build mood context
-    const moodContext = mood ? getMoodPrompt(mood) : undefined;
+    // Build mood context (async DB-backed)
+    const moodContext = mood ? await getMoodPromptFromDb(mood) : undefined;
 
     // Build character prompt
     const validatedCharacter: ValidCharacter | undefined =
@@ -72,13 +75,13 @@ export async function POST(request: Request) {
       ? buildCharacterPrompt(validatedCharacter)
       : undefined;
 
-    // Build transition hint if winding down
+    // Build transition hint if winding down (async DB-backed)
     const transitionHint = isWindDown
-      ? getTransitionHint(validPhase)
+      ? await getTransitionHintFromDb(validPhase)
       : undefined;
 
-    // Build full instructions
-    const instructions = buildPhaseInstructions(
+    // Build full instructions (async DB-backed)
+    const instructions = await buildPhaseInstructionsFromDb(
       validPhase,
       transitionHint,
       moodContext,
@@ -96,8 +99,10 @@ export async function POST(request: Request) {
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          // Stage 1: stream tokens from LLM
+          // Stage 1: stream tokens from LLM (using DB-configured model/temperature)
           const tokens = streamLlmTokens(instructions, {
+            model: llmSettings.model,
+            temperature: llmSettings.temperature,
             previousResponseId: previousResponseId ?? undefined,
             instructions,
             onResponseId: (id: string) => {

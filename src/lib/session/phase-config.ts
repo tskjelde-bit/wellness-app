@@ -78,3 +78,32 @@ export function getSessionBudgets(
 
   return result;
 }
+
+/**
+ * Async version that reads phase proportions from DB config.
+ */
+export async function getSessionBudgetsFromDb(
+  sessionLengthMinutes: number,
+): Promise<Record<SessionPhase, PhaseConfig>> {
+  const { getPhaseConfigData } = await import("@/lib/admin/config-sections");
+  const config = await getPhaseConfigData();
+
+  const sentencesPerMinute = config?.sentencesPerMinute ?? SENTENCES_PER_MINUTE;
+  const proportions = config?.proportions ?? PHASE_PROPORTIONS;
+  const totalSentences = Math.round(sessionLengthMinutes * sentencesPerMinute);
+
+  const result = {} as Record<SessionPhase, PhaseConfig>;
+
+  for (const phase of SESSION_PHASES) {
+    const sentenceBudget = Math.round(totalSentences * (proportions[phase] ?? PHASE_PROPORTIONS[phase]));
+    const windDownReserve = Math.max(3, Math.round(sentenceBudget * 0.15));
+    const windDownAt = sentenceBudget - windDownReserve;
+
+    result[phase] = {
+      sentenceBudget,
+      windDownAt,
+    };
+  }
+
+  return result;
+}
