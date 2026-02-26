@@ -112,7 +112,7 @@ export async function getLlmSettingsConfig(): Promise<LlmSettingsConfig> {
   if (dbConfig?.model) return dbConfig;
 
   return {
-    model: "gpt-4o-mini",
+    model: "grok-3-mini",
     temperature: 0.8,
     maxOutputTokens: 4096,
   };

@@ -7,14 +7,19 @@ import { SYSTEM_BASE } from "./prompts";
 import { splitAtSentenceBoundaries } from "./sentence-chunker";
 import { getLlmSettingsConfig } from "@/lib/admin/config-sections";
 
-// OpenAI client
-let _openai: OpenAI | null = null;
-function getOpenAI(): OpenAI {
-  if (!_openai) _openai = new OpenAI();
-  return _openai;
+// xAI (Grok) client — OpenAI-compatible API
+let _client: OpenAI | null = null;
+function getLlmClient(): OpenAI {
+  if (!_client) {
+    _client = new OpenAI({
+      apiKey: process.env.XAI_API_KEY,
+      baseURL: "https://api.x.ai/v1",
+    });
+  }
+  return _client;
 }
 
-const DEFAULT_MODEL = "gpt-4o-mini";
+const DEFAULT_MODEL = "grok-3-mini";
 const DEFAULT_TEMPERATURE = 0.8;
 const MAX_OUTPUT_TOKENS = 4096;
 
@@ -56,7 +61,7 @@ export async function* streamLlmTokens(
       { role: "user", content: options?.userMessage ?? "Begin the session." },
     ];
 
-    const stream = await getOpenAI().chat.completions.create({
+    const stream = await getLlmClient().chat.completions.create({
       model,
       messages,
       temperature,
