@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getSubscriptionStatus } from "@/lib/payment";
+import { getUserConsentStatus } from "@/lib/consent";
 import { initiateCheckout } from "@/actions/payment";
 
 export const dynamic = "force-dynamic";
@@ -8,6 +9,18 @@ export const dynamic = "force-dynamic";
 export default async function SubscribePage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
+
+  // Consent checks (skipped in development for easier testing)
+  if (process.env.NODE_ENV !== "development") {
+    const consentStatus = await getUserConsentStatus(session.user.id);
+    if (!consentStatus.allRequiredConsentsGiven) {
+      if (!consentStatus.ageVerified) {
+        redirect("/verify-age");
+      } else if (!consentStatus.tosAccepted || !consentStatus.privacyAccepted) {
+        redirect("/accept-terms");
+      }
+    }
+  }
 
   const status = await getSubscriptionStatus(session.user.id);
   if (status === "active") redirect("/dashboard");
